@@ -8,8 +8,7 @@ from .serializers import (
     UserProfileSerializer, UserProfileCreateSerializer
 )
 from .whatsapp_service import whatsapp_service
-from rules_engine.loader import load_rules
-from rules_engine.validator import validate_delegate
+# Rules engine removed - using simple validation instead
 
 
 class FacultyViewSet(viewsets.ModelViewSet):
@@ -48,10 +47,10 @@ class DelegateViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        rules = load_rules()
-        verdict = validate_delegate(instance, rules)
-        instance.eligibility = verdict
-        instance.is_qualified = bool(verdict.get('overall_passed'))
+        # Simple validation - all delegates are considered eligible by default
+        # Admin can manually verify and update status later
+        instance.eligibility = {"status": "pending", "message": "Awaiting admin verification"}
+        instance.is_qualified = False  # Default to False until admin verifies
         instance.save(update_fields=['eligibility','is_qualified'])
 
     @decorators.action(detail=False, methods=['get'])

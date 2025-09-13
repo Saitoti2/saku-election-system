@@ -4,10 +4,10 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "cd saku-strategy/backend && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT",
+    "startCommand": "./start.sh",
     "healthcheckPath": "/",
-    "healthcheckTimeout": 300,
+    "healthcheckTimeout": 60,
     "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
+    "restartPolicyMaxRetries": 5
   }
 }

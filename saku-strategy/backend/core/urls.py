@@ -21,7 +21,13 @@ from django.conf.urls.static import static
 from django.http import JsonResponse
 
 def health_check(request):
-    return JsonResponse({"status": "healthy", "message": "Saku Election System is running"})
+    import os
+    return JsonResponse({
+        "status": "healthy", 
+        "message": "Saku Election System is running",
+        "port": os.getenv('PORT', '8000'),
+        "debug": os.getenv('DEBUG', 'False')
+    })
 
 urlpatterns = [
     path('', health_check, name='health_check'),

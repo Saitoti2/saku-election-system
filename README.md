@@ -1,4 +1,4 @@
-# SAKU Election Management System
+# Saku Election System
 
 A comprehensive platform for managing SAKU (Student's Association of KCA University) elections, including candidate registration, document verification, and admin management.
 

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Data Display - SAKU Election System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+        .test-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .test-content {
+            font-family: monospace;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .user-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .info-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .info-value {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Data Display - SAKU Election System</h1>
+        <p>This page tests the data display functionality to identify the exact issue.</p>
+        
+        <div class="test-section">
+            <div class="test-title">1. Authentication Status</div>
+            <button onclick="checkAuth()">Check Authentication</button>
+            <div id="authStatus" class="test-content"></div>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">2. API Data Fetch</div>
+            <button onclick="fetchUserData()">Fetch User Data from API</button>
+            <div id="apiData" class="test-content"></div>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">3. User Information Display</div>
+            <button onclick="displayUserInfo()">Display User Info</button>
+            <div id="userInfo" class="test-content"></div>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">4. Visual User Info</div>
+            <div id="visualUserInfo" class="user-info">
+                <div class="info-card">
+                    <div class="info-label">Name:</div>
+                    <div class="info-value" id="displayName">Loading...</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Registration Number:</div>
+                    <div class="info-value" id="displayRegNumber">Loading...</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Course:</div>
+                    <div class="info-value" id="displayCourse">Loading...</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Department:</div>
+                    <div class="info-value" id="displayDepartment">Loading...</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Faculty:</div>
+                    <div class="info-value" id="displayFaculty">Loading...</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">User Type:</div>
+                    <div class="info-value" id="displayUserType">Loading...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">5. Actions</div>
+            <button onclick="goToPersonalPortal()">Go to Personal Portal</button>
+            <button onclick="goToDebugPortal()">Go to Debug Portal</button>
+            <button onclick="clearData()">Clear All Data</button>
+        </div>
+    </div>
+
+    <script>
+        let userData = {};
+        
+        function checkAuth() {
+            const output = document.getElementById('authStatus');
+            const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
+            const userProfile = JSON.parse(localStorage.getItem('saku_user_profile') || '{}');
+            
+            const authData = {
+                'Has Tokens': !!tokens.access,
+                'Token Access': tokens.access ? 'Present' : 'Missing',
+                'Token Refresh': tokens.refresh ? 'Present' : 'Missing',
+                'User Profile ID': userProfile.id || 'Missing',
+                'User Profile Name': userProfile.full_name || 'Missing',
+                'User Profile Student ID': userProfile.student_id || 'Missing'
+            };
+            
+            output.innerHTML = JSON.stringify(authData, null, 2);
+        }
+        
+        async function fetchUserData() {
+            const output = document.getElementById('apiData');
+            output.innerHTML = 'Fetching user data from API...';
+            
+            try {
+                const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
+                const userProfile = JSON.parse(localStorage.getItem('saku_user_profile') || '{}');
+                
+                if (!tokens.access || !userProfile.id) {
+                    output.innerHTML = '❌ No valid tokens or user profile found in localStorage';
+                    return;
+                }
+                
+                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${userProfile.id}/`, {
+                    headers: {
+                        'Authorization': `Bearer ${tokens.access}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    userData = data;
+                    output.innerHTML = '✅ API Response:\n' + JSON.stringify(data, null, 2);
+                } else {
+                    const errorText = await response.text();
+                    output.innerHTML = `❌ API Error (${response.status}):\n${errorText}`;
+                }
+            } catch (error) {
+                output.innerHTML = `❌ Network Error:\n${error.message}`;
+            }
+        }
+        
+        function displayUserInfo() {
+            const output = document.getElementById('userInfo');
+            
+            if (!userData || Object.keys(userData).length === 0) {
+                output.innerHTML = '❌ No user data available. Please fetch data from API first.';
+                return;
+            }
+            
+            const displayData = {
+                'ID': userData.id,
+                'Name': userData.full_name,
+                'Student ID': userData.student_id,
+                'User Type': userData.user_type,
+                'Council Position': userData.council_position,
+                'WhatsApp': userData.whatsapp_number,
+                'Phone': userData.phone_number,
+                'Gender': userData.gender,
+                'Year of Study': userData.year_of_study,
+                'Course': userData.course?.name,
+                'Department': userData.department?.name,
+                'Faculty': userData.faculty?.name,
+                'Vetting Status': userData.vetting_status
+            };
+            
+            output.innerHTML = '✅ User Information:\n' + JSON.stringify(displayData, null, 2);
+            
+            // Update visual display
+            document.getElementById('displayName').textContent = userData.full_name || 'Unknown';
+            document.getElementById('displayRegNumber').textContent = userData.student_id || 'Unknown';
+            document.getElementById('displayCourse').textContent = userData.course?.name || 'Unknown';
+            document.getElementById('displayDepartment').textContent = userData.department?.name || 'Unknown';
+            document.getElementById('displayFaculty').textContent = userData.faculty?.name || 'Unknown';
+            document.getElementById('displayUserType').textContent = userData.user_type || 'Unknown';
+        }
+        
+        function goToPersonalPortal() {
+            window.location.href = 'personal-portal.html';
+        }
+        
+        function goToDebugPortal() {
+            window.location.href = 'debug-portal.html';
+        }
+        
+        function clearData() {
+            localStorage.removeItem('saku_tokens');
+            localStorage.removeItem('saku_user_profile');
+            localStorage.removeItem('saku_user_data');
+            localStorage.removeItem('saku_logged_in');
+            localStorage.removeItem('saku_user');
+            localStorage.removeItem('saku_registration');
+            alert('All localStorage data cleared!');
+        }
+        
+        // Auto-load data on page load
+        window.onload = function() {
+            checkAuth();
+        };
+    </script>
+</body>
+</html>

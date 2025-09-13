@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAKU Student Portal - Sign Up</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: bold;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .form-container {
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .required {
+            color: #e74c3c;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .info-box {
+            background: #e8f4fd;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box h4 {
+            margin: 0 0 10px 0;
+            color: #0066cc;
+        }
+        
+        .info-box p {
+            margin: 0;
+            color: #333;
+            font-size: 0.9em;
+        }
+        
+        .course-search-container {
+            position: relative;
+        }
+        
+        .course-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .course-option {
+            padding: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .course-option:hover {
+            background: #f8f9ff;
+        }
+        
+        .course-option:last-child {
+            border-bottom: none;
+        }
+        
+        .course-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .course-details {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .selected-course {
+            background: #e8f4fd;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .selected-course-title {
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .selected-course-details {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 SAKU Student Portal</h1>
+            <p>Create Your Account</p>
+        </div>
+        
+        <div class="form-container">
+            <div class="info-box">
+                <h4>📋 Account Benefits</h4>
+                <p>Once you create an account, your basic information will be automatically filled in when registering for SAKU elections, making the process faster and easier!</p>
+            </div>
+            
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="full_name">Full Name <span class="required">*</span></label>
+                    <input type="text" id="full_name" name="full_name" required placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="reg_number">Registration Number <span class="required">*</span></label>
+                    <input type="text" id="reg_number" name="reg_number" required placeholder="e.g., KCU/2023/12345">
+                </div>
+                
+                <div class="form-group">
+                    <label for="whatsapp_number">WhatsApp Number <span class="required">*</span></label>
+                    <input type="tel" id="whatsapp_number" name="whatsapp_number" required placeholder="+254700000000">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password <span class="required">*</span></label>
+                    <input type="password" id="password" name="password" required placeholder="Create a strong password">
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password <span class="required">*</span></label>
+                    <input type="password" id="confirm_password" name="confirm_password" required placeholder="Confirm your password">
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">Gender <span class="required">*</span></label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="year_of_study">Year of Study <span class="required">*</span></label>
+                    <select id="year_of_study" name="year_of_study" required>
+                        <option value="">Select Year</option>
+                        <option value="1">Year 1</option>
+                        <option value="2">Year 2</option>
+                        <option value="3">Year 3</option>
+                        <option value="4">Year 4</option>
+                        <option value="5">Year 5</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone_number">Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="phone_number" name="phone_number" required placeholder="+254700000000">
+                </div>
+                
+                <div class="form-group course-search-container">
+                    <label for="course_search">Course <span class="required">*</span></label>
+                    <input type="text" id="course_search" placeholder="Type your course name to search..." autocomplete="off">
+                    <div class="course-dropdown" id="courseDropdown"></div>
+                    <div class="selected-course" id="selectedCourse" style="display: none;">
+                        <div class="selected-course-title" id="selectedCourseName"></div>
+                        <div class="selected-course-details" id="selectedCourseDetails"></div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    🚀 Create Account
+                </button>
+            </form>
+            
+            <div class="login-link">
+                <p>Already have an account? <a href="login.html">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Course data (same as registration page)
+        const courses = [
+            // School of Business
+            { id: 1, name: "Bachelor in International Business Management", department: "Department of Business Administration and Management", faculty: "School of Business" },
+            { id: 2, name: "Bachelor of Commerce", department: "Department of Finance & Accounting", faculty: "School of Business" },
+            { id: 3, name: "Bachelor of Science in Economics and Statistics", department: "Department of Economics & Statistics", faculty: "School of Business" },
+            
+            // School of Technology
+            { id: 4, name: "Bachelor of Science in Software Development", department: "Department of Software Development & Information Systems", faculty: "School of Technology" },
+            { id: 5, name: "Bachelor of Science in Information Technology", department: "Department of Software Development & Information Systems", faculty: "School of Technology" },
+            { id: 6, name: "Bachelor of Science in Data Science", department: "Department of Data Science & Artificial Intelligence", faculty: "School of Technology" },
+            { id: 7, name: "Bachelor of Science in Artificial Intelligence", department: "Department of Data Science & Artificial Intelligence", faculty: "School of Technology" },
+            
+            // School of Education, Arts & Social Sciences
+            { id: 8, name: "Bachelor of Education", department: "Department of Education", faculty: "School of Education, Arts & Social Sciences" },
+            { id: 9, name: "Bachelor of Arts in Social Work", department: "Department of Social Sciences", faculty: "School of Education, Arts & Social Sciences" },
+            { id: 10, name: "Bachelor of Arts in Film Technology", department: "Department of Film Technology and Performing Arts", faculty: "School of Education, Arts & Social Sciences" },
+            
+            // School of Journalism and Digital Media
+            { id: 11, name: "Bachelor of Arts in Journalism", department: "Department of Journalism and Digital Media", faculty: "School of Journalism and Digital Media" },
+            { id: 12, name: "Bachelor of Science in Digital Marketing", department: "Department of Digital Media", faculty: "School of Journalism and Digital Media" },
+            { id: 13, name: "Bachelor of Arts in Communication", department: "Department of Communication", faculty: "School of Journalism and Digital Media" }
+        ];
+
+        let selectedCourse = null;
+
+        // Course search functionality
+        document.getElementById('course_search').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const dropdown = document.getElementById('courseDropdown');
+            
+            if (searchTerm.length < 2) {
+                dropdown.style.display = 'none';
+                return;
+            }
+            
+            const filteredCourses = courses.filter(course => 
+                course.name.toLowerCase().includes(searchTerm) ||
+                course.department.toLowerCase().includes(searchTerm) ||
+                course.faculty.toLowerCase().includes(searchTerm)
+            );
+            
+            if (filteredCourses.length > 0) {
+                dropdown.innerHTML = filteredCourses.map(course => `
+                    <div class="course-option" onclick="selectCourse(${course.id})">
+                        <div class="course-name">${course.name}</div>
+                        <div class="course-details">${course.department} • ${course.faculty}</div>
+                    </div>
+                `).join('');
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.course-search-container')) {
+                document.getElementById('courseDropdown').style.display = 'none';
+            }
+        });
+
+        // Select course function
+        function selectCourse(courseId) {
+            selectedCourse = courses.find(c => c.id === courseId);
+            document.getElementById('course_search').value = selectedCourse.name;
+            document.getElementById('courseDropdown').style.display = 'none';
+            
+            // Show selected course info
+            document.getElementById('selectedCourseName').textContent = selectedCourse.name;
+            document.getElementById('selectedCourseDetails').textContent = `${selectedCourse.department} • ${selectedCourse.faculty}`;
+            document.getElementById('selectedCourse').style.display = 'block';
+        }
+
+        // Form submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const password = formData.get('password');
+            const confirmPassword = formData.get('confirm_password');
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                showError('Passwords do not match!');
+                return;
+            }
+            
+            // Validate password strength
+            if (password.length < 6) {
+                showError('Password must be at least 6 characters long!');
+                return;
+            }
+            
+            // Validate course selection
+            if (!selectedCourse) {
+                showError('Please select a course from the dropdown!');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="spinner"></div>Creating Account...';
+            
+            // Simulate account creation
+            setTimeout(() => {
+                // Store user data in localStorage
+                const userData = {
+                    full_name: formData.get('full_name'),
+                    reg_number: formData.get('reg_number'),
+                    whatsapp_number: formData.get('whatsapp_number'),
+                    phone_number: formData.get('phone_number'),
+                    gender: formData.get('gender'),
+                    year_of_study: formData.get('year_of_study'),
+                    course: selectedCourse,
+                    created_at: new Date().toISOString()
+                };
+                
+                localStorage.setItem('saku_user', JSON.stringify(userData));
+                localStorage.setItem('saku_logged_in', 'true');
+                
+                submitBtn.innerHTML = '✅ Account Created Successfully!';
+                submitBtn.style.background = '#28a745';
+                
+                // Show success message
+                const successDiv = document.createElement('div');
+                successDiv.className = 'success-message';
+                successDiv.innerHTML = `
+                    <h4>🎉 Welcome to SAKU Student Portal!</h4>
+                    <p>Your account has been created successfully. You can now register for SAKU elections with your information automatically filled in.</p>
+                    <p><strong>Name:</strong> ${userData.full_name}</p>
+                    <p><strong>Registration Number:</strong> ${userData.reg_number}</p>
+                    <p><strong>WhatsApp:</strong> ${userData.whatsapp_number}</p>
+                `;
+                
+                document.querySelector('.form-container').insertBefore(successDiv, document.getElementById('signupForm'));
+                
+                // Redirect to personal portal after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'personal-portal.html';
+                }, 3000);
+                
+            }, 2000);
+        });
+        
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            
+            const form = document.getElementById('signupForm');
+            form.parentNode.insertBefore(errorDiv, form);
+            
+            // Remove error message after 5 seconds
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

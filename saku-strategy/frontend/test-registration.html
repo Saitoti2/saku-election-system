@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test SAKU Registration</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .info-box {
+            background: #e8f4fd;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .info-box h4 {
+            margin: 0 0 10px 0;
+            color: #0066cc;
+        }
+        
+        .info-box p {
+            margin: 0;
+            color: #333;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Test Registration</h1>
+            <p>Simulate Student Registration</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <h4>📱 WhatsApp Notification Test</h4>
+                <p>Click the button below to simulate a student registration. This will trigger a WhatsApp notification to the admin with student details and a link to the admin dashboard.</p>
+            </div>
+            
+            <button class="btn" onclick="testRegistration()">
+                🚀 Simulate Student Registration
+            </button>
+            
+            <div style="margin-top: 20px;">
+                <a href="admin-config.html" class="btn" style="background: #6c757d;">⚙️ Admin Config</a>
+                <a href="index.html" class="btn" style="background: #28a745;">🏠 Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function testRegistration() {
+            // Simulate a student registration
+            const testData = {
+                username: 'test_student_001',
+                email: 'test@kca.ac.ke',
+                password: 'testpassword123',
+                user_type: 'ASPIRANT',
+                full_name: 'John Doe Test',
+                gender: 'Male',
+                student_id: 'KCU/2023/TEST001',
+                year_of_study: 3,
+                whatsapp_number: '+254700000001',
+                phone_number: '+254700000001',
+                course_id: 1,
+                council_position: 'CHAIR'
+            };
+            
+            // Show loading
+            const btn = event.target;
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Sending Test Registration...';
+            
+            // Submit test registration
+            fetch('http://127.0.0.1:8000/api/profiles/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(testData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                btn.innerHTML = '✅ Test Registration Sent!';
+                btn.style.background = '#28a745';
+                
+                // Show success message
+                const successDiv = document.createElement('div');
+                successDiv.style.cssText = `
+                    background: #d4edda;
+                    color: #155724;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin-top: 20px;
+                    border: 1px solid #c3e6cb;
+                `;
+                successDiv.innerHTML = `
+                    <h4>🎉 Test Registration Successful!</h4>
+                    <p>If WhatsApp is configured, you should receive a notification with:</p>
+                    <ul style="text-align: left; margin: 10px 0;">
+                        <li>Student Name: John Doe Test</li>
+                        <li>Registration Number: KCU/2023/TEST001</li>
+                        <li>Type: SAKU Council Aspirant</li>
+                        <li>Position: Chair (President)</li>
+                        <li>Link to Admin Dashboard</li>
+                    </ul>
+                `;
+                
+                document.querySelector('.content').appendChild(successDiv);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                btn.innerHTML = '❌ Test Failed';
+                btn.style.background = '#dc3545';
+                
+                // Show error message
+                const errorDiv = document.createElement('div');
+                errorDiv.style.cssText = `
+                    background: #f8d7da;
+                    color: #721c24;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin-top: 20px;
+                    border: 1px solid #f5c6cb;
+                `;
+                errorDiv.innerHTML = `
+                    <h4>❌ Test Registration Failed</h4>
+                    <p>There was an error sending the test registration. Make sure the backend server is running.</p>
+                `;
+                
+                document.querySelector('.content').appendChild(errorDiv);
+            })
+            .finally(() => {
+                // Reset button after 5 seconds
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = '🚀 Simulate Student Registration';
+                    btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                }, 5000);
+            });
+        }
+    </script>
+</body>
+</html>

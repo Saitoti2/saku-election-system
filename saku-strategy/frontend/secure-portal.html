@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAKU Personal Portal</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            float: right;
+            margin-top: -10px;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .user-info {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .user-info h3 {
+            margin: 0 0 15px 0;
+            color: #495057;
+        }
+        
+        .user-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .user-info-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info-label {
+            font-weight: 600;
+            color: #6c757d;
+            margin-right: 10px;
+            min-width: 120px;
+        }
+        
+        .user-info-value {
+            color: #495057;
+        }
+        
+        .uploaded-documents-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .uploaded-documents-section h3 {
+            margin: 0 0 20px 0;
+            color: #1f2937;
+            font-size: 1.4em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .uploaded-documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .uploaded-document-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .uploaded-document-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+        
+        .uploaded-document-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .uploaded-doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .uploaded-doc-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .doc-icon {
+            font-size: 1.5em;
+        }
+        
+        .uploaded-doc-title h4 {
+            margin: 0;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .uploaded-status {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .uploaded-doc-preview {
+            margin: 15px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .uploaded-preview-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .file-preview {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background: #f8fafc;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .file-icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+        
+        .file-name {
+            color: #6b7280;
+            font-size: 0.9em;
+        }
+        
+        .uploaded-doc-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .no-documents-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+            grid-column: 1 / -1;
+        }
+        
+        .no-docs-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+            opacity: 0.6;
+        }
+        
+        .no-documents-message h4 {
+            margin: 0 0 10px 0;
+            color: #374151;
+            font-size: 1.2em;
+        }
+        
+        .no-documents-message p {
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-missing {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        
+        .status-message {
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status-message.pending {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .status-message.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .status-message h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+        
+        .status-message p {
+            margin: 0;
+            font-size: 1em;
+        }
+        
+        .documents-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .document-card {
+            background: white;
+            border: 1px solid #f1f5f9;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .document-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .document-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        .document-card:hover::before {
+            opacity: 1;
+        }
+        
+        .document-card.uploaded {
+            border-left: 4px solid #10b981;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+        }
+        
+        .document-card.missing {
+            border-left: 4px solid #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
+        }
+        
+        .document-card.pending {
+            border-left: 4px solid #f59e0b;
+            background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%);
+        }
+        
+        .document-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .document-title-section {
+            flex: 1;
+        }
+        
+        .document-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0 0 8px 0;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .document-description {
+            margin: 0;
+            color: #6b7280;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .document-preview {
+            margin: 20px 0;
+        }
+        
+        .preview-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f8fafc;
+            border: 2px dashed #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .preview-container:hover {
+            border-color: #667eea;
+            background: #f1f5f9;
+        }
+        
+        .preview-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .preview-container:hover .preview-overlay {
+            opacity: 1;
+        }
+        
+        .preview-text {
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .document-placeholder {
+            text-align: center;
+            padding: 40px 20px;
+            background: #f8fafc;
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .placeholder-icon {
+            font-size: 3em;
+            margin-bottom: 12px;
+            opacity: 0.6;
+        }
+        
+        .placeholder-text {
+            color: #6b7280;
+            font-size: 0.9em;
+            margin: 0;
+        }
+        
+        .document-status {
+            font-size: 0.8em;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .document-description {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        
+        .document-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .no-registration {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        
+        .no-registration h3 {
+            margin-bottom: 15px;
+            color: #495057;
+        }
+        
+        .register-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        
+        .register-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .session-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>👤 SAKU Personal Portal</h1>
+                    <p>Secure Document Management</p>
+                </div>
+                <button onclick="logout()" class="logout-btn">Logout</button>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="session-warning">
+                <strong>🔒 Secure Session:</strong> Your session will expire after 5 minutes of inactivity for security.
+            </div>
+            
+            <div id="loadingDiv" class="loading">
+                <div class="spinner"></div>
+                <p>Loading your profile...</p>
+            </div>
+            
+            <div id="contentDiv" style="display: none;">
+                <div class="user-info">
+                    <h3>👤 Your Information</h3>
+                    <div class="user-info-grid">
+                        <div class="user-info-item">
+                            <span class="user-info-label">Name:</span>
+                            <span class="user-info-value" id="userName">Loading...</span>
+                        </div>
+                        <div class="user-info-item">
+                            <span class="user-info-label">Registration Number:</span>
+                            <span class="user-info-value" id="userRegNumber">Loading...</span>
+                        </div>
+                        <div class="user-info-item">
+                            <span class="user-info-label">Course:</span>
+                            <span class="user-info-value" id="userCourse">Loading...</span>
+                        </div>
+                        <div class="user-info-item">
+                            <span class="user-info-label">Department:</span>
+                            <span class="user-info-value" id="userDepartment">Loading...</span>
+                        </div>
+                        <div class="user-info-item">
+                            <span class="user-info-label">Faculty:</span>
+                            <span class="user-info-value" id="userFaculty">Loading...</span>
+                        </div>
+                        <div class="user-info-item">
+                            <span class="user-info-label">Registration Status:</span>
+                            <span class="user-info-value">
+                                <span class="status-badge status-pending" id="registrationStatus">Loading...</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Uploaded Documents Section -->
+                <div class="uploaded-documents-section">
+                    <h3>📁 Uploaded Documents</h3>
+                    <div class="uploaded-documents-grid" id="uploadedDocumentsGrid">
+                        <!-- Uploaded documents will be populated here -->
+                    </div>
+                </div>
+                
+                <div id="documentsSection" class="documents-section" style="display: none;">
+                    <h2 class="section-title">📄 Your Documents</h2>
+                    <div class="documents-grid" id="documentsGrid">
+                        <!-- Documents will be populated here -->
+                    </div>
+                </div>
+                
+                <div id="noRegistration" class="no-registration">
+                    <h3>📝 No Election Registration Found</h3>
+                    <p>You haven't registered for any SAKU election positions yet.</p>
+                    <p>Click the button below to start your election registration.</p>
+                    <a href="election-registration.html" class="register-btn">🎯 Register for Elections</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let accessToken = null;
+        let userProfile = null;
+        let sessionTimeout = null;
+        const SESSION_DURATION = 5 * 60 * 1000; // 5 minutes
+        
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+        });
+        
+        // Setup activity listeners to reset session timeout
+        document.addEventListener('click', resetSessionTimeout);
+        document.addEventListener('keypress', resetSessionTimeout);
+        document.addEventListener('scroll', resetSessionTimeout);
+        
+        function checkAuthentication() {
+            const tokens = localStorage.getItem('saku_tokens');
+            if (!tokens) {
+                window.location.href = 'secure-login.html';
+                return;
+            }
+            
+            try {
+                const tokenData = JSON.parse(tokens);
+                accessToken = tokenData.access;
+                
+                // Load user profile
+                const profile = localStorage.getItem('saku_user_profile');
+                if (profile) {
+                    userProfile = JSON.parse(profile);
+                    displayUserInfo();
+                }
+                
+                // Setup session timeout
+                setupSessionTimeout();
+                
+                // Load user data from API
+                loadUserProfile();
+                
+            } catch (error) {
+                console.error('Error loading authentication data:', error);
+                logout();
+            }
+        }
+        
+        function setupSessionTimeout() {
+            clearTimeout(sessionTimeout);
+            sessionTimeout = setTimeout(() => {
+                alert('Your session has expired. Please login again.');
+                logout();
+            }, SESSION_DURATION);
+        }
+        
+        function resetSessionTimeout() {
+            setupSessionTimeout();
+        }
+        
+        async function loadUserProfile() {
+            try {
+                // First try to get profile from the profiles endpoint (which includes all user data)
+                const response = await fetch('http://127.0.0.1:8001/api/profiles/', {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                
+                if (response.status === 401) {
+                    // Token expired, try to refresh
+                    const refreshed = await refreshToken();
+                    if (refreshed) {
+                        // Retry with new token
+                        return loadUserProfile();
+                    } else {
+                        logout();
+                        return;
+                    }
+                }
+                
+                if (!response.ok) {
+                    throw new Error('Failed to load profile');
+                }
+                
+                const data = await response.json();
+                
+                // The profiles endpoint returns an array, get the first (and only) profile for the user
+                if (data && data.length > 0) {
+                    userProfile = data[0];
+                } else {
+                    // If no profile found, use the basic user data from localStorage
+                    const storedProfile = localStorage.getItem('saku_user_profile');
+                    if (storedProfile) {
+                        userProfile = JSON.parse(storedProfile);
+                    } else {
+                        throw new Error('No profile data found');
+                    }
+                }
+                
+                // Update localStorage with complete profile data
+                localStorage.setItem('saku_user_profile', JSON.stringify(userProfile));
+                
+                displayUserInfo();
+                checkRegistrationStatus();
+                
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                
+                // Fallback: try to use stored profile data
+                const storedProfile = localStorage.getItem('saku_user_profile');
+                if (storedProfile) {
+                    try {
+                        userProfile = JSON.parse(storedProfile);
+                        displayUserInfo();
+                        checkRegistrationStatus();
+                        return;
+                    } catch (parseError) {
+                        console.error('Error parsing stored profile:', parseError);
+                    }
+                }
+                
+                document.getElementById('loadingDiv').innerHTML = `
+                    <div class="spinner"></div>
+                    <p>Error loading profile. Please try again.</p>
+                `;
+            }
+        }
+        
+        async function refreshToken() {
+            const tokens = localStorage.getItem('saku_tokens');
+            if (!tokens) return false;
+            
+            try {
+                const tokenData = JSON.parse(tokens);
+                const response = await fetch('http://127.0.0.1:8001/api/auth/refresh/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ refresh: tokenData.refresh }),
+                });
+                
+                if (!response.ok) return false;
+                
+                const data = await response.json();
+                accessToken = data.access;
+                
+                // Update stored tokens
+                tokenData.access = data.access;
+                localStorage.setItem('saku_tokens', JSON.stringify(tokenData));
+                
+                return true;
+            } catch (error) {
+                console.error('Token refresh error:', error);
+                return false;
+            }
+        }
+        
+        function displayUserInfo() {
+            if (!userProfile) return;
+            
+            // Handle different data structures
+            const fullName = userProfile.full_name || userProfile.first_name + ' ' + userProfile.last_name || 'Unknown';
+            const studentId = userProfile.student_id || userProfile.username || 'Unknown';
+            const courseName = userProfile.course?.name || userProfile.course_name || 'Unknown';
+            const departmentName = userProfile.course?.department || userProfile.department?.name || 'Unknown';
+            const facultyName = userProfile.course?.faculty || userProfile.faculty?.name || 'Unknown';
+            
+            document.getElementById('userName').textContent = fullName;
+            document.getElementById('userRegNumber').textContent = studentId;
+            document.getElementById('userCourse').textContent = courseName;
+            document.getElementById('userDepartment').textContent = departmentName;
+            document.getElementById('userFaculty').textContent = facultyName;
+            
+            // Update registration status
+            const statusElement = document.getElementById('registrationStatus');
+            const vettingStatus = userProfile.vetting_status || 'PENDING';
+            
+            if (vettingStatus === 'PASSED') {
+                statusElement.textContent = 'Approved';
+                statusElement.className = 'status-badge status-approved';
+            } else if (vettingStatus === 'FAILED') {
+                statusElement.textContent = 'Rejected';
+                statusElement.className = 'status-badge status-rejected';
+            } else {
+                statusElement.textContent = 'Pending';
+                statusElement.className = 'status-badge status-pending';
+            }
+            
+            // Display uploaded documents
+            displayUploadedDocuments();
+            
+            // Hide loading, show content
+            document.getElementById('loadingDiv').style.display = 'none';
+            document.getElementById('contentDiv').style.display = 'block';
+        }
+        
+        function displayUploadedDocuments() {
+            if (!userProfile) return;
+            
+            const uploadedDocumentsGrid = document.getElementById('uploadedDocumentsGrid');
+            uploadedDocumentsGrid.innerHTML = '';
+            
+            // Define document fields
+            const documentFields = [
+                { name: 'School Fees Screenshot', field: 'school_fees_screenshot', icon: '💰' },
+                { name: 'Last Semester Results', field: 'last_semester_results', icon: '📊' },
+                { name: 'Second Last Semester Results', field: 'second_last_semester_results', icon: '📈' },
+                { name: 'Course Registration Screenshot', field: 'course_registration_screenshot', icon: '📋' },
+                { name: 'Certificate of Good Conduct', field: 'good_conduct_certificate', icon: '📜' },
+                { name: 'School ID Image', field: 'school_id_image', icon: '🆔' },
+                { name: 'Last Semester Transcript', field: 'last_semester_transcript', icon: '📄' },
+                { name: 'Second Last Semester Transcript', field: 'second_last_semester_transcript', icon: '📑' }
+            ];
+            
+            // Filter only uploaded documents
+            const uploadedDocs = documentFields.filter(doc => {
+                return userProfile[doc.field] && userProfile[doc.field] !== null;
+            });
+            
+            if (uploadedDocs.length === 0) {
+                uploadedDocumentsGrid.innerHTML = `
+                    <div class="no-documents-message">
+                        <div class="no-docs-icon">📁</div>
+                        <h4>No Documents Uploaded Yet</h4>
+                        <p>You haven't uploaded any documents yet. Start by registering for elections to upload your required documents.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Create cards for uploaded documents
+            uploadedDocs.forEach(doc => {
+                const card = document.createElement('div');
+                card.className = 'uploaded-document-card';
+                
+                const docUrl = userProfile[doc.field];
+                const isImage = docUrl && (docUrl.includes('.jpg') || docUrl.includes('.jpeg') || docUrl.includes('.png') || docUrl.includes('.gif'));
+                
+                card.innerHTML = `
+                    <div class="uploaded-doc-header">
+                        <div class="uploaded-doc-title">
+                            <span class="doc-icon">${doc.icon}</span>
+                            <h4>${doc.name}</h4>
+                        </div>
+                        <span class="uploaded-status">✅ Uploaded</span>
+                    </div>
+                    
+                    ${isImage ? `
+                        <div class="uploaded-doc-preview">
+                            <img src="${docUrl}" alt="${doc.name}" class="uploaded-preview-image">
+                        </div>
+                    ` : `
+                        <div class="uploaded-doc-preview">
+                            <div class="file-preview">
+                                <div class="file-icon">📄</div>
+                                <span class="file-name">Document File</span>
+                            </div>
+                        </div>
+                    `}
+                    
+                    <div class="uploaded-doc-actions">
+                        <button class="btn btn-primary" onclick="viewDocument('${doc.name}', '${docUrl}')">
+                            <span class="btn-icon">👁️</span>
+                            <span class="btn-text">View</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="replaceDocument('${doc.name}', '${doc.field}')">
+                            <span class="btn-icon">🔄</span>
+                            <span class="btn-text">Replace</span>
+                        </button>
+                    </div>
+                `;
+                
+                uploadedDocumentsGrid.appendChild(card);
+            });
+        }
+        
+        function checkRegistrationStatus() {
+            if (!userProfile) return;
+            
+            // Check if user has registered for elections (has user_type other than STUDENT)
+            const hasRegistered = userProfile.user_type && userProfile.user_type !== 'STUDENT';
+            
+            if (hasRegistered) {
+                // User has registered for elections - show documents section
+                document.getElementById('documentsSection').style.display = 'block';
+                document.getElementById('noRegistration').style.display = 'none';
+                displayDocuments();
+            } else {
+                // User is still just a STUDENT - show registration prompt
+                document.getElementById('documentsSection').style.display = 'none';
+                document.getElementById('noRegistration').style.display = 'block';
+            }
+        }
+        
+        function checkForUploadedDocuments() {
+            if (!userProfile) return false;
+            
+            // Check if any document fields have values
+            const documentFields = [
+                'school_fees_screenshot', 'last_semester_results', 'second_last_semester_results',
+                'course_registration_screenshot', 'good_conduct_certificate', 'school_id_image',
+                'last_semester_transcript', 'second_last_semester_transcript'
+            ];
+            
+            return documentFields.some(field => userProfile[field] && userProfile[field] !== null);
+        }
+        
+        function displayDocuments() {
+            if (!userProfile) return;
+            
+            // Define document fields based on user type
+            const documentFields = [
+                { name: 'School Fees Screenshot', field: 'school_fees_screenshot', required: true },
+                { name: 'Last Semester Results', field: 'last_semester_results', required: true },
+                { name: 'Second Last Semester Results', field: 'second_last_semester_results', required: true },
+                { name: 'Course Registration Screenshot', field: 'course_registration_screenshot', required: true },
+                { name: 'Certificate of Good Conduct', field: 'good_conduct_certificate', required: userProfile.user_type === 'ASPIRANT' || userProfile.user_type === 'DELEGATE' },
+                { name: 'School ID Image', field: 'school_id_image', required: true },
+                { name: 'Last Semester Transcript', field: 'last_semester_transcript', required: true },
+                { name: 'Second Last Semester Transcript', field: 'second_last_semester_transcript', required: true }
+            ];
+            
+            // Create documents array from user profile data
+            const documents = documentFields.map(doc => {
+                const hasDocument = userProfile[doc.field] && userProfile[doc.field] !== null;
+                const isRequired = doc.required;
+                
+                // Determine status based on verification status and document presence
+                let status = 'MISSING';
+                if (hasDocument) {
+                    if (userProfile.vetting_status === 'PASSED') {
+                        status = 'APPROVED';
+                    } else if (userProfile.vetting_status === 'FAILED') {
+                        status = 'REJECTED';
+                    } else {
+                        status = 'PENDING';
+                    }
+                }
+                
+                return {
+                    name: doc.name,
+                    field: doc.field,
+                    status: status,
+                    uploaded: hasDocument,
+                    required: isRequired,
+                    url: userProfile[doc.field]
+                };
+            });
+            
+            // Count uploaded documents
+            const uploadedCount = documents.filter(doc => doc.uploaded).length;
+            const totalCount = documents.filter(doc => doc.required).length;
+            
+            // Update status message
+            const statusMessage = document.getElementById('statusMessage');
+            if (uploadedCount === totalCount) {
+                if (userProfile.vetting_status === 'PASSED') {
+                    statusMessage.innerHTML = `
+                        <div class="status-message success">
+                            <h3>✅ All Documents Approved!</h3>
+                            <p>Congratulations! All your documents have been verified and approved by the administrator.</p>
+                        </div>
+                    `;
+                } else if (userProfile.vetting_status === 'FAILED') {
+                    statusMessage.innerHTML = `
+                        <div class="status-message error">
+                            <h3>❌ Documents Rejected</h3>
+                            <p>Some of your documents were rejected. Please review and resubmit them.</p>
+                        </div>
+                    `;
+                } else {
+                    statusMessage.innerHTML = `
+                        <div class="status-message pending">
+                            <h3>📋 All Documents Uploaded - Awaiting Verification</h3>
+                            <p>You have uploaded all required documents (${uploadedCount}/${totalCount}). The administrator will review them shortly.</p>
+                        </div>
+                    `;
+                }
+            } else {
+                statusMessage.innerHTML = `
+                    <div class="status-message warning">
+                        <h3>⚠️ Incomplete Document Upload</h3>
+                        <p>You have uploaded ${uploadedCount} out of ${totalCount} required documents. Please complete your uploads.</p>
+                    </div>
+                `;
+            }
+            
+            const documentsGrid = document.getElementById('documentsGrid');
+            documentsGrid.innerHTML = '';
+            
+            documents.forEach(doc => {
+                const card = document.createElement('div');
+                card.className = `document-card ${doc.uploaded ? 'uploaded' : 'missing'}`;
+                
+                const statusClass = doc.status === 'APPROVED' ? 'status-approved' : 
+                                  doc.status === 'PENDING' ? 'status-pending' : 
+                                  doc.status === 'REJECTED' ? 'status-rejected' : 'status-missing';
+                
+                const statusText = doc.status === 'APPROVED' ? 'Approved' :
+                                 doc.status === 'PENDING' ? 'Pending Review' :
+                                 doc.status === 'REJECTED' ? 'Rejected' : 'Not Uploaded';
+                
+                const statusIcon = doc.status === 'APPROVED' ? '✅' :
+                                 doc.status === 'PENDING' ? '⏳' :
+                                 doc.status === 'REJECTED' ? '❌' : '📄';
+                
+                const uploadIcon = doc.uploaded ? '📎' : '📤';
+                
+                card.innerHTML = `
+                    <div class="document-header">
+                        <div class="document-title-section">
+                            <h4 class="document-title">${statusIcon} ${doc.name}</h4>
+                            <p class="document-description">${doc.required ? 'Required for SAKU election verification' : 'Optional document'}</p>
+                        </div>
+                        <span class="document-status ${statusClass}">${statusText}</span>
+                    </div>
+                    
+                    ${doc.uploaded && doc.url ? `
+                        <div class="document-preview">
+                            <div class="preview-container">
+                                <img src="${doc.url}" alt="${doc.name}" class="preview-image">
+                                <div class="preview-overlay">
+                                    <span class="preview-text">Click to view</span>
+                                </div>
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="document-placeholder">
+                            <div class="placeholder-icon">${uploadIcon}</div>
+                            <p class="placeholder-text">No document uploaded</p>
+                        </div>
+                    `}
+                    
+                    <div class="document-actions">
+                        ${doc.uploaded ? `
+                            <button class="btn btn-primary" onclick="viewDocument('${doc.name}', '${doc.url}')">
+                                <span class="btn-icon">👁️</span>
+                                <span class="btn-text">View</span>
+                            </button>
+                            <button class="btn btn-secondary" onclick="replaceDocument('${doc.name}', '${doc.field}')">
+                                <span class="btn-icon">🔄</span>
+                                <span class="btn-text">Replace</span>
+                            </button>
+                        ` : `
+                            <button class="btn btn-primary" onclick="uploadDocument('${doc.name}', '${doc.field}')">
+                                <span class="btn-icon">📤</span>
+                                <span class="btn-text">Upload</span>
+                            </button>
+                        `}
+                    </div>
+                `;
+                
+                documentsGrid.appendChild(card);
+            });
+        }
+        
+        function viewDocument(docName, docUrl) {
+            if (docUrl) {
+                window.open(docUrl, '_blank');
+            } else {
+                alert(`Document not available: ${docName}`);
+            }
+        }
+        
+        function uploadDocument(docName, docField) {
+            // Create file input
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*,.pdf';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    uploadDocumentFile(docField, file, docName);
+                }
+            };
+            input.click();
+        }
+        
+        function replaceDocument(docName, docField) {
+            // Create file input for replacement
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*,.pdf';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    uploadDocumentFile(docField, file, docName);
+                }
+            };
+            input.click();
+        }
+        
+        async function uploadDocumentFile(field, file, docName) {
+            try {
+                const formData = new FormData();
+                formData.append(field, file);
+                
+                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${userProfile.id}/`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    alert(`✅ ${docName} uploaded successfully!`);
+                    // Reload the profile to show updated documents
+                    loadUserProfile();
+                } else {
+                    throw new Error('Upload failed');
+                }
+                
+            } catch (error) {
+                console.error('Upload error:', error);
+                alert(`❌ Failed to upload ${docName}. Please try again.`);
+            }
+        }
+        
+        async function logout() {
+            try {
+                const tokens = localStorage.getItem('saku_tokens');
+                if (tokens) {
+                    const tokenData = JSON.parse(tokens);
+                    await fetch('http://127.0.0.1:8001/api/auth/logout/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${accessToken}`,
+                        },
+                        body: JSON.stringify({ refresh: tokenData.refresh }),
+                    });
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+            } finally {
+                // Clear session data but preserve saved credentials
+                localStorage.removeItem('saku_tokens');
+                localStorage.removeItem('saku_user_profile');
+                clearTimeout(sessionTimeout);
+                
+                // Redirect to login
+                window.location.href = 'secure-login.html';
+            }
+        }
+    </script>
+</body>
+</html>

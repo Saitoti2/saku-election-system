@@ -1,0 +1,25 @@
+# WhatsApp API Configuration
+# Choose one of the options below:
+
+# Option 1: Meta Business API
+WHATSAPP_API_URL=https://graph.facebook.com/v18.0
+WHATSAPP_API_TOKEN=your_meta_access_token_here
+WHATSAPP_PHONE_NUMBER_ID=your_phone_number_id_here
+
+# Option 2: Twilio (Recommended for beginners)
+TWILIO_ACCOUNT_SID=your_twilio_account_sid_here
+TWILIO_AUTH_TOKEN=your_twilio_auth_token_here
+TWILIO_WHATSAPP_NUMBER=+14155238886
+
+# Option 3: MessageBird
+MESSAGEBIRD_API_KEY=your_messagebird_api_key_here
+
+# Admin Configuration
+ADMIN_PHONE_NUMBER=+254769582779
+
+# Database Configuration (if needed)
+DATABASE_URL=sqlite:///db.sqlite3
+
+# Security
+SECRET_KEY=your_secret_key_here
+DEBUG=True

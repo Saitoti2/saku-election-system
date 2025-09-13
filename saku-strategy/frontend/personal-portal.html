@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAKU Personal Portal</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            float: right;
+            margin-top: -10px;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .user-info {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .user-info h3 {
+            margin: 0 0 15px 0;
+            color: #495057;
+        }
+        
+        .user-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .user-info-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info-label {
+            font-weight: 600;
+            color: #6c757d;
+            margin-right: 10px;
+            min-width: 120px;
+        }
+        
+        .user-info-value {
+            color: #495057;
+        }
+        
+        .uploaded-documents-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .uploaded-documents-section h3 {
+            margin: 0 0 20px 0;
+            color: #1f2937;
+            font-size: 1.4em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .uploaded-documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .uploaded-document-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .uploaded-document-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+        
+        .uploaded-document-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .uploaded-doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .uploaded-doc-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .doc-icon {
+            font-size: 1.5em;
+        }
+        
+        .uploaded-doc-title h4 {
+            margin: 0;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .uploaded-status {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .uploaded-doc-preview {
+            margin: 15px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .uploaded-preview-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .file-preview {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background: #f8fafc;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .file-icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+        
+        .file-name {
+            color: #6b7280;
+            font-size: 0.9em;
+        }
+        
+        .uploaded-doc-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .no-documents-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+            grid-column: 1 / -1;
+        }
+        
+        .no-docs-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+            opacity: 0.6;
+        }
+        
+        .no-documents-message h4 {
+            margin: 0 0 10px 0;
+            color: #374151;
+            font-size: 1.2em;
+        }
+        
+        .no-documents-message p {
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .documents-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .document-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .document-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .document-card.uploaded {
+            border-color: #28a745;
+            background: #f8fff9;
+        }
+        
+        .document-card.missing {
+            border-color: #dc3545;
+            background: #fff8f8;
+        }
+        
+        .document-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .document-title {
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .document-status {
+            font-size: 0.8em;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .document-description {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        
+        .document-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6fd8;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+        }
+        
+        .close:hover {
+            color: #000;
+        }
+        
+        .modal h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+        }
+        
+        .form-group input[type="file"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .no-registration {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        
+        .no-registration h3 {
+            margin-bottom: 15px;
+            color: #495057;
+        }
+        
+        .register-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        
+        .register-btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>👤 SAKU Personal Portal</h1>
+                    <p>Manage Your Election Documents</p>
+                </div>
+                <button onclick="logout()" class="logout-btn">Logout</button>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="user-info">
+                <h3>👤 Your Information</h3>
+                <div class="user-info-grid">
+                    <div class="user-info-item">
+                        <span class="user-info-label">Name:</span>
+                        <span class="user-info-value" id="userName">Loading...</span>
+                    </div>
+                    <div class="user-info-item">
+                        <span class="user-info-label">Registration Number:</span>
+                        <span class="user-info-value" id="userRegNumber">Loading...</span>
+                    </div>
+                    <div class="user-info-item">
+                        <span class="user-info-label">Course:</span>
+                        <span class="user-info-value" id="userCourse">Loading...</span>
+                    </div>
+                    <div class="user-info-item">
+                        <span class="user-info-label">Department:</span>
+                        <span class="user-info-value" id="userDepartment">Loading...</span>
+                    </div>
+                    <div class="user-info-item">
+                        <span class="user-info-label">Faculty:</span>
+                        <span class="user-info-value" id="userFaculty">Loading...</span>
+                    </div>
+                    <div class="user-info-item">
+                        <span class="user-info-label">Registration Status:</span>
+                        <span class="user-info-value">
+                            <span class="status-badge status-pending" id="registrationStatus">Pending</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Uploaded Documents Section -->
+            <div class="uploaded-documents-section">
+                <h3>📁 Uploaded Documents</h3>
+                <div class="uploaded-documents-grid" id="uploadedDocumentsGrid">
+                    <!-- Uploaded documents will be populated here -->
+                </div>
+            </div>
+            
+            <div id="documentsSection" class="documents-section" style="display: none;">
+                <h2 class="section-title">📄 Your Documents</h2>
+                <div class="documents-grid" id="documentsGrid">
+                    <!-- Documents will be populated here -->
+                </div>
+            </div>
+            
+            <div id="noRegistration" class="no-registration">
+                <h3>📝 No Election Registration Found</h3>
+                <p>You haven't registered for any SAKU election positions yet.</p>
+                <p>Click the button below to start your election registration.</p>
+                <a href="election-registration.html" class="register-btn">🎯 Register for Elections</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for document upload -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle">Upload Document</h3>
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label for="fileInput">Select File:</label>
+                    <input type="file" id="fileInput" name="file" required>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in (using correct localStorage keys)
+        const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
+        const userProfile = JSON.parse(localStorage.getItem('saku_user_profile') || '{}');
+        
+        if (!tokens.access || !userProfile.id) {
+            alert('Please login first');
+            window.location.href = 'login-fixed.html';
+        }
+        
+        // Get user data from localStorage (using correct keys)
+        let userData = JSON.parse(localStorage.getItem('saku_user_data') || '{}');
+        
+        // Mock registration data (in real app, this would come from API)
+        const mockRegistrationData = {
+            user_type: 'ASPIRANT',
+            council_position: 'CHAIR',
+            status: 'PENDING',
+            documents: {
+                school_fees_screenshot: { uploaded: true, filename: 'fees_screenshot.jpg', status: 'APPROVED' },
+                last_semester_results: { uploaded: true, filename: 'results_sem1.pdf', status: 'PENDING' },
+                second_last_semester_results: { uploaded: false, filename: null, status: 'MISSING' },
+                course_registration_screenshot: { uploaded: true, filename: 'registration.jpg', status: 'APPROVED' },
+                good_conduct_certificate: { uploaded: false, filename: null, status: 'MISSING' },
+                school_id_image: { uploaded: true, filename: 'student_id.jpg', status: 'PENDING' },
+                last_semester_transcript: { uploaded: true, filename: 'transcript1.pdf', status: 'APPROVED' },
+                second_last_semester_transcript: { uploaded: false, filename: null, status: 'MISSING' }
+            }
+        };
+        
+        // Document definitions
+        const documentTypes = {
+            school_fees_screenshot: {
+                title: 'School Fees Screenshot',
+                description: 'Screenshot showing 80%+ fees clearance',
+                required: true,
+                acceptedTypes: 'image/*'
+            },
+            last_semester_results: {
+                title: 'Last Semester Results',
+                description: 'PDF of your last semester results',
+                required: true,
+                acceptedTypes: '.pdf'
+            },
+            second_last_semester_results: {
+                title: 'Second Last Semester Results',
+                description: 'PDF of your second last semester results',
+                required: true,
+                acceptedTypes: '.pdf'
+            },
+            course_registration_screenshot: {
+                title: 'Course Registration Screenshot',
+                description: 'Screenshot of current semester registration',
+                required: true,
+                acceptedTypes: 'image/*'
+            },
+            good_conduct_certificate: {
+                title: 'Certificate of Good Conduct',
+                description: 'PDF of good conduct certificate',
+                required: false,
+                acceptedTypes: '.pdf'
+            },
+            school_id_image: {
+                title: 'School ID Image',
+                description: 'Image of your KCAU student ID',
+                required: true,
+                acceptedTypes: 'image/*'
+            },
+            last_semester_transcript: {
+                title: 'Last Semester Transcript',
+                description: 'PDF of last semester transcript',
+                required: true,
+                acceptedTypes: '.pdf'
+            },
+            second_last_semester_transcript: {
+                title: 'Second Last Semester Transcript',
+                description: 'PDF of second last semester transcript',
+                required: true,
+                acceptedTypes: '.pdf'
+            }
+        };
+        
+        let currentDocumentType = null;
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+        });
+        
+        async function loadUserData() {
+            try {
+                // Get tokens from localStorage
+                const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
+                const userProfile = JSON.parse(localStorage.getItem('saku_user_profile') || '{}');
+                
+                console.log('🔍 Debug - Tokens:', tokens);
+                console.log('🔍 Debug - User Profile:', userProfile);
+                
+                if (!tokens.access || !userProfile.id) {
+                    console.log('❌ Missing tokens or user profile');
+                    console.log('Available tokens:', tokens);
+                    console.log('Available userProfile:', userProfile);
+                    alert('Please login first');
+                    window.location.href = 'login-fixed.html';
+                    return;
+                }
+                
+                // Try to fetch user profile from backend
+                let response = await fetch(`http://127.0.0.1:8001/api/profiles/${userProfile.id}/`, {
+                    headers: {
+                        'Authorization': `Bearer ${tokens.access}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                // If token is expired (401), try to refresh it
+                if (response.status === 401 && tokens.refresh) {
+                    console.log('🔄 Token expired, attempting to refresh...');
+                    
+                    try {
+                        const refreshResponse = await fetch('http://127.0.0.1:8001/api/auth/token/refresh/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                refresh: tokens.refresh
+                            })
+                        });
+                        
+                        if (refreshResponse.ok) {
+                            const newTokens = await refreshResponse.json();
+                            console.log('✅ Token refreshed successfully');
+                            
+                            // Update tokens in localStorage
+                            const updatedTokens = {
+                                access: newTokens.access,
+                                refresh: tokens.refresh // Keep the same refresh token
+                            };
+                            localStorage.setItem('saku_tokens', JSON.stringify(updatedTokens));
+                            
+                            // Retry the original request with new token
+                            response = await fetch(`http://127.0.0.1:8001/api/profiles/${userProfile.id}/`, {
+                                headers: {
+                                    'Authorization': `Bearer ${newTokens.access}`,
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                        } else {
+                            console.log('❌ Token refresh failed, redirecting to login');
+                            alert('Session expired. Please login again.');
+                            window.location.href = 'login-fixed.html';
+                            return;
+                        }
+                    } catch (refreshError) {
+                        console.error('❌ Token refresh error:', refreshError);
+                        alert('Session expired. Please login again.');
+                        window.location.href = 'login-fixed.html';
+                        return;
+                    }
+                }
+                
+                if (response.ok) {
+                    const realUserData = await response.json();
+                    console.log('✅ Successfully fetched user data:', realUserData);
+                    
+                    // Update userData with real data - ensure all fields are properly mapped
+                    userData = {
+                        ...userData,
+                        ...realUserData,
+                        // Basic info
+                        id: realUserData.id,
+                        full_name: realUserData.full_name,
+                        student_id: realUserData.student_id,
+                        reg_number: realUserData.student_id, // Use student_id as reg_number
+                        user_type: realUserData.user_type,
+                        council_position: realUserData.council_position,
+                        vetting_status: realUserData.vetting_status,
+                        
+                        // Contact info
+                        whatsapp_number: realUserData.whatsapp_number,
+                        phone_number: realUserData.phone_number,
+                        email: realUserData.email,
+                        
+                        // Personal info
+                        gender: realUserData.gender,
+                        year_of_study: realUserData.year_of_study,
+                        
+                        // Academic info
+                        course: realUserData.course,
+                        department: realUserData.department,
+                        faculty: realUserData.faculty,
+                        
+                        // Document fields
+                        school_fees_screenshot: realUserData.school_fees_screenshot,
+                        last_semester_results: realUserData.last_semester_results,
+                        second_last_semester_results: realUserData.second_last_semester_results,
+                        course_registration_screenshot: realUserData.course_registration_screenshot,
+                        good_conduct_certificate: realUserData.good_conduct_certificate,
+                        school_id_image: realUserData.school_id_image,
+                        last_semester_transcript: realUserData.last_semester_transcript,
+                        second_last_semester_transcript: realUserData.second_last_semester_transcript
+                    };
+                    
+                    console.log('📝 Updated userData:', userData);
+                    
+                    // Update localStorage with real data
+                    localStorage.setItem('saku_user_data', JSON.stringify(userData));
+                    
+                    // Display the real data
+                    displayUserInfo();
+                    checkRegistrationStatus();
+                } else {
+                    console.error('❌ Failed to fetch user data:', response.status, response.statusText);
+                    const errorText = await response.text();
+                    console.error('❌ Error response:', errorText);
+                    
+                    if (response.status === 401) {
+                        alert('Authentication failed. Please login again.');
+                        window.location.href = 'login-fixed.html';
+                        return;
+                    }
+                    
+                    // Fallback to mock data
+                    displayUserInfo();
+                    checkRegistrationStatus();
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                // Fallback to mock data
+                displayUserInfo();
+                checkRegistrationStatus();
+            }
+        }
+        
+        function displayUserInfo() {
+            console.log('🔍 Displaying user info with data:', userData);
+            
+            // Show all available data in console for debugging
+            console.log('📊 All userData fields:');
+            console.log('  id:', userData.id);
+            console.log('  full_name:', userData.full_name);
+            console.log('  student_id:', userData.student_id);
+            console.log('  reg_number:', userData.reg_number);
+            console.log('  user_type:', userData.user_type);
+            console.log('  council_position:', userData.council_position);
+            console.log('  whatsapp_number:', userData.whatsapp_number);
+            console.log('  phone_number:', userData.phone_number);
+            console.log('  gender:', userData.gender);
+            console.log('  year_of_study:', userData.year_of_study);
+            console.log('  course:', userData.course);
+            console.log('  department:', userData.department);
+            console.log('  faculty:', userData.faculty);
+            
+            // Display the data - ensure we're using the correct values
+            const name = userData.full_name || 'Unknown';
+            const regNumber = userData.student_id || userData.reg_number || 'Unknown';
+            const course = userData.course?.name || 'Unknown';
+            const department = userData.department?.name || 'Unknown';
+            const faculty = userData.faculty?.name || 'Unknown';
+            
+            document.getElementById('userName').textContent = name;
+            document.getElementById('userRegNumber').textContent = regNumber;
+            document.getElementById('userCourse').textContent = course;
+            document.getElementById('userDepartment').textContent = department;
+            document.getElementById('userFaculty').textContent = faculty;
+            
+            console.log('✅ User info displayed:');
+            console.log('  Name:', name);
+            console.log('  Reg Number:', regNumber);
+            console.log('  Course:', course);
+            console.log('  Department:', department);
+            console.log('  Faculty:', faculty);
+            
+            // Display uploaded documents
+            displayUploadedDocuments();
+        }
+        
+        function displayUploadedDocuments() {
+            console.log('🔍 Displaying uploaded documents...');
+            console.log('🔍 Current userData:', userData);
+            
+            const uploadedDocumentsGrid = document.getElementById('uploadedDocumentsGrid');
+            uploadedDocumentsGrid.innerHTML = '';
+            
+            // Define document fields
+            const documentFields = [
+                { name: 'School Fees Screenshot', field: 'school_fees_screenshot', icon: '💰' },
+                { name: 'Last Semester Results', field: 'last_semester_results', icon: '📊' },
+                { name: 'Second Last Semester Results', field: 'second_last_semester_results', icon: '📈' },
+                { name: 'Course Registration Screenshot', field: 'course_registration_screenshot', icon: '📋' },
+                { name: 'Certificate of Good Conduct', field: 'good_conduct_certificate', icon: '📜' },
+                { name: 'School ID Image', field: 'school_id_image', icon: '🆔' },
+                { name: 'Last Semester Transcript', field: 'last_semester_transcript', icon: '📄' },
+                { name: 'Second Last Semester Transcript', field: 'second_last_semester_transcript', icon: '📑' }
+            ];
+            
+            // Filter only uploaded documents - check if field exists and has a value
+            const uploadedDocs = documentFields.filter(doc => {
+                const fieldValue = userData[doc.field];
+                console.log(`🔍 Checking ${doc.field}:`, fieldValue);
+                return fieldValue && fieldValue !== null && fieldValue !== '' && fieldValue !== undefined;
+            });
+            
+            console.log('📄 Uploaded documents found:', uploadedDocs);
+            
+            if (uploadedDocs.length === 0) {
+                uploadedDocumentsGrid.innerHTML = `
+                    <div class="no-documents-message">
+                        <div class="no-docs-icon">📁</div>
+                        <h4>No Documents Uploaded Yet</h4>
+                        <p>You haven't uploaded any documents yet. Start by registering for elections to upload your required documents.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Create cards for uploaded documents
+            uploadedDocs.forEach(doc => {
+                const card = document.createElement('div');
+                card.className = 'uploaded-document-card';
+                
+                const docUrl = userData[doc.field];
+                const isImage = docUrl && (docUrl.includes('.jpg') || docUrl.includes('.jpeg') || docUrl.includes('.png') || docUrl.includes('.gif'));
+                
+                card.innerHTML = `
+                    <div class="uploaded-doc-header">
+                        <div class="uploaded-doc-title">
+                            <span class="doc-icon">${doc.icon}</span>
+                            <h4>${doc.name}</h4>
+                        </div>
+                        <span class="uploaded-status">✅ Uploaded</span>
+                    </div>
+                    
+                    ${isImage ? `
+                        <div class="uploaded-doc-preview">
+                            <img src="${docUrl}" alt="${doc.name}" class="uploaded-preview-image">
+                        </div>
+                    ` : `
+                        <div class="uploaded-doc-preview">
+                            <div class="file-preview">
+                                <div class="file-icon">📄</div>
+                                <span class="file-name">Document File</span>
+                            </div>
+                        </div>
+                    `}
+                    
+                    <div class="uploaded-doc-actions">
+                        <button class="btn btn-primary" onclick="viewDocument('${doc.name}', '${docUrl}')">
+                            <span class="btn-icon">👁️</span>
+                            <span class="btn-text">View</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="replaceDocument('${doc.name}', '${doc.field}')">
+                            <span class="btn-icon">🔄</span>
+                            <span class="btn-text">Replace</span>
+                        </button>
+                    </div>
+                `;
+                
+                uploadedDocumentsGrid.appendChild(card);
+            });
+        }
+        
+        function checkRegistrationStatus() {
+            // Check if user has registered for elections (has user_type other than STUDENT)
+            const hasRegistered = userData.user_type && userData.user_type !== 'STUDENT';
+            
+            if (hasRegistered) {
+                // User has registered - show documents section
+                document.getElementById('documentsSection').style.display = 'block';
+                document.getElementById('noRegistration').style.display = 'none';
+                displayDocuments();
+            } else {
+                // User hasn't registered yet - redirect to registration page
+                console.log('❌ User has not registered for elections yet. Redirecting to registration page...');
+                alert('You need to complete your election registration first. Redirecting to registration page...');
+                window.location.href = 'election-registration.html';
+            }
+        }
+        
+        function displayDocuments() {
+            const documentsGrid = document.getElementById('documentsGrid');
+            documentsGrid.innerHTML = '';
+            
+            Object.entries(documentTypes).forEach(([docType, docInfo]) => {
+                const docData = mockRegistrationData.documents[docType];
+                const card = createDocumentCard(docType, docInfo, docData);
+                documentsGrid.appendChild(card);
+            });
+        }
+        
+        function createDocumentCard(docType, docInfo, docData) {
+            const card = document.createElement('div');
+            card.className = `document-card ${docData.uploaded ? 'uploaded' : 'missing'}`;
+            
+            const statusClass = docData.status === 'APPROVED' ? 'status-approved' : 
+                              docData.status === 'PENDING' ? 'status-pending' : 'status-rejected';
+            
+            card.innerHTML = `
+                <div class="document-header">
+                    <h4 class="document-title">${docInfo.title}</h4>
+                    <span class="document-status ${statusClass}">${docData.status}</span>
+                </div>
+                <p class="document-description">${docInfo.description}</p>
+                ${docData.uploaded ? `
+                    <p style="color: #28a745; font-size: 0.9em; margin-bottom: 15px;">
+                        📁 ${docData.filename}
+                    </p>
+                ` : `
+                    <p style="color: #dc3545; font-size: 0.9em; margin-bottom: 15px;">
+                        ❌ Not uploaded
+                    </p>
+                `}
+                <div class="document-actions">
+                    ${docData.uploaded ? `
+                        <button class="btn btn-primary" onclick="viewDocument('${docType}')">
+                            👁️ View
+                        </button>
+                        <button class="btn btn-success" onclick="replaceDocument('${docType}')">
+                            🔄 Replace
+                        </button>
+                    ` : `
+                        <button class="btn btn-primary" onclick="uploadDocument('${docType}')">
+                            📤 Upload
+                        </button>
+                    `}
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        function uploadDocument(docType) {
+            currentDocumentType = docType;
+            const docInfo = documentTypes[docType];
+            document.getElementById('modalTitle').textContent = `Upload ${docInfo.title}`;
+            document.getElementById('fileInput').accept = docInfo.acceptedTypes;
+            document.getElementById('uploadModal').style.display = 'block';
+        }
+        
+        function replaceDocument(docType) {
+            uploadDocument(docType);
+        }
+        
+        function viewDocument(docType) {
+            // In real app, this would open the document
+            alert(`Viewing document: ${documentTypes[docType].title}`);
+        }
+        
+        function closeModal() {
+            document.getElementById('uploadModal').style.display = 'none';
+            currentDocumentType = null;
+        }
+        
+        // Handle file upload
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (file) {
+                // In real app, this would upload to server
+                console.log(`Uploading ${file.name} for ${currentDocumentType}`);
+                
+                // Simulate upload
+                setTimeout(() => {
+                    alert(`Document uploaded successfully: ${file.name}`);
+                    closeModal();
+                    displayDocuments(); // Refresh the display
+                }, 1000);
+            }
+        });
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('uploadModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        
+        function viewDocument(docName, docUrl) {
+            if (docUrl) {
+                window.open(docUrl, '_blank');
+            } else {
+                alert('Document not available');
+            }
+        }
+        
+        async function replaceDocument(docName, fieldName) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = fieldName.includes('image') || fieldName.includes('screenshot') ? 'image/*' : '.pdf';
+            
+            input.onchange = async function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        // Get tokens from localStorage
+                        const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
+                        const userProfile = JSON.parse(localStorage.getItem('saku_user_profile') || '{}');
+                        
+                        if (!tokens.access || !userProfile.id) {
+                            alert('Please login first');
+                            return;
+                        }
+                        
+                        // Create FormData for file upload
+                        const formData = new FormData();
+                        formData.append(fieldName, file);
+                        
+                        // Upload to backend
+                        const response = await fetch(`http://127.0.0.1:8001/api/profiles/${userProfile.id}/`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Authorization': `Bearer ${tokens.access}`
+                            },
+                            body: formData
+                        });
+                        
+                        if (response.ok) {
+                            const updatedData = await response.json();
+                            
+                            // Update local data
+                            userData[fieldName] = updatedData[fieldName];
+                            localStorage.setItem('saku_user_data', JSON.stringify(userData));
+                            
+                            // Refresh the display
+                            displayUploadedDocuments();
+                            alert(`${docName} updated successfully!`);
+                        } else {
+                            alert('Failed to update document. Please try again.');
+                        }
+                    } catch (error) {
+                        console.error('Error updating document:', error);
+                        alert('Error updating document. Please try again.');
+                    }
+                }
+            };
+            
+            input.click();
+        }
+        
+        function logout() {
+            // Clear all authentication data
+            localStorage.removeItem('saku_tokens');
+            localStorage.removeItem('saku_user_profile');
+            localStorage.removeItem('saku_user_data');
+            localStorage.removeItem('saku_logged_in');
+            localStorage.removeItem('saku_user');
+            localStorage.removeItem('saku_registration');
+            window.location.href = 'login-fixed.html';
+        }
+    </script>
+</body>
+</html>

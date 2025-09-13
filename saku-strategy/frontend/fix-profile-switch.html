@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix Profile Switch - SAKU Election System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .profile-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+        .profile-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .profile-content {
+            font-family: monospace;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .warning {
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Fix Profile Switch - SAKU Election System</h1>
+        <p>This page helps you switch to the correct profile to see your latest registration data.</p>
+        
+        <div class="profile-section">
+            <div class="profile-title">Current Profile (What you're seeing now)</div>
+            <div id="currentProfile" class="profile-content">Loading...</div>
+        </div>
+        
+        <div class="profile-section">
+            <div class="profile-title">Available Profiles</div>
+            <button onclick="loadAllProfiles()">Load All Profiles</button>
+            <div id="allProfiles" class="profile-content"></div>
+        </div>
+        
+        <div class="profile-section">
+            <div class="profile-title">Switch to Latest Profile</div>
+            <button onclick="switchToLatestProfile()">Switch to Latest Profile (ID 12)</button>
+            <div id="switchResult" class="profile-content"></div>
+        </div>
+        
+        <div class="profile-section">
+            <div class="profile-title">Actions</div>
+            <button onclick="goToPersonalPortal()">Go to Personal Portal</button>
+            <button onclick="goToDebugPortal()">Go to Debug Portal</button>
+            <button onclick="clearAllData()">Clear All Data</button>
+        </div>
+    </div>
+
+    <script>
+        async function loadCurrentProfile() {
+            const output = document.getElementById('currentProfile');
+            const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
+            const userProfile = JSON.parse(localStorage.getItem('saku_user_profile') || '{}');
+            
+            if (!tokens.access || !userProfile.id) {
+                output.innerHTML = '❌ No valid tokens or user profile found in localStorage';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${userProfile.id}/`, {
+                    headers: {
+                        'Authorization': `Bearer ${tokens.access}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const displayData = {
+                        'ID': data.id,
+                        'Name': data.full_name,
+                        'Student ID': data.student_id,
+                        'User Type': data.user_type,
+                        'Council Position': data.council_position,
+                        'WhatsApp': data.whatsapp_number,
+                        'Phone': data.phone_number,
+                        'Gender': data.gender,
+                        'Year of Study': data.year_of_study,
+                        'Course': data.course?.name,
+                        'Department': data.department?.name,
+                        'Faculty': data.faculty?.name
+                    };
+                    
+                    output.innerHTML = '✅ Current Profile:\n' + JSON.stringify(displayData, null, 2);
+                } else {
+                    output.innerHTML = `❌ Error loading profile: ${response.status}`;
+                }
+            } catch (error) {
+                output.innerHTML = `❌ Network Error: ${error.message}`;
+            }
+        }
+        
+        async function loadAllProfiles() {
+            const output = document.getElementById('allProfiles');
+            output.innerHTML = 'Loading all profiles...';
+            
+            try {
+                const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
+                
+                if (!tokens.access) {
+                    output.innerHTML = '❌ No valid tokens found in localStorage';
+                    return;
+                }
+                
+                const response = await fetch('http://127.0.0.1:8001/api/profiles/admin_all_profiles/', {
+                    headers: {
+                        'Authorization': `Bearer ${tokens.access}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const profiles = data.results || data;
+                    
+                    const displayData = profiles.map(profile => ({
+                        'ID': profile.id,
+                        'Name': profile.full_name,
+                        'Student ID': profile.student_id,
+                        'User Type': profile.user_type,
+                        'Council Position': profile.council_position,
+                        'Created': profile.created_at
+                    }));
+                    
+                    output.innerHTML = '✅ All Profiles:\n' + JSON.stringify(displayData, null, 2);
+                } else {
+                    output.innerHTML = `❌ Error loading profiles: ${response.status}`;
+                }
+            } catch (error) {
+                output.innerHTML = `❌ Network Error: ${error.message}`;
+            }
+        }
+        
+        async function switchToLatestProfile() {
+            const output = document.getElementById('switchResult');
+            output.innerHTML = 'Switching to latest profile...';
+            
+            try {
+                const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
+                
+                if (!tokens.access) {
+                    output.innerHTML = '❌ No valid tokens found in localStorage';
+                    return;
+                }
+                
+                // Get profile ID 12 (Test New User)
+                const response = await fetch('http://127.0.0.1:8001/api/profiles/12/', {
+                    headers: {
+                        'Authorization': `Bearer ${tokens.access}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const profileData = await response.json();
+                    
+                    // Update localStorage with the new profile
+                    const newUserProfile = {
+                        id: profileData.id,
+                        full_name: profileData.full_name,
+                        student_id: profileData.student_id,
+                        user_type: profileData.user_type,
+                        council_position: profileData.council_position,
+                        whatsapp_number: profileData.whatsapp_number,
+                        phone_number: profileData.phone_number,
+                        gender: profileData.gender,
+                        year_of_study: profileData.year_of_study,
+                        course: profileData.course,
+                        department: profileData.department,
+                        faculty: profileData.faculty
+                    };
+                    
+                    localStorage.setItem('saku_user_profile', JSON.stringify(newUserProfile));
+                    localStorage.setItem('saku_user_data', JSON.stringify(profileData));
+                    
+                    output.innerHTML = '✅ Successfully switched to latest profile!\n\n' + 
+                        'Profile ID: ' + profileData.id + '\n' +
+                        'Name: ' + profileData.full_name + '\n' +
+                        'Student ID: ' + profileData.student_id + '\n' +
+                        'User Type: ' + profileData.user_type + '\n' +
+                        'Council Position: ' + profileData.council_position + '\n\n' +
+                        'You can now go to the personal portal to see the correct data.';
+                } else {
+                    output.innerHTML = `❌ Error loading profile 12: ${response.status}`;
+                }
+            } catch (error) {
+                output.innerHTML = `❌ Network Error: ${error.message}`;
+            }
+        }
+        
+        function goToPersonalPortal() {
+            window.location.href = 'personal-portal.html';
+        }
+        
+        function goToDebugPortal() {
+            window.location.href = 'debug-portal.html';
+        }
+        
+        function clearAllData() {
+            localStorage.removeItem('saku_tokens');
+            localStorage.removeItem('saku_user_profile');
+            localStorage.removeItem('saku_user_data');
+            localStorage.removeItem('saku_logged_in');
+            localStorage.removeItem('saku_user');
+            localStorage.removeItem('saku_registration');
+            alert('All localStorage data cleared!');
+        }
+        
+        // Auto-load current profile on page load
+        window.onload = function() {
+            loadCurrentProfile();
+        };
+    </script>
+</body>
+</html>

@@ -1,2 +1,0 @@
-# Constitution Extract (auto-generated)
-

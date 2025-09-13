@@ -69,3 +69,28 @@ logs/
 # Temporary files
 *.tmp
 *.temp
+
+# Test and debug files
+*test*.html
+*debug*.html
+*fix*.html
+
+# Documentation (keep only essential ones)
+*STRATEGY*.md
+*COMPLETION*.md
+*ASSUMPTIONS*.md
+*TROUBLESHOOTING*.md
+
+# Unused React/Node files
+node_modules/
+package*.json
+vite.config.*
+tsconfig.*
+
+# Log files
+*.log
+logs/
+
+# Test uploads and media
+media/documents/*/
+uploads/

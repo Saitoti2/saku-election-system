@@ -1,0 +1,36 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        cd saku-strategy/backend
+        pip install -r requirements.txt
+        
+    - name: Run tests
+      run: |
+        cd saku-strategy/backend
+        python manage.py test
+        
+    - name: Deploy to Railway
+      if: github.ref == 'refs/heads/main'
+      run: |
+        echo "Deployment triggered for main branch"
+        echo "Railway will automatically deploy from GitHub integration"

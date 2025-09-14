@@ -7,7 +7,7 @@
 
 ## Step 2: Deploy (30 seconds)
 1. Click "Deploy from GitHub repo"
-2. Select: `Saitoti2/saku-election-system`
+2. Select: `YOUR_USERNAME/saku-election-system` (replace with your GitHub username)
 3. Click "Deploy Now"
 
 ## Step 3: Get Your Live URL (30 seconds)

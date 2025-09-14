@@ -1,13 +1,15 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "buildCommand": "cd saku-strategy/backend && pip install -r ../../requirements.txt"
   },
   "deploy": {
-    "startCommand": "./start.sh",
-    "healthcheckPath": "/",
-    "healthcheckTimeout": 60,
+    "startCommand": "cd saku-strategy/backend && python3 manage.py migrate && python3 manage.py collectstatic --noinput && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120 --access-logfile - --error-logfile -",
     "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 5
+    "restartPolicyMaxRetries": 10,
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 300,
+    "healthcheckInterval": 30
   }
 }

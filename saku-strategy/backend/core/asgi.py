@@ -11,6 +11,10 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+# Use Railway settings if DATABASE_URL is present (Railway deployment)
+if os.getenv('DATABASE_URL'):
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.railway_settings')
+else:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
 application = get_asgi_application()

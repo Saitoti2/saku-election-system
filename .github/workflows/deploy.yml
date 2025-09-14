@@ -1,4 +1,4 @@
-name: Deploy to Railway
+name: Deploy SAKU Election System
 
 on:
   push:
@@ -11,26 +11,30 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      
-    - name: Setup Python
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-        
+    
     - name: Install dependencies
       run: |
         cd saku-strategy/backend
-        pip install -r requirements.txt
-        
+        pip install -r ../../requirements.txt
+    
     - name: Run tests
       run: |
         cd saku-strategy/backend
         python manage.py test
-        
-    - name: Deploy to Railway
+    
+    - name: Collect static files
+      run: |
+        cd saku-strategy/backend
+        python manage.py collectstatic --noinput
+    
+    - name: Deploy to Render
       if: github.ref == 'refs/heads/main'
       run: |
-        echo "Deployment triggered for main branch"
-        echo "Railway will automatically deploy from GitHub integration"
+        echo "Deployment triggered by push to main branch"
+        echo "Render will automatically deploy this commit"

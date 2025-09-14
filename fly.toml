@@ -1,0 +1,27 @@
+# Fly.io configuration for SAKU Election System
+app = "saku-election-system"
+primary_region = "iad"
+
+[build]
+
+[env]
+  SECRET_KEY = "django-insecure-production-key-change-this-12345"
+  DEBUG = "False"
+  ALLOWED_HOSTS = "*.fly.dev"
+  ADMIN_PHONE_NUMBER = "+254769582779"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 256
+
+[deploy]
+  release_command = "cd saku-strategy/backend && python manage.py migrate"

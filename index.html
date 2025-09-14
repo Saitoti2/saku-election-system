@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAKU Election System</title>
+    <link rel="stylesheet" href="saku-strategy/frontend/style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .status {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            color: white;
+        }
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗳️ SAKU Election System</h1>
+            <p>Student's Association of KCA University - Election Management Platform</p>
+        </div>
+
+        <div class="status">
+            <h3>✅ System Status: LIVE</h3>
+            <p>Your SAKU Election System is now deployed and ready for student registrations!</p>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <h3>👨‍🎓 Student Registration</h3>
+                <p>Students can register for council positions, upload required documents, and track their application status.</p>
+                <a href="saku-strategy/frontend/index.html" class="btn">Student Portal</a>
+            </div>
+
+            <div class="card">
+                <h3>🔐 Admin Dashboard</h3>
+                <p>Administrators can manage elections, verify student documents, and monitor registration statistics.</p>
+                <a href="saku-strategy/frontend/admin-dashboard-enhanced.html" class="btn">Admin Login</a>
+            </div>
+
+            <div class="card">
+                <h3>📊 Election Registration</h3>
+                <p>Register for council positions with document uploads and verification system.</p>
+                <a href="saku-strategy/frontend/election-registration.html" class="btn">Register Now</a>
+            </div>
+
+            <div class="card">
+                <h3>✅ Student Verification</h3>
+                <p>Document verification system for student eligibility and compliance checking.</p>
+                <a href="saku-strategy/frontend/student-verification.html" class="btn">Verify Documents</a>
+            </div>
+
+            <div class="card">
+                <h3>👤 Personal Portal</h3>
+                <p>Students can view their uploaded documents and track verification status.</p>
+                <a href="saku-strategy/frontend/personal-portal.html" class="btn">My Portal</a>
+            </div>
+
+            <div class="card">
+                <h3>📱 WhatsApp Notifications</h3>
+                <p>Automated notifications for new registrations and status updates via WhatsApp.</p>
+                <a href="#" class="btn">Learn More</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2024 SAKU Election System | Powered by Django & GitHub Pages</p>
+            <p>🚀 Deployed with automatic updates from GitHub</p>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click tracking
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (this.href === '#') {
+                        e.preventDefault();
+                        alert('WhatsApp integration coming soon!');
+                    }
+                });
+            });
+
+            // Add smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

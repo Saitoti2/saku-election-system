@@ -1,1 +1,0 @@
-web: cd saku-strategy/backend && python3 manage.py migrate && python3 manage.py collectstatic --noinput && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120 --access-logfile - --error-logfile -

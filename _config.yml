@@ -1,0 +1,27 @@
+# GitHub Pages configuration for SAKU Election System
+title: SAKU Election System
+description: Student's Association of KCA University - Election Management Platform
+baseurl: ""
+url: "https://Saitoti2.github.io"
+
+# GitHub Pages settings
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - saku-strategy/backend/
+  - requirements.txt
+  - Procfile
+  - railway.json
+  - fly.toml
+  - Dockerfile
+  - .github/workflows/deploy.yml
+  - deploy.sh
+  - deploy-github-pages.sh

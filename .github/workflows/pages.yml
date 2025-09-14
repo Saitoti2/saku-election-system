@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy Static Site to Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -21,20 +21,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Copy frontend files
-        run: |
-          mkdir -p _site
-          cp -r saku-strategy/frontend/* _site/
-          # Copy the main index.html to root
-          cp index.html _site/
-
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: "."
 
   deploy:
     environment:

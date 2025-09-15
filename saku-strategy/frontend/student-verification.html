@@ -443,7 +443,7 @@
         
         async function loadStudentProfile() {
             try {
-                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${studentId}/`, {
+                const response = await fetch(`http://127.0.0.1:8000/api/profiles/${studentId}/`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },
@@ -560,7 +560,7 @@
             const notes = document.getElementById('verificationNotes').value;
             
             try {
-                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${studentId}/verify/`, {
+                const response = await fetch(`http://127.0.0.1:8000/api/profiles/${studentId}/verify/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -600,7 +600,7 @@
             }
             
             try {
-                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${studentId}/verify/`, {
+                const response = await fetch(`http://127.0.0.1:8000/api/profiles/${studentId}/verify/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -650,7 +650,7 @@
             
             try {
                 const tokenData = JSON.parse(tokens);
-                const response = await fetch('http://127.0.0.1:8001/api/auth/refresh/', {
+                const response = await fetch('http://127.0.0.1:8000/api/auth/refresh/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -679,7 +679,7 @@
                 const tokens = localStorage.getItem('saku_tokens');
                 if (tokens) {
                     const tokenData = JSON.parse(tokens);
-                    await fetch('http://127.0.0.1:8001/api/auth/logout/', {
+                    await fetch('http://127.0.0.1:8000/api/auth/logout/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

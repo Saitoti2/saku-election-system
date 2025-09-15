@@ -6,7 +6,7 @@ echo "🚀 Preparing SAKU Election System for Railway deployment..."
 
 # Check if we're in the right directory
 if [ ! -f "Procfile" ]; then
-    echo "❌ Error: Procfile not found. Make sure you're in the project root directory."
+    echo "❌ Error: Profile not found. Make sure you're in the project root directory."
     exit 1
 fi
 

@@ -16,6 +16,7 @@ MESSAGEBIRD_API_KEY=your_messagebird_api_key_here
 
 # Admin Configuration
 ADMIN_PHONE_NUMBER=+254769582779
+ADMIN_DASHBOARD_URL=http://localhost:5173/admin-dashboard-enhanced.html
 
 # Database Configuration (if needed)
 DATABASE_URL=sqlite:///db.sqlite3

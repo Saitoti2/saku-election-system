@@ -158,15 +158,8 @@ else:
     # Fallback: Allow all origins for development (not recommended for production)
     CORS_ALLOW_ALL_ORIGINS = True
 
-# REST Framework settings
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-    ],
-}
+# REST Framework settings (initial configuration)
+# Note: Final REST_FRAMEWORK configuration is defined below after JWT settings
 
 # Media files (for file uploads)
 MEDIA_URL = '/media/'
@@ -189,6 +182,7 @@ TWILIO_WHATSAPP_NUMBER = os.getenv('TWILIO_WHATSAPP_NUMBER', '+14155238886')
 
 # Admin Configuration
 ADMIN_PHONE_NUMBER = os.getenv('ADMIN_PHONE_NUMBER', '+254769582779')  # Your WhatsApp number
+ADMIN_DASHBOARD_URL = os.getenv('ADMIN_DASHBOARD_URL', 'http://localhost:5173/admin-dashboard-enhanced.html')
 
 # JWT Configuration
 from datetime import timedelta
@@ -219,12 +213,15 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-# REST Framework Configuration
+# REST Framework Configuration (Final)
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
     ],
 }

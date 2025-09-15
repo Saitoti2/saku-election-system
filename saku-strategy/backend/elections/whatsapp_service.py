@@ -155,8 +155,8 @@ Good luck! 🏆
             'SPECIAL_INTERESTS_SECRETARY': 'Special Interests Secretary'
         }.get(position, position) if position else user_type
         
-        # Admin dashboard URL
-        admin_url = "http://localhost:5173/admin-dashboard-enhanced.html"
+        # Admin dashboard URL (configurable)
+        admin_url = getattr(settings, 'ADMIN_DASHBOARD_URL', 'http://localhost:5173/admin-dashboard-enhanced.html')
         
         # Your exact message format
         message = f'"{reg_number}" has registered for "{position_display}" in the SAKU council. Kindly verify them.\n\n{admin_url}'
@@ -173,45 +173,6 @@ Good luck! 🏆
         
         # Use free WhatsApp link method
         return self._send_whatsapp_link(formatted_number, message)
-        
-        # Create admin dashboard URL (you'll need to replace with your actual domain)
-        admin_url = "http://localhost:5173/admin"  # Change this to your production URL
-        
-        # Create message content
-        user_type_display = {
-            'ASPIRANT': 'SAKU Council Aspirant',
-            'DELEGATE': 'Delegate',
-            'IECK': 'IECK Member'
-        }.get(user_type, user_type)
-        
-        message = f"""🚨 NEW SAKU REGISTRATION ALERT!
-
-📝 Student Details:
-• Name: {student_name}
-• Registration Number: {reg_number}
-• Registration Type: {user_type_display}"""
-        
-        if position:
-            position_display = {
-                'CHAIR': 'Chair (President)',
-                'VICE_CHAIR': 'Vice Chair',
-                'SECRETARY_GENERAL': 'Secretary General',
-                'FINANCE_SECRETARY': 'Finance Secretary',
-                'ACADEMIC_SECRETARY': 'Academic Secretary',
-                'SPORTS_SECRETARY': 'Sports Secretary',
-                'SPECIAL_INTERESTS_SECRETARY': 'Special Interests Secretary'
-            }.get(position, position)
-            message += f"\n• Position: {position_display}"
-        
-        message += f"""
-
-🔗 Admin Dashboard: {admin_url}
-
-⏰ Please review and verify the student's documents as soon as possible.
-
-- SAKU Election System"""
-        
-        return self._send_message(formatted_number, message)
     
     def send_rejection_notification(self, phone_number: str, full_name: str, reason: str = None) -> bool:
         """

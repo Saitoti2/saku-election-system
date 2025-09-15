@@ -504,7 +504,7 @@
         
         async function loadStatistics() {
             try {
-                const response = await fetch('http://127.0.0.1:8001/api/profiles/statistics/', {
+                const response = await fetch('http://127.0.0.1:8000/api/profiles/statistics/', {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },
@@ -534,7 +534,7 @@
         
         async function loadAllProfiles() {
             try {
-                const response = await fetch('http://127.0.0.1:8001/api/profiles/admin_all_profiles/', {
+                const response = await fetch('http://127.0.0.1:8000/api/profiles/admin_all_profiles/', {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },
@@ -719,7 +719,7 @@
             }
             
             try {
-                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${profileId}/verify/`, {
+                const response = await fetch(`http://127.0.0.1:8000/api/profiles/${profileId}/verify/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -749,7 +749,7 @@
             if (!reason) return;
             
             try {
-                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${profileId}/verify/`, {
+                const response = await fetch(`http://127.0.0.1:8000/api/profiles/${profileId}/verify/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

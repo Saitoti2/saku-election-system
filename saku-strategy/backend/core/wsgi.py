@@ -11,9 +11,9 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-# Use Railway settings if DATABASE_URL is present (Railway deployment)
+# Use production settings if DATABASE_URL is present (production deployment)
 if os.getenv('DATABASE_URL'):
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.railway_settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 else:
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 

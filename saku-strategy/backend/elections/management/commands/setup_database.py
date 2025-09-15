@@ -10,14 +10,21 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('Setting up database...')
         
-        # Run migrations
+        # Run migrations with syncdb
         self.stdout.write('Running migrations...')
         try:
-            call_command('migrate', verbosity=0)
+            call_command('migrate', '--run-syncdb', verbosity=2)
             self.stdout.write(self.style.SUCCESS('Migrations completed successfully'))
         except Exception as e:
             self.stdout.write(self.style.ERROR(f'Migration failed: {e}'))
-            return
+            # Try alternative approach
+            try:
+                self.stdout.write('Trying alternative migration approach...')
+                call_command('migrate', verbosity=2)
+                self.stdout.write(self.style.SUCCESS('Alternative migrations completed'))
+            except Exception as e2:
+                self.stdout.write(self.style.ERROR(f'Both migration approaches failed: {e2}'))
+                return
         
         # Check if database tables exist
         with connection.cursor() as cursor:

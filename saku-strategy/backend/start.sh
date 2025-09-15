@@ -3,17 +3,9 @@
 # Navigate to the backend directory
 cd saku-strategy/backend
 
-# Set up the database properly
-echo "Setting up database..."
-python manage.py setup_database
-
-# Run comprehensive system check
-echo "Running system check..."
-python check_system.py
-
-# Collect static files
-echo "Collecting static files..."
-python manage.py collectstatic --noinput
+# Run the deployment script
+echo "Running deployment setup..."
+python deploy.py
 
 # Start the application
 echo "Starting Gunicorn..."

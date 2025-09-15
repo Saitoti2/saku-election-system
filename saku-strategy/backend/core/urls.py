@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from django.http import JsonResponse, HttpResponse
 from django.views.generic import TemplateView
 import os
+from . import test_pages
 
 def health_check(request):
     import os
@@ -56,7 +57,11 @@ urlpatterns = [
     path('', health_check, name='health_check'),
     path('api/', include('elections.urls')),
     path('admin/', admin.site.urls),
-    
+
+    # Test pages for debugging
+    path('test-db/', test_pages.test_database, name='test_database'),
+    path('test-auth/', test_pages.test_auth, name='test_auth'),
+
     # Frontend pages
     path('login/', lambda r: serve_frontend_file(r, 'login-fixed.html'), name='login'),
     path('admin-dashboard/', lambda r: serve_frontend_file(r, 'admin-dashboard-enhanced.html'), name='admin_dashboard'),

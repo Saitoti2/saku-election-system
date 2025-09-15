@@ -22,11 +22,22 @@ from django.http import JsonResponse
 
 def health_check(request):
     import os
+    from django.db import connection
+    
+    # Test database connection
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+        db_status = "connected"
+    except Exception as e:
+        db_status = f"error: {str(e)}"
+    
     return JsonResponse({
         "status": "healthy", 
         "message": "Saku Election System is running",
         "port": os.getenv('PORT', '8000'),
-        "debug": os.getenv('DEBUG', 'False')
+        "debug": os.getenv('DEBUG', 'False'),
+        "database": db_status
     })
 
 urlpatterns = [

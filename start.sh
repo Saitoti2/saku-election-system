@@ -3,7 +3,7 @@
 # Navigate to the project directory
 cd "$(dirname "$0")"
 
-echo "🚀 Starting SAKU Election System deployment..."
+echo "🚀 Starting SAKU Election System deployment... [FORCE DEPLOYMENT]"
 
 # Set up the database
 echo "📊 Setting up database..."

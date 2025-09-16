@@ -11,7 +11,7 @@ python manage.py migrate
 
 # Create superuser if it doesn't exist
 echo "👤 Creating superuser..."
-python manage.py shell << EOF
+python manage.py shell << 'PYTHON_EOF'
 from django.contrib.auth import get_user_model
 User = get_user_model()
 if not User.objects.filter(username='admin').exists():
@@ -19,11 +19,15 @@ if not User.objects.filter(username='admin').exists():
     print('✅ Superuser created: admin/admin123')
 else:
     print('✅ Superuser already exists')
-EOF
+PYTHON_EOF
 
 # Collect static files
 echo "📁 Collecting static files..."
 python manage.py collectstatic --noinput
+
+# Test Django configuration
+echo "🔍 Testing Django configuration..."
+python manage.py check
 
 # Start the application
 echo "🌐 Starting Gunicorn server..."

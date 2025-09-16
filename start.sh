@@ -31,3 +31,4 @@ python manage.py collectstatic --noinput || echo "⚠️ collectstatic command n
 # Start the application
 echo "🌐 Starting Gunicorn server..."
 exec gunicorn core.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --timeout 300
+# Debugging update Wed Sep 17 01:26:22 EAT 2025

@@ -377,16 +377,16 @@
             <h3>📋 Admin Menu</h3>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="#" class="active" onclick="showDashboard()"><i>📊</i> Dashboard</a></li>
-            <li><a href="#" onclick="showAllProfiles()"><i>👥</i> All Students</a></li>
-            <li><a href="#" onclick="showPendingApprovals()"><i>⏳</i> Pending Approvals</a></li>
-            <li><a href="#" onclick="showApprovedStudents()"><i>✅</i> Approved Students</a></li>
-            <li><a href="#" onclick="showRejectedStudents()"><i>❌</i> Rejected Students</a></li>
-            <li><a href="#" onclick="showStatistics()"><i>📈</i> Statistics</a></li>
-            <li><a href="#" onclick="showAspirants()"><i>🎯</i> Aspirants</a></li>
-            <li><a href="#" onclick="showDelegates()"><i>👤</i> Delegates</a></li>
-            <li><a href="#" onclick="showIECKMembers()"><i>⚖️</i> IECK Members</a></li>
-            <li><a href="index.html" target="_blank"><i>🏠</i> Home Page</a></li>
+            <li><a href="/admin-dashboard/" class="active" onclick="showDashboard(); return false;"><i>📊</i> Dashboard</a></li>
+            <li><a href="/admin-dashboard/?view=all" onclick="showAllProfiles(); return false;"><i>👥</i> All Students</a></li>
+            <li><a href="/admin-dashboard/?view=pending" onclick="showPendingApprovals(); return false;"><i>⏳</i> Pending Approvals</a></li>
+            <li><a href="/admin-dashboard/?view=approved" onclick="showApprovedStudents(); return false;"><i>✅</i> Approved Students</a></li>
+            <li><a href="/admin-dashboard/?view=rejected" onclick="showRejectedStudents(); return false;"><i>❌</i> Rejected Students</a></li>
+            <li><a href="/admin-dashboard/?view=statistics" onclick="showStatistics(); return false;"><i>📈</i> Statistics</a></li>
+            <li><a href="/admin-dashboard/?view=aspirants" onclick="showAspirants(); return false;"><i>🎯</i> Aspirants</a></li>
+            <li><a href="/admin-dashboard/?view=delegates" onclick="showDelegates(); return false;"><i>👤</i> Delegates</a></li>
+            <li><a href="/admin-dashboard/?view=ieck" onclick="showIECKMembers(); return false;"><i>⚖️</i> IECK Members</a></li>
+            <li><a href="/home/" target="_blank"><i>🏠</i> Home Page</a></li>
         </ul>
     </div>
     
@@ -438,12 +438,55 @@
         // Check authentication on page load
         document.addEventListener('DOMContentLoaded', function() {
             checkAuthentication();
+            
+            // Handle URL parameters for view routing
+            handleURLParameters();
         });
+        
+        // Handle URL parameters for proper routing
+        function handleURLParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const view = urlParams.get('view');
+            
+            if (view) {
+                // Wait for authentication to complete before showing view
+                setTimeout(() => {
+                    switch(view) {
+                        case 'all':
+                            showAllProfiles();
+                            break;
+                        case 'pending':
+                            showPendingApprovals();
+                            break;
+                        case 'approved':
+                            showApprovedStudents();
+                            break;
+                        case 'rejected':
+                            showRejectedStudents();
+                            break;
+                        case 'statistics':
+                            showStatistics();
+                            break;
+                        case 'aspirants':
+                            showAspirants();
+                            break;
+                        case 'delegates':
+                            showDelegates();
+                            break;
+                        case 'ieck':
+                            showIECKMembers();
+                            break;
+                        default:
+                            showDashboard();
+                    }
+                }, 1000); // Wait for data to load
+            }
+        }
         
         function checkAuthentication() {
             const tokens = localStorage.getItem('saku_tokens');
             if (!tokens) {
-                window.location.href = 'login-fixed.html';
+                window.location.href = '/login/';
                 return;
             }
             
@@ -460,14 +503,14 @@
                     
                     if (!userProfile.is_admin) {
                         alert('Access denied. Admin privileges required.');
-                        window.location.href = 'personal-portal.html';
+                        window.location.href = '/portal/';
                         return;
                     }
                     document.getElementById('adminName').textContent = userProfile.full_name || userProfile.username;
                 } else {
                     console.log('No user profile found in localStorage');
                     alert('No user profile found. Please login again.');
-                    window.location.href = 'login-fixed.html';
+                    window.location.href = '/login/';
                     return;
                 }
                 
@@ -504,7 +547,7 @@
         
         async function loadStatistics() {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/profiles/statistics/', {
+                const response = await fetch('http://127.0.0.1:8000/api/dashboard/stats/', {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },
@@ -648,53 +691,68 @@
         // Menu functions
         function showDashboard() {
             setActiveMenu(0);
+            updateURL('');
             loadAdminData();
         }
         
         function showAllProfiles() {
             setActiveMenu(1);
+            updateURL('?view=all');
             displayProfiles(allProfiles);
         }
         
         function showPendingApprovals() {
             setActiveMenu(2);
+            updateURL('?view=pending');
             const pending = allProfiles.filter(p => p.vetting_status === 'PENDING' || p.vetting_status === 'NOT_STARTED');
             displayProfiles(pending);
         }
         
         function showApprovedStudents() {
             setActiveMenu(3);
+            updateURL('?view=approved');
             const approved = allProfiles.filter(p => p.vetting_status === 'PASSED');
             displayProfiles(approved);
         }
         
         function showRejectedStudents() {
             setActiveMenu(4);
+            updateURL('?view=rejected');
             const rejected = allProfiles.filter(p => p.vetting_status === 'FAILED');
             displayProfiles(rejected);
         }
         
         function showStatistics() {
             setActiveMenu(5);
+            updateURL('?view=statistics');
             loadStatistics();
         }
         
         function showAspirants() {
             setActiveMenu(6);
+            updateURL('?view=aspirants');
             const aspirants = allProfiles.filter(p => p.user_type === 'ASPIRANT');
             displayProfiles(aspirants);
         }
         
         function showDelegates() {
             setActiveMenu(7);
+            updateURL('?view=delegates');
             const delegates = allProfiles.filter(p => p.user_type === 'DELEGATE');
             displayProfiles(delegates);
         }
         
         function showIECKMembers() {
             setActiveMenu(8);
+            updateURL('?view=ieck');
             const ieck = allProfiles.filter(p => p.user_type === 'IECK');
             displayProfiles(ieck);
+        }
+        
+        // Update URL without page reload
+        function updateURL(queryString) {
+            const newURL = window.location.pathname + queryString;
+            window.history.pushState({}, '', newURL);
         }
         
         function setActiveMenu(index) {
@@ -825,8 +883,8 @@
                 localStorage.removeItem('saku_tokens');
                 localStorage.removeItem('saku_user_profile');
                 
-                // Redirect to login
-                window.location.href = 'login-fixed.html';
+                // Redirect to signup for new account creation
+                window.location.href = '/signup-complete/';
             }
         }
     </script>

@@ -409,7 +409,7 @@
         function checkAuthentication() {
             const tokens = localStorage.getItem('saku_tokens');
             if (!tokens) {
-                window.location.href = 'login-fixed.html';
+                window.location.href = '/login/';
                 return;
             }
             
@@ -423,7 +423,7 @@
                     const userProfile = JSON.parse(profile);
                     if (!userProfile.is_admin) {
                         alert('Access denied. Admin privileges required.');
-                        window.location.href = 'personal-portal.html';
+                        window.location.href = '/portal/';
                         return;
                     }
                 }
@@ -432,7 +432,7 @@
                     loadStudentProfile();
                 } else {
                     alert('No student ID provided');
-                    window.location.href = 'admin-dashboard-enhanced.html';
+                    window.location.href = '/admin-dashboard/';
                 }
                 
             } catch (error) {
@@ -693,7 +693,7 @@
             } finally {
                 localStorage.removeItem('saku_tokens');
                 localStorage.removeItem('saku_user_profile');
-                window.location.href = 'login-fixed.html';
+                window.location.href = '/signup-complete/';
             }
         }
     </script>

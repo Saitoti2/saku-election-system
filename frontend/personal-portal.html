@@ -590,7 +590,7 @@
         
         if (!tokens.access || !userProfile.id) {
             alert('Please login first');
-            window.location.href = 'login-fixed.html';
+            window.location.href = '/login/';
         }
         
         // Get user data from localStorage (using correct keys)
@@ -686,7 +686,7 @@
                     console.log('Available tokens:', tokens);
                     console.log('Available userProfile:', userProfile);
                     alert('Please login first');
-                    window.location.href = 'login-fixed.html';
+                    window.location.href = '/login/';
                     return;
                 }
                 
@@ -734,13 +734,13 @@
                         } else {
                             console.log('❌ Token refresh failed, redirecting to login');
                             alert('Session expired. Please login again.');
-                            window.location.href = 'login-fixed.html';
+                            window.location.href = '/login/';
                             return;
                         }
                     } catch (refreshError) {
                         console.error('❌ Token refresh error:', refreshError);
                         alert('Session expired. Please login again.');
-                        window.location.href = 'login-fixed.html';
+                        window.location.href = '/login/';
                         return;
                     }
                 }
@@ -802,7 +802,7 @@
                     
                     if (response.status === 401) {
                         alert('Authentication failed. Please login again.');
-                        window.location.href = 'login-fixed.html';
+                        window.location.href = '/login/';
                         return;
                     }
                     
@@ -959,7 +959,7 @@
                 // User hasn't registered yet - redirect to registration page
                 console.log('❌ User has not registered for elections yet. Redirecting to registration page...');
                 alert('You need to complete your election registration first. Redirecting to registration page...');
-                window.location.href = 'election-registration.html';
+                window.location.href = '/register/';
             }
         }
         
@@ -1135,7 +1135,7 @@
             localStorage.removeItem('saku_logged_in');
             localStorage.removeItem('saku_user');
             localStorage.removeItem('saku_registration');
-            window.location.href = 'login-fixed.html';
+            window.location.href = '/signup-complete/';
         }
     </script>
 </body>

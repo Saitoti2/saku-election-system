@@ -1,1 +1,1 @@
-web: ./saku-strategy/backend/start.sh
+web: ./start.sh

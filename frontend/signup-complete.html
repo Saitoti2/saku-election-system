@@ -324,52 +324,36 @@
             </form>
             
             <div class="footer">
-                <p>Already have an account? <a href="login-fixed.html">Sign In</a></p>
+                <p>Already have an account? <a href="/login/">Sign In</a></p>
                 <p>© 2024 SAKU - Student's Association of KCA University</p>
             </div>
         </div>
     </div>
 
     <script>
-        // Course data
-        const courses = [
-            // School of Business
-            { id: 89, name: "Certificate in Business Management", department: "Department of Business Administration and Management", faculty: "School of Business" },
-            { id: 90, name: "Certificate in Procurement and Logistics", department: "Department of Business Administration and Management", faculty: "School of Business" },
-            { id: 91, name: "Diploma in Business Management", department: "Department of Business Administration and Management", faculty: "School of Business" },
-            { id: 92, name: "Diploma in Procurement and Logistics", department: "Department of Business Administration and Management", faculty: "School of Business" },
-            { id: 93, name: "Diploma in Public Management", department: "Department of Business Administration and Management", faculty: "School of Business" },
-            { id: 94, name: "Bachelor in International Business Management", department: "Department of Business Administration and Management", faculty: "School of Business" },
-            { id: 95, name: "Bachelor of Commerce", department: "Department of Finance & Accounting", faculty: "School of Business" },
-            { id: 96, name: "Bachelor of Science in Economics and Statistics", department: "Department of Economics & Statistics", faculty: "School of Business" },
-            
-            // School of Technology
-            { id: 97, name: "Certificate in Information Technology", department: "Department of Software Development & Information Systems", faculty: "School of Technology" },
-            { id: 98, name: "Diploma in Information Technology", department: "Department of Software Development & Information Systems", faculty: "School of Technology" },
-            { id: 99, name: "Bachelor of Science in Software Development", department: "Department of Software Development & Information Systems", faculty: "School of Technology" },
-            { id: 100, name: "Bachelor of Science in Information Technology", department: "Department of Software Development & Information Systems", faculty: "School of Technology" },
-            { id: 101, name: "Bachelor of Science in Data Science", department: "Department of Data Science & Artificial Intelligence", faculty: "School of Technology" },
-            { id: 102, name: "Bachelor of Science in Artificial Intelligence", department: "Department of Data Science & Artificial Intelligence", faculty: "School of Technology" },
-            
-            // School of Education, Arts & Social Sciences
-            { id: 103, name: "Certificate in Education", department: "Department of Education", faculty: "School of Education, Arts & Social Sciences" },
-            { id: 104, name: "Diploma in Education", department: "Department of Education", faculty: "School of Education, Arts & Social Sciences" },
-            { id: 105, name: "Bachelor of Education", department: "Department of Education", faculty: "School of Education, Arts & Social Sciences" },
-            { id: 106, name: "Bachelor of Arts in Social Work", department: "Department of Social Sciences", faculty: "School of Education, Arts & Social Sciences" },
-            { id: 107, name: "Bachelor of Arts in Film Technology", department: "Department of Film Technology and Performing Arts", faculty: "School of Education, Arts & Social Sciences" },
-            
-            // School of Journalism and Digital Media
-            { id: 108, name: "Certificate in Journalism", department: "Department of Journalism and Digital Media", faculty: "School of Journalism and Digital Media" },
-            { id: 109, name: "Diploma in Journalism", department: "Department of Journalism and Digital Media", faculty: "School of Journalism and Digital Media" },
-            { id: 110, name: "Bachelor of Arts in Journalism", department: "Department of Journalism and Digital Media", faculty: "School of Journalism and Digital Media" },
-            { id: 111, name: "Bachelor of Science in Digital Marketing", department: "Department of Digital Media", faculty: "School of Journalism and Digital Media" },
-            { id: 112, name: "Bachelor of Arts in Communication", department: "Department of Communication", faculty: "School of Journalism and Digital Media" }
-        ];
+        // Course data - will be loaded from API
+        let courses = [];
+        let allCoursesLoaded = false;
 
         let selectedCourse = null;
 
-        // Course search functionality
-        document.getElementById('course_search').addEventListener('input', function() {
+        // Load all courses from API
+        async function loadAllCourses() {
+            try {
+                const response = await fetch('/search-courses/?q=');
+                const data = await response.json();
+                courses = data.courses || [];
+                allCoursesLoaded = true;
+                console.log(`Loaded ${courses.length} courses from database`);
+            } catch (error) {
+                console.error('Error loading courses:', error);
+                // Fallback to empty array
+                courses = [];
+            }
+        }
+
+        // Course search functionality with API integration
+        document.getElementById('course_search').addEventListener('input', async function() {
             const searchTerm = this.value.toLowerCase();
             const dropdown = document.getElementById('courseDropdown');
             
@@ -378,9 +362,15 @@
                 return;
             }
             
+            // If we haven't loaded all courses yet, load them first
+            if (!allCoursesLoaded) {
+                await loadAllCourses();
+            }
+            
+            // Filter courses locally for better performance
             const filteredCourses = courses.filter(course => 
-                course.name.toLowerCase().includes(searchTerm) ||
-                course.department.toLowerCase().includes(searchTerm) ||
+                course.name.toLowerCase().includes(searchTerm) || 
+                course.department.toLowerCase().includes(searchTerm) || 
                 course.faculty.toLowerCase().includes(searchTerm)
             );
             
@@ -393,7 +383,8 @@
                 `).join('');
                 dropdown.style.display = 'block';
             } else {
-                dropdown.style.display = 'none';
+                dropdown.innerHTML = '<div class="course-option" style="color: #666; cursor: default;">No courses found</div>';
+                dropdown.style.display = 'block';
             }
         });
 
@@ -483,7 +474,22 @@
                     access: data.access,
                     refresh: data.refresh
                 }));
-                localStorage.setItem('saku_user_profile', JSON.stringify(data.profile));
+                
+                // Store user profile with course information
+                const profileWithCourse = {
+                    ...data.profile,
+                    course: {
+                        id: selectedCourse.id,
+                        name: selectedCourse.name,
+                        department: selectedCourse.department,
+                        faculty: selectedCourse.faculty,
+                        department_code: selectedCourse.department_code,
+                        faculty_code: selectedCourse.faculty_code
+                    }
+                };
+                
+                localStorage.setItem('saku_user_profile', JSON.stringify(profileWithCourse));
+                localStorage.setItem('saku_user_data', JSON.stringify(profileWithCourse)); // For backward compatibility
                 
                 submitBtn.innerHTML = '✅ Account Created Successfully!';
                 submitBtn.style.background = '#28a745';
@@ -503,7 +509,7 @@
                 
                 // Redirect to election registration page after 3 seconds
                 setTimeout(() => {
-                    window.location.href = 'election-registration.html';
+                    window.location.href = '/register/';
                 }, 3000);
                 
             } catch (error) {

@@ -1,108 +1,198 @@
-# SAKU Election System
+# 🗳️ SAKU Election System
 
-A comprehensive election management system for SAKU (Saku University) built with Django REST Framework and modern web technologies.
+A comprehensive Django-based election management system for KCA University's Student Association (SAKU) Council elections.
 
-## Features
+## 🚀 Features
 
-- **Student Registration & Verification**: Document-based student verification system
-- **Election Management**: Complete election lifecycle management
-- **WhatsApp Integration**: Automated notifications via WhatsApp API
-- **Admin Dashboard**: Comprehensive admin interface for election oversight
-- **JWT Authentication**: Secure API authentication
-- **Responsive Frontend**: Modern, mobile-friendly user interface
+### 👥 User Management
+- **Student Registration** - Complete profile creation with academic details
+- **Council Aspirant Registration** - Position-specific applications with document uploads
+- **Delegate Management** - Department representative registration
+- **Admin Dashboard** - Complete election management interface
 
-## Technology Stack
+### 📋 Document Management
+- **Required Documents**:
+  - School fees clearance (80%+)
+  - Last 2 semester results (PDFs)
+  - Current semester course registration
+  - Certificate of good conduct
+  - School ID image
+  - Last 2 semester transcripts
 
-- **Backend**: Django 4.2, Django REST Framework, JWT Authentication
-- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
-- **Database**: SQLite (development), PostgreSQL (production)
-- **External APIs**: WhatsApp Business API, Twilio
+### 🔐 Authentication & Security
+- **JWT Authentication** - Secure token-based login
+- **Role-based Access** - Student, Aspirant, Delegate, IECK, Admin roles
+- **Document Validation** - File type and size validation
+- **Secure File Uploads** - Organized document storage
+
+### 📱 WhatsApp Integration
+- **Verification Notifications** - Automatic status updates
+- **Admin Alerts** - New registration notifications
+- **Reminder System** - Incomplete application reminders
+- **Dual Provider Support** - Meta Business API + Twilio fallback
+
+### 🎨 Modern UI/UX
+- **Responsive Design** - Works on all devices
+- **Beautiful Interface** - Modern, professional design
+- **Real-time Validation** - Instant form feedback
+- **Progress Tracking** - Application status monitoring
+
+## 🏗️ Technical Stack
+
+- **Backend**: Django 4.2 + Django REST Framework
+- **Database**: PostgreSQL (Render's free tier)
+- **Authentication**: JWT (djangorestframework-simplejwt)
+- **File Storage**: Local + Render static files
 - **Deployment**: Render.com
+- **Frontend**: HTML5 + CSS3 + JavaScript
+- **Notifications**: WhatsApp API + Twilio
 
-## Quick Start
+## 🚀 Quick Deploy to Render
 
-### Local Development
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Saitoti2/saku-election-system.git
-   cd saku-election-system
-   ```
-
-2. **Set up the backend**
-   ```bash
-   cd saku-strategy/backend
-   pip install -r requirements.txt
-   python manage.py migrate
-   python manage.py runserver
-   ```
-
-3. **Set up the frontend**
-   ```bash
-   cd ../frontend
-   python serve.py
-   ```
-
-4. **Access the application**
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:8000
-   - Admin Panel: http://localhost:8000/admin
-
-## Deployment on Render
-
-This application is configured for easy deployment on Render.com:
-
-### Environment Variables Required
-
+### 1. Fork/Clone Repository
+```bash
+git clone <your-repo-url>
+cd SAKU-Election-System-Render
 ```
+
+### 2. Deploy to Render
+1. Go to [Render.com](https://render.com)
+2. Create new **Web Service**
+3. Connect your GitHub repository
+4. Use these settings:
+
+**Build Command:**
+```bash
+pip install -r requirements.txt
+```
+
+**Start Command:**
+```bash
+./start.sh
+```
+
+### 3. Add PostgreSQL Database
+1. Create new **PostgreSQL** database on Render
+2. Copy the **External Database URL**
+3. Add as environment variable: `DATABASE_URL`
+
+### 4. Environment Variables
+Add these in Render dashboard:
+
+```env
+DATABASE_URL=postgresql://user:pass@host:port/dbname
 SECRET_KEY=your-secret-key-here
-DJANGO_SETTINGS_MODULE=core.settings
 DEBUG=False
-ALLOWED_HOSTS=*.onrender.com
+ALLOWED_HOSTS=your-app-name.onrender.com
+
+# WhatsApp Configuration (Optional)
+WHATSAPP_API_URL=https://graph.facebook.com/v18.0
+WHATSAPP_API_TOKEN=your-whatsapp-token
+WHATSAPP_PHONE_NUMBER_ID=your-phone-number-id
+ADMIN_PHONE_NUMBER=+254769582779
+
+# Twilio Configuration (Optional)
+TWILIO_ACCOUNT_SID=your-twilio-sid
+TWILIO_AUTH_TOKEN=your-twilio-token
+TWILIO_WHATSAPP_NUMBER=+14155238886
 ```
 
-### Render Configuration
+### 5. Deploy! 🎉
+Click **Deploy** and wait for the magic to happen!
 
-- **Build Command**: `cd saku-strategy/backend && pip install -r requirements.txt`
-- **Start Command**: `cd saku-strategy/backend && python manage.py migrate && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT`
+## 🔑 Default Login
 
-## Project Structure
+After deployment, access the admin panel:
+- **URL**: `https://your-app.onrender.com/admin/`
+- **Username**: `admin`
+- **Password**: `admin123`
 
+## 📱 Frontend Pages
+
+- **Login**: `/login/`
+- **Registration**: `/register/`
+- **Admin Dashboard**: `/admin-dashboard/`
+- **Student Portal**: `/portal/`
+- **Verification**: `/verify/`
+- **Signup Complete**: `/signup-complete/`
+
+## 🔌 API Endpoints
+
+- **Authentication**: `/api/auth/login/`, `/api/auth/register/`
+- **User Profiles**: `/api/profiles/`
+- **Academic Data**: `/api/faculties/`, `/api/departments/`, `/api/courses/`
+- **Delegates**: `/api/delegates/`
+- **Dashboard Stats**: `/api/dashboard/stats/`
+
+## 🎯 Council Positions
+
+- **Chair (President)**
+- **Vice Chair**
+- **Secretary General**
+- **Finance Secretary**
+- **Academic Secretary**
+- **Sports Secretary**
+- **Special Interests Secretary**
+
+## 📊 User Types
+
+- **STUDENT** - Regular student
+- **ASPIRANT** - Council position candidate
+- **DELEGATE** - Department representative
+- **IECK** - Independent Electoral Commission of Kenya member
+- **ADMIN** - System administrator
+
+## 🔄 Workflow
+
+1. **Student Registration** → Complete profile with documents
+2. **Admin Review** → Verify documents and eligibility
+3. **WhatsApp Notification** → Status update sent to student
+4. **Election Process** → Qualified candidates proceed
+5. **Results Management** → Track and manage election results
+
+## 🛠️ Development
+
+### Local Setup
+```bash
+# Clone repository
+git clone <repo-url>
+cd SAKU-Election-System-Render
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run migrations
+python manage.py migrate
+
+# Create superuser
+python manage.py createsuperuser
+
+# Start development server
+python manage.py runserver
 ```
-saku-strategy/
-├── backend/                 # Django backend
-│   ├── core/               # Django project settings
-│   ├── elections/          # Main election app
-│   ├── scripts/            # Utility scripts
-│   └── manage.py
-└── frontend/               # Frontend HTML files
-    ├── index.html          # Landing page
-    ├── login-fixed.html    # Login page
-    ├── admin-dashboard-enhanced.html
-    └── ...                 # Other pages
+
+### Environment Variables (Local)
+Create `.env` file:
+```env
+SECRET_KEY=your-secret-key
+DEBUG=True
+DATABASE_URL=sqlite:///db.sqlite3
 ```
 
-## API Endpoints
+## 📞 Support
 
-- `POST /api/auth/login/` - User login
-- `POST /api/auth/register/` - User registration
-- `GET /api/elections/` - List elections
-- `POST /api/elections/` - Create election
-- `GET /api/students/` - List students
-- `POST /api/students/verify/` - Verify student documents
+For technical support or questions:
+- **Email**: admin@saku.ac.ke
+- **WhatsApp**: +254769582779
 
-## Contributing
+## 📄 License
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+© 2024 SAKU - Student's Association of KCA University
 
-## License
+---
 
-This project is licensed under the MIT License.
-
-## Support
-
-For support and questions, please contact the development team.
+**Built with ❤️ for KCA University Students**

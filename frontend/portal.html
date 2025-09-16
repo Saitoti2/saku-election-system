@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAKU Election System - Student Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .welcome-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .welcome-card h2 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        
+        .election-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .election-card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .election-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .election-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .election-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.draft {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.completed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .error {
+            color: #e74c3c;
+            padding: 1rem;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SAKU Election System - Student Portal</h1>
+        <div class="user-info">
+            <span id="userName">Loading...</span>
+            <button onclick="logout()" class="btn btn-danger">Logout</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="welcome-card">
+            <h2>Welcome to SAKU Elections!</h2>
+            <p>Participate in student elections and make your voice heard.</p>
+            <div id="userStatus"></div>
+        </div>
+        
+        <div class="section">
+            <h2>Available Elections</h2>
+            <div id="electionsList">
+                <div class="loading">Loading elections...</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>My Profile</h2>
+            <div id="profileInfo">
+                <div class="loading">Loading profile...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let accessToken = localStorage.getItem('access_token');
+        let user = JSON.parse(localStorage.getItem('user') || '{}');
+        
+        // Check authentication
+        if (!accessToken) {
+            window.location.href = '/login/';
+        }
+        
+        // Display user info
+        document.getElementById('userName').textContent = user.username || 'Student';
+        
+        // API helper function
+        async function apiCall(url, options = {}) {
+            const response = await fetch(url, {
+                ...options,
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                }
+            });
+            
+            if (response.status === 401) {
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                localStorage.removeItem('user');
+                window.location.href = '/login/';
+                return null;
+            }
+            
+            return response;
+        }
+        
+        // Load portal data
+        async function loadPortal() {
+            try {
+                // Load elections
+                const electionsRes = await apiCall('/api/elections/');
+                if (electionsRes) {
+                    const elections = await electionsRes.json();
+                    displayElections(elections);
+                }
+                
+                // Display profile info
+                displayProfile();
+                
+            } catch (error) {
+                console.error('Error loading portal:', error);
+                document.getElementById('electionsList').innerHTML = 
+                    '<div class="error">Error loading portal data. Please refresh the page.</div>';
+            }
+        }
+        
+        function displayElections(elections) {
+            if (elections.length === 0) {
+                document.getElementById('electionsList').innerHTML = 
+                    '<div class="no-data">No elections available at the moment.</div>';
+                return;
+            }
+            
+            const electionsHtml = elections.map(election => `
+                <div class="election-card">
+                    <h3>${election.title}</h3>
+                    <p>${election.description}</p>
+                    <div class="election-meta">
+                        <div>
+                            <strong>Start:</strong> ${new Date(election.start_date).toLocaleDateString()}<br>
+                            <strong>End:</strong> ${new Date(election.end_date).toLocaleDateString()}
+                        </div>
+                        <span class="status ${election.status}">${election.status}</span>
+                    </div>
+                    ${election.status === 'active' ? 
+                        `<button class="btn btn-success" onclick="viewElection(${election.id})">View & Vote</button>` :
+                        `<button class="btn btn-primary" onclick="viewElection(${election.id})">View Details</button>`
+                    }
+                </div>
+            `).join('');
+            
+            document.getElementById('electionsList').innerHTML = electionsHtml;
+        }
+        
+        function displayProfile() {
+            const profile = user.profile || {};
+            const profileHtml = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <div>
+                        <strong>Username:</strong> ${user.username}
+                    </div>
+                    <div>
+                        <strong>Email:</strong> ${user.email}
+                    </div>
+                    <div>
+                        <strong>Student ID:</strong> ${profile.student_id || 'Not provided'}
+                    </div>
+                    <div>
+                        <strong>Phone:</strong> ${profile.phone_number || 'Not provided'}
+                    </div>
+                    <div>
+                        <strong>User Type:</strong> ${profile.user_type || 'Student'}
+                    </div>
+                    <div>
+                        <strong>Verified:</strong> ${profile.is_verified ? 'Yes' : 'No'}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('profileInfo').innerHTML = profileHtml;
+            
+            // Update user status
+            const statusHtml = profile.is_verified ? 
+                '<div style="color: #27ae60; font-weight: bold;">✓ Account Verified</div>' :
+                '<div style="color: #f39c12; font-weight: bold;">⚠ Account Pending Verification</div>';
+            document.getElementById('userStatus').innerHTML = statusHtml;
+        }
+        
+        function viewElection(electionId) {
+            // This would open a modal or navigate to election details
+            alert(`Viewing election ${electionId}. This feature will be implemented in the next version.`);
+        }
+        
+        function logout() {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('user');
+            window.location.href = '/login/';
+        }
+        
+        // Load portal on page load
+        loadPortal();
+    </script>
+</body>
+</html>

@@ -24,9 +24,9 @@ except Exception as e:
     print(f'⚠️ Superuser creation failed: {e}')
 PYTHON_EOF
 
-# Collect static files
+# Collect static files (skip if command not found)
 echo "📁 Collecting static files..."
-python manage.py collectstatic --noinput
+python manage.py collectstatic --noinput || echo "⚠️ collectstatic command not found, skipping..."
 
 # Start the application
 echo "🌐 Starting Gunicorn server..."

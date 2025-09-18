@@ -1,17 +1,25 @@
+#!/usr/bin/env python
 """
-WSGI entry point for Render deployment.
-This file redirects to the Django WSGI application.
+Simple Flask-like app for Railway deployment
 """
-
 import os
 import sys
+import django
+from django.core.wsgi import get_wsgi_application
 
-# Add the backend directory to the Python path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'saku-strategy', 'backend'))
+# Add the project directory to Python path
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# Set the Django settings module
+# Set Django settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
-# Import and expose the Django WSGI application
-from django.core.wsgi import get_wsgi_application
-app = get_wsgi_application()
+# Initialize Django
+django.setup()
+
+# Get the WSGI application
+application = get_wsgi_application()
+
+if __name__ == '__main__':
+    # For local development
+    from django.core.management import execute_from_command_line
+    execute_from_command_line(sys.argv)

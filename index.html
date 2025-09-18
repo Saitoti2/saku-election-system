@@ -158,7 +158,7 @@
             <h1>🗳️ SAKU Election System</h1>
             <p>Student's Association of KCA University</p>
             <p>Election Management Platform</p>
-            <div class="status-badge">✅ SYSTEM LIVE & READY</div>
+            <div class="status-badge">✅ SYSTEM READY</div>
         </div>
 
         <div class="features">
@@ -195,31 +195,31 @@
             <div class="card">
                 <h3>🎓 Student Portal</h3>
                 <p>Students can register for council positions, upload documents, and track their application status throughout the election process.</p>
-                <a href="saku-strategy/frontend/index.html" class="btn">Access Student Portal</a>
+                <a href="http://localhost:5173" class="btn">Access Student Portal</a>
             </div>
 
             <div class="card">
                 <h3>👨‍💼 Admin Dashboard</h3>
                 <p>Administrators can manage elections, verify student documents, monitor registrations, and oversee the entire election process.</p>
-                <a href="saku-strategy/frontend/admin-dashboard-enhanced.html" class="btn">Admin Access</a>
+                <a href="http://localhost:8001/admin/" class="btn">Admin Access</a>
             </div>
 
             <div class="card">
                 <h3>📝 Election Registration</h3>
                 <p>Register for council positions with document uploads and verification system. Choose your preferred leadership role.</p>
-                <a href="saku-strategy/frontend/election-registration.html" class="btn">Register Now</a>
+                <a href="http://localhost:5173" class="btn">Register Now</a>
             </div>
 
             <div class="card">
                 <h3>✅ Document Verification</h3>
                 <p>Upload and verify required documents for election eligibility. Track verification status in real-time.</p>
-                <a href="saku-strategy/frontend/student-verification.html" class="btn">Verify Documents</a>
+                <a href="http://localhost:5173" class="btn">Verify Documents</a>
             </div>
 
             <div class="card">
                 <h3>👤 Personal Portal</h3>
                 <p>View your uploaded documents, track verification status, and manage your election application details.</p>
-                <a href="saku-strategy/frontend/personal-portal.html" class="btn">My Portal</a>
+                <a href="http://localhost:5173" class="btn">My Portal</a>
             </div>
 
             <div class="card">
@@ -232,9 +232,9 @@
         <div class="footer">
             <p><strong>© 2024 SAKU Election System</strong></p>
             <p>Student's Association of KCA University</p>
-            <p>🚀 Powered by Django & GitHub Pages | 🔄 Auto-updates enabled</p>
+            <p>🚀 Ready for your presentation! | 🔄 Auto-updates enabled</p>
             <p style="margin-top: 15px; font-size: 0.9rem;">
-                <strong>System Status:</strong> ✅ Live | <strong>Uptime:</strong> 99.9% | <strong>Security:</strong> HTTPS Enabled
+                <strong>System Status:</strong> ✅ Ready | <strong>Access:</strong> Local Development | <strong>Security:</strong> HTTPS Ready
             </p>
         </div>
     </div>
@@ -242,19 +242,6 @@
     <script>
         // Add some interactive features
         document.addEventListener('DOMContentLoaded', function() {
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-
             // Add click tracking
             const buttons = document.querySelectorAll('.btn');
             buttons.forEach(button => {

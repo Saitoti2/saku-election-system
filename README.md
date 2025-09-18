@@ -1,108 +1,56 @@
-# SAKU Election System
+# 🗳️ SAKU Election System
 
-A comprehensive election management system for SAKU (Saku University) built with Django REST Framework and modern web technologies.
+Student's Association of KCA University - Election Management Platform
 
-## Features
+## 🚀 Quick Start (2 minutes)
 
-- **Student Registration & Verification**: Document-based student verification system
-- **Election Management**: Complete election lifecycle management
-- **WhatsApp Integration**: Automated notifications via WhatsApp API
-- **Admin Dashboard**: Comprehensive admin interface for election oversight
-- **JWT Authentication**: Secure API authentication
-- **Responsive Frontend**: Modern, mobile-friendly user interface
-
-## Technology Stack
-
-- **Backend**: Django 4.2, Django REST Framework, JWT Authentication
-- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
-- **Database**: SQLite (development), PostgreSQL (production)
-- **External APIs**: WhatsApp Business API, Twilio
-- **Deployment**: Render.com
-
-## Quick Start
-
-### Local Development
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Saitoti2/saku-election-system.git
-   cd saku-election-system
-   ```
-
-2. **Set up the backend**
-   ```bash
-   cd saku-strategy/backend
-   pip install -r requirements.txt
-   python manage.py migrate
-   python manage.py runserver
-   ```
-
-3. **Set up the frontend**
-   ```bash
-   cd ../frontend
-   python serve.py
-   ```
-
-4. **Access the application**
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:8000
-   - Admin Panel: http://localhost:8000/admin
-
-## Deployment on Render
-
-This application is configured for easy deployment on Render.com:
-
-### Environment Variables Required
-
-```
-SECRET_KEY=your-secret-key-here
-DJANGO_SETTINGS_MODULE=core.settings
-DEBUG=False
-ALLOWED_HOSTS=*.onrender.com
+### Option 1: Local Development
+```bash
+# Start the system locally
+./start.sh
 ```
 
-### Render Configuration
-
-- **Build Command**: `cd saku-strategy/backend && pip install -r requirements.txt`
-- **Start Command**: `cd saku-strategy/backend && python manage.py migrate && gunicorn core.wsgi:application --bind 0.0.0.0:$PORT`
-
-## Project Structure
-
-```
-saku-strategy/
-├── backend/                 # Django backend
-│   ├── core/               # Django project settings
-│   ├── elections/          # Main election app
-│   ├── scripts/            # Utility scripts
-│   └── manage.py
-└── frontend/               # Frontend HTML files
-    ├── index.html          # Landing page
-    ├── login-fixed.html    # Login page
-    ├── admin-dashboard-enhanced.html
-    └── ...                 # Other pages
+### Option 2: Minimal Setup
+```bash
+# Start minimal version
+./start_minimal.sh
 ```
 
-## API Endpoints
+## 🌐 Access Your System
 
-- `POST /api/auth/login/` - User login
-- `POST /api/auth/register/` - User registration
-- `GET /api/elections/` - List elections
-- `POST /api/elections/` - Create election
-- `GET /api/students/` - List students
-- `POST /api/students/verify/` - Verify student documents
+### Frontend (Student Portal)
+- **URL**: http://localhost:5173
+- **Features**: Student registration, document upload, personal portal
 
-## Contributing
+### Backend (Admin Dashboard)
+- **URL**: http://localhost:8001
+- **Features**: Admin dashboard, document verification, statistics
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+## 📱 Features
 
-## License
+- ✅ **Student Registration** - Easy signup and profile management
+- ✅ **Election Registration** - Council position registration
+- ✅ **Document Verification** - Upload and verify required documents
+- ✅ **Admin Dashboard** - Complete election management
+- ✅ **WhatsApp Notifications** - Automated status updates
+- ✅ **Mobile Responsive** - Works on all devices
 
-This project is licensed under the MIT License.
+## 🎯 For Your Presentation
 
-## Support
+1. **Start the system**: `./start.sh`
+2. **Open browser**: http://localhost:5173
+3. **Demo features**: Student portal, admin dashboard, mobile responsiveness
+4. **Show auto-updates**: Push to GitHub = live updates
 
-For support and questions, please contact the development team.
+## 🔧 System Requirements
+
+- Python 3.9+
+- pip
+- Modern web browser
+
+## 📞 Support
+
+For technical support or questions, contact the development team.
+
+---
+**Your SAKU Election System is ready for the KCA University student community!** 🎉

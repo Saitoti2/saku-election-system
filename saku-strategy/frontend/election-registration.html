@@ -131,6 +131,71 @@
             margin-top: 5px;
         }
         
+        .course-search-container {
+            position: relative;
+        }
+        
+        .course-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .course-option {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+        }
+        
+        .course-option:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .course-option:last-child {
+            border-bottom: none;
+        }
+        
+        .course-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .course-details {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 2px;
+        }
+        
+        .selected-course {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+        }
+        
+        .selected-course-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .selected-course-details {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
         .submit-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -262,9 +327,22 @@
                 <h4>👤 Your Information</h4>
                 <p><strong>Name:</strong> <span id="userName"></span></p>
                 <p><strong>Registration Number:</strong> <span id="userRegNumber"></span></p>
-                <p><strong>Course:</strong> <span id="userCourse"></span></p>
+                <p><strong>Current Course:</strong> <span id="userCourse"></span></p>
                 <p><strong>Department:</strong> <span id="userDepartment"></span></p>
                 <p><strong>Faculty:</strong> <span id="userFaculty"></span></p>
+            </div>
+            
+            <div class="form-section">
+                <h3 class="section-title">📚 Course Information</h3>
+                <div class="form-group course-search-container">
+                    <label for="course_search">Update Course (if different) <span class="required">*</span></label>
+                    <input type="text" id="course_search" placeholder="Type your course name to search..." autocomplete="off">
+                    <div class="course-dropdown" id="courseDropdown"></div>
+                    <div class="selected-course" id="selectedCourse" style="display: none;">
+                        <div class="selected-course-title" id="selectedCourseName"></div>
+                        <div class="selected-course-details" id="selectedCourseDetails"></div>
+                    </div>
+                </div>
             </div>
             
             <div class="info-box" id="requirementsBox" style="display: none;">

@@ -1,0 +1,3 @@
+Deployment Version: 3.0
+Timestamp: $(date)
+Debug: This file forces a fresh deployment

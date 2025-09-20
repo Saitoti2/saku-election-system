@@ -685,8 +685,9 @@
                     console.log('❌ Missing tokens or user profile');
                     console.log('Available tokens:', tokens);
                     console.log('Available userProfile:', userProfile);
-                    alert('Please login first');
-                    window.location.href = 'login-fixed.html';
+                    
+                    // Show a helpful message instead of just redirecting
+                    showNoAuthMessage();
                     return;
                 }
                 
@@ -1136,6 +1137,35 @@
             localStorage.removeItem('saku_user');
             localStorage.removeItem('saku_registration');
             window.location.href = 'login-fixed.html';
+        }
+
+        function showNoAuthMessage() {
+            // Update the main content area to show a helpful message
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) {
+                mainContent.innerHTML = `
+                    <div style="text-align: center; padding: 50px; background: #f8f9fa; border-radius: 8px; margin: 20px;">
+                        <h2 style="color: #6c757d; margin-bottom: 20px;">🔐 Authentication Required</h2>
+                        <p style="color: #6c757d; margin-bottom: 30px;">You need to log in to access your personal portal.</p>
+                        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <button onclick="window.location.href='login-fixed.html'" style="background: #007bff; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
+                                🔐 Login
+                            </button>
+                            <button onclick="window.location.href='quick-login-test.html'" style="background: #28a745; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
+                                🧪 Quick Login Test
+                            </button>
+                            <button onclick="window.location.href='signup.html'" style="background: #6c757d; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
+                                📝 Sign Up
+                            </button>
+                        </div>
+                        <div style="margin-top: 30px; padding: 20px; background: #e9ecef; border-radius: 6px; text-align: left;">
+                            <h4 style="margin-top: 0;">💡 Test Credentials:</h4>
+                            <p><strong>Username:</strong> testuser123</p>
+                            <p><strong>Password:</strong> testpass123</p>
+                        </div>
+                    </div>
+                `;
+            }
         }
     </script>
 </body>

@@ -172,7 +172,8 @@
                 return;
             }
             
-            // Redirect to complete signup form
+            // Store basic form data and redirect to complete signup form
+            localStorage.setItem('signup_basic_data', JSON.stringify(data));
             window.location.href = 'signup-complete.html';
         });
     </script>

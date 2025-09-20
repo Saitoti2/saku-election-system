@@ -373,6 +373,9 @@
             const searchTerm = this.value.toLowerCase();
             const dropdown = document.getElementById('courseDropdown');
             
+            console.log('🔍 Course search input:', searchTerm);
+            console.log('📚 Total courses available:', courses.length);
+            
             if (searchTerm.length < 2) {
                 dropdown.style.display = 'none';
                 return;
@@ -384,6 +387,8 @@
                 course.faculty.toLowerCase().includes(searchTerm)
             );
             
+            console.log('🎯 Filtered courses:', filteredCourses.length);
+            
             if (filteredCourses.length > 0) {
                 dropdown.innerHTML = filteredCourses.map(course => `
                     <div class="course-option" onclick="selectCourse(${course.id})">
@@ -392,8 +397,10 @@
                     </div>
                 `).join('');
                 dropdown.style.display = 'block';
+                console.log('✅ Dropdown displayed with', filteredCourses.length, 'courses');
             } else {
                 dropdown.style.display = 'none';
+                console.log('❌ No courses found');
             }
         });
 
@@ -406,14 +413,22 @@
 
         // Select course function
         function selectCourse(courseId) {
+            console.log('🎯 selectCourse called with ID:', courseId);
             selectedCourse = courses.find(c => c.id === courseId);
-            document.getElementById('course_search').value = selectedCourse.name;
-            document.getElementById('courseDropdown').style.display = 'none';
+            console.log('✅ Selected course:', selectedCourse);
             
-            // Show selected course info
-            document.getElementById('selectedCourseName').textContent = selectedCourse.name;
-            document.getElementById('selectedCourseDetails').textContent = `${selectedCourse.department} • ${selectedCourse.faculty}`;
-            document.getElementById('selectedCourse').style.display = 'block';
+            if (selectedCourse) {
+                document.getElementById('course_search').value = selectedCourse.name;
+                document.getElementById('courseDropdown').style.display = 'none';
+                
+                // Show selected course info
+                document.getElementById('selectedCourseName').textContent = selectedCourse.name;
+                document.getElementById('selectedCourseDetails').textContent = `${selectedCourse.department} • ${selectedCourse.faculty}`;
+                document.getElementById('selectedCourse').style.display = 'block';
+                console.log('✅ Course selection completed');
+            } else {
+                console.error('❌ Course not found for ID:', courseId);
+            }
         }
 
         // Form submission
@@ -520,6 +535,34 @@
             errorDiv.innerHTML = `<h4>❌ Error</h4><p>${message}</p>`;
             document.querySelector('.form-container').insertBefore(errorDiv, document.getElementById('signupForm'));
         }
+
+        // Pre-fill form with data from basic signup if available
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Signup complete page loaded');
+            console.log('📚 Courses available:', courses.length);
+            console.log('🔍 Course search input element:', document.getElementById('course_search'));
+            console.log('📋 Course dropdown element:', document.getElementById('courseDropdown'));
+            
+            const basicData = localStorage.getItem('signup_basic_data');
+            if (basicData) {
+                try {
+                    const data = JSON.parse(basicData);
+                    console.log('📝 Pre-filling form with basic signup data:', data);
+                    
+                    // Pre-fill the form fields
+                    if (data.fullName) document.getElementById('fullName').value = data.fullName;
+                    if (data.regNumber) document.getElementById('regNumber').value = data.regNumber;
+                    if (data.email) document.getElementById('email').value = data.email;
+                    if (data.phone) document.getElementById('phone').value = data.phone;
+                    if (data.department) document.getElementById('department').value = data.department;
+                    
+                    // Clear the stored data after pre-filling
+                    localStorage.removeItem('signup_basic_data');
+                } catch (error) {
+                    console.error('Error parsing basic signup data:', error);
+                }
+            }
+        });
     </script>
 </body>
 </html>

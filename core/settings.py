@@ -14,7 +14,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-secret-key-change-in-production
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = ['saku-election-system-2gu.onrender.com']
+# os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
 
 # Application definition
 INSTALLED_APPS = [

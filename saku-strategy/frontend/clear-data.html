@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear System Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px;
+        }
+        .btn:hover {
+            background: #c82333;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .data-list {
+            text-align: left;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        .data-item {
+            margin: 5px 0;
+            padding: 5px;
+            background: white;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧹 Clear System Data</h1>
+        <p>This page helps you clear all stored data from your browser to start fresh.</p>
+        
+        <div id="status" class="status info">
+            Click "Clear All Data" to remove all stored information
+        </div>
+        
+        <div id="dataList" class="data-list" style="display: none;">
+            <h3>Current Stored Data:</h3>
+            <div id="dataItems"></div>
+        </div>
+        
+        <button class="btn" onclick="clearAllData()">🗑️ Clear All Data</button>
+        <button class="btn btn-success" onclick="refreshData()">🔄 Refresh</button>
+        <button class="btn btn-success" onclick="goToSignup()">📝 Go to Signup</button>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #e9ecef; border-radius: 6px;">
+            <h3>✅ System Status</h3>
+            <p><strong>Database:</strong> Cleared (only admin accounts remain)</p>
+            <p><strong>Courses:</strong> Available (73 courses)</p>
+            <p><strong>System:</strong> Ready for new users</p>
+        </div>
+    </div>
+
+    <script>
+        function refreshData() {
+            const dataItems = document.getElementById('dataItems');
+            const dataList = document.getElementById('dataList');
+            
+            let hasData = false;
+            let html = '';
+            
+            // Check all localStorage keys
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const value = localStorage.getItem(key);
+                hasData = true;
+                
+                html += `<div class="data-item">
+                    <strong>${key}:</strong> ${value.length > 100 ? value.substring(0, 100) + '...' : value}
+                </div>`;
+            }
+            
+            if (hasData) {
+                dataItems.innerHTML = html;
+                dataList.style.display = 'block';
+                document.getElementById('status').innerHTML = 'Found stored data. Click "Clear All Data" to remove it.';
+                document.getElementById('status').className = 'status info';
+            } else {
+                dataList.style.display = 'none';
+                document.getElementById('status').innerHTML = 'No stored data found. System is clean!';
+                document.getElementById('status').className = 'status success';
+            }
+        }
+        
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear ALL stored data? This will log you out and remove all saved information.')) {
+                // Clear all localStorage
+                localStorage.clear();
+                
+                // Clear sessionStorage
+                sessionStorage.clear();
+                
+                document.getElementById('status').innerHTML = '✅ All data cleared successfully!';
+                document.getElementById('status').className = 'status success';
+                document.getElementById('dataList').style.display = 'none';
+                
+                setTimeout(() => {
+                    refreshData();
+                }, 1000);
+            }
+        }
+        
+        function goToSignup() {
+            window.location.href = 'signup.html';
+        }
+        
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshData();
+        });
+    </script>
+</body>
+</html>
+
+
+

@@ -560,7 +560,7 @@
                 <h3>📝 No Election Registration Found</h3>
                 <p>You haven't registered for any SAKU election positions yet.</p>
                 <p>Click the button below to start your election registration.</p>
-                <a href="election-registration.html" class="register-btn">🎯 Register for Elections</a>
+                <a href="election-registration.html?v=2" class="register-btn">🎯 Register for Elections</a>
             </div>
         </div>
     </div>
@@ -595,6 +595,33 @@
         
         // Get user data from localStorage (using correct keys)
         let userData = JSON.parse(localStorage.getItem('saku_user_data') || '{}');
+        
+        // Debug: Log all localStorage data
+        console.log('🔍 All localStorage data:');
+        console.log('  saku_tokens:', localStorage.getItem('saku_tokens'));
+        console.log('  saku_user_profile:', localStorage.getItem('saku_user_profile'));
+        console.log('  saku_user_data:', localStorage.getItem('saku_user_data'));
+        console.log('  saku_logged_in:', localStorage.getItem('saku_logged_in'));
+        
+        // If userData is empty, try to use userProfile data
+        if (!userData.full_name && userProfile.full_name) {
+            console.log('🔄 Using userProfile data as fallback');
+            userData = {
+                ...userData,
+                full_name: userProfile.full_name,
+                student_id: userProfile.student_id,
+                reg_number: userProfile.student_id,
+                whatsapp_number: userProfile.whatsapp_number,
+                phone_number: userProfile.phone_number,
+                gender: userProfile.gender,
+                year_of_study: userProfile.year_of_study,
+                course: userProfile.course,
+                department: userProfile.department,
+                faculty: userProfile.faculty,
+                user_type: userProfile.user_type
+            };
+            console.log('📝 Updated userData with userProfile:', userData);
+        }
         
         // Mock registration data (in real app, this would come from API)
         const mockRegistrationData = {
@@ -688,6 +715,14 @@
                     
                     // Show a helpful message instead of just redirecting
                     showNoAuthMessage();
+                    return;
+                }
+                
+                // If we already have user data in localStorage, use it first
+                if (userData.full_name && userData.student_id) {
+                    console.log('✅ Using existing userData from localStorage');
+                    displayUserInfo();
+                    checkRegistrationStatus();
                     return;
                 }
                 
@@ -1154,7 +1189,7 @@
                             <button onclick="window.location.href='quick-login-test.html'" style="background: #28a745; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
                                 🧪 Quick Login Test
                             </button>
-                            <button onclick="window.location.href='signup.html'" style="background: #6c757d; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
+                            <button onclick="window.location.href='election-registration.html?v=2'" style="background: #6c757d; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
                                 📝 Sign Up
                             </button>
                         </div>

@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAKU Student Portal - KCA University</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <style>
         * {
             box-sizing: border-box;
@@ -96,42 +93,6 @@
             color: #333;
             border: 2px solid #667eea;
         }
-        
-        .features {
-            margin-top: 40px;
-            text-align: left;
-        }
-        
-        .features h3 {
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .feature-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .feature-list li {
-            padding: 10px 0;
-            color: #666;
-            display: flex;
-            align-items: center;
-        }
-        
-        .feature-list li::before {
-            content: "✅";
-            margin-right: 10px;
-            font-size: 1.2em;
-        }
-        
-        .footer {
-            background: #f8f9fa;
-            padding: 20px;
-            color: #666;
-            font-size: 0.9em;
-        }
     </style>
 </head>
 <body>
@@ -151,32 +112,8 @@
                 <a href="signup.html" class="btn btn-primary">🚀 Create Account</a>
                 <a href="login-fixed.html" class="btn btn-secondary">🔐 Sign In</a>
             </div>
-            
-            <div class="features">
-                <h3>🎯 What You Can Do</h3>
-                <ul class="feature-list">
-                    <li>Register for SAKU Council positions (Chair, Vice Chair, Secretary, etc.)</li>
-                    <li>Apply to become a Delegate for your department</li>
-                    <li>Join the Independent Electoral Commission (IECK)</li>
-                    <li>Upload required documents securely</li>
-                    <li>Track your application status</li>
-                    <li>Receive WhatsApp notifications</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p>© 2024 SAKU - Student's Association of KCA University. All rights reserved.</p>
         </div>
     </div>
-
-    <script>
-        // Check if user is already logged in
-        if (localStorage.getItem('saku_logged_in') === 'true') {
-            window.location.href = 'personal-portal.html';
-        }
-        
-        // No need to update links since we're using direct signup.html links
-    </script>
 </body>
 </html>
+

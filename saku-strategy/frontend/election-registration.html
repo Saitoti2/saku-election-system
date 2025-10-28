@@ -323,7 +323,7 @@
         </div>
         
         <div class="form-container">
-            <div class="user-info">
+            <div class="user-info" id="userInfo">
                 <h4>👤 Your Information</h4>
                 <p><strong>Name:</strong> <span id="userName"></span></p>
                 <p><strong>Registration Number:</strong> <span id="userRegNumber"></span></p>
@@ -331,6 +331,7 @@
                 <p><strong>Department:</strong> <span id="userDepartment"></span></p>
                 <p><strong>Faculty:</strong> <span id="userFaculty"></span></p>
             </div>
+            
             
             <div class="form-section">
                 <h3 class="section-title">📚 Course Information</h3>
@@ -461,8 +462,9 @@
         const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
         const userProfile = JSON.parse(localStorage.getItem('saku_user_profile') || '{}');
         
+        // Require login to access registration page
         if (!tokens.access || !userProfile.id) {
-            alert('Please login first');
+            alert('Please login first to register for elections');
             window.location.href = 'login-fixed.html';
         }
         
@@ -484,11 +486,11 @@
         
         // Display user information
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('userName').textContent = userData.full_name || 'Unknown';
-            document.getElementById('userRegNumber').textContent = userData.reg_number || 'Unknown';
-            document.getElementById('userCourse').textContent = userData.course?.name || 'Unknown';
-            document.getElementById('userDepartment').textContent = userData.course?.department || 'Unknown';
-            document.getElementById('userFaculty').textContent = userData.course?.faculty || 'Unknown';
+            document.getElementById('userName').textContent = userData.full_name || userProfile.full_name || 'Unknown';
+            document.getElementById('userRegNumber').textContent = userData.reg_number || userProfile.student_id || 'Unknown';
+            document.getElementById('userCourse').textContent = userData.course?.name || userProfile.course?.name || 'Unknown';
+            document.getElementById('userDepartment').textContent = userData.department || userProfile.department || 'Unknown';
+            document.getElementById('userFaculty').textContent = userData.faculty || userProfile.faculty || 'Unknown';
         });
         
         // User type change handler
@@ -595,18 +597,18 @@
             const formData = new FormData();
             const userType = document.getElementById('user_type').value;
             
-            // Add all form fields
-            formData.append('username', userData.reg_number);
-            formData.append('email', userData.reg_number + '@kca.ac.ke'); // Generate email
+            // Use existing user data (user must be logged in)
+            formData.append('username', userData.reg_number || userProfile.student_id);
+            formData.append('email', (userData.reg_number || userProfile.student_id) + '@kca.ac.ke'); // Generate email
             formData.append('password', 'defaultpassword123'); // Default password
             formData.append('user_type', userType);
-            formData.append('full_name', userData.full_name);
-            formData.append('gender', userData.gender);
-            formData.append('student_id', userData.reg_number);
-            formData.append('year_of_study', userData.year_of_study);
-            formData.append('whatsapp_number', userData.whatsapp_number);
-            formData.append('phone_number', userData.phone_number);
-            formData.append('course_id', userData.course.id);
+            formData.append('full_name', userData.full_name || userProfile.full_name);
+            formData.append('gender', userData.gender || userProfile.gender);
+            formData.append('student_id', userData.reg_number || userProfile.student_id);
+            formData.append('year_of_study', userData.year_of_study || userProfile.year_of_study);
+            formData.append('whatsapp_number', userData.whatsapp_number || userProfile.whatsapp_number);
+            formData.append('phone_number', userData.phone_number || userProfile.phone_number);
+            formData.append('course_id', userData.course?.id || userProfile.course?.id || '1');
             
             // Add council position for all election types
             const councilPosition = document.getElementById('council_position').value;

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAKU Login - Fixed</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <style>
         * {
             box-sizing: border-box;
@@ -222,6 +225,7 @@
                 <h4>🧪 Test Credentials</h4>
                 <p><strong>Student:</strong> test_student / test123</p>
                 <p><strong>Admin:</strong> Saitoti / Saitoti2004</p>
+                <p><strong>New User (20/03623):</strong> 20/03623 / test123</p>
             </div>
             
             <div class="info-box">
@@ -314,6 +318,8 @@
             submitBtn.innerHTML = '<div class="spinner"></div>Authenticating...';
             
             try {
+                console.log('Attempting login with:', { username, password: '***' });
+                
                 // Make API call to login endpoint
                 const response = await fetch('http://127.0.0.1:8001/api/auth/login/', {
                     method: 'POST',
@@ -323,8 +329,11 @@
                     body: JSON.stringify({ username, password }),
                 });
 
+                console.log('Login response status:', response.status);
+                
                 if (!response.ok) {
                     const errorData = await response.json();
+                    console.error('Login error response:', errorData);
                     throw new Error(errorData.error || 'Login failed');
                 }
 
@@ -368,7 +377,7 @@
                     if (data.is_admin) {
                         window.location.href = 'admin-dashboard-enhanced.html';
                     } else {
-                        window.location.href = 'personal-portal.html';
+                        window.location.href = 'election-registration.html';
                     }
                 }, 2000);
                 
@@ -389,6 +398,8 @@
                 submitBtn.innerHTML = '🚀 Sign In';
             }
         });
+        
+        // No need to update links since we're using direct signup.html links
     </script>
 </body>
 </html>

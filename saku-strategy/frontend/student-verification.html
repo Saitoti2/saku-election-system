@@ -443,7 +443,7 @@
         
         async function loadStudentProfile() {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/profiles/${studentId}/`, {
+                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${studentId}/`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },
@@ -488,8 +488,13 @@
             document.getElementById('studentName').textContent = studentProfile.full_name || 'Unknown';
             document.getElementById('studentRegNumber').textContent = studentProfile.student_id || 'Unknown';
             document.getElementById('studentCourse').textContent = studentProfile.course?.name || 'Unknown';
-            document.getElementById('studentDepartment').textContent = studentProfile.course?.department || 'Unknown';
-            document.getElementById('studentFaculty').textContent = studentProfile.course?.faculty || 'Unknown';
+            
+            // Extract department and faculty names from nested objects
+            const departmentName = studentProfile.department?.name || studentProfile.course?.department?.name || 'Unknown';
+            const facultyName = studentProfile.faculty?.name || studentProfile.course?.department?.faculty?.name || 'Unknown';
+            
+            document.getElementById('studentDepartment').textContent = departmentName;
+            document.getElementById('studentFaculty').textContent = facultyName;
             document.getElementById('studentPosition').textContent = studentProfile.council_position || 'Not specified';
             document.getElementById('studentYear').textContent = studentProfile.year_of_study || 'Unknown';
             document.getElementById('studentWhatsApp').textContent = studentProfile.whatsapp_number || 'Unknown';
@@ -560,7 +565,7 @@
             const notes = document.getElementById('verificationNotes').value;
             
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/profiles/${studentId}/verify/`, {
+                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${studentId}/verify/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -600,7 +605,7 @@
             }
             
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/profiles/${studentId}/verify/`, {
+                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${studentId}/verify/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -650,7 +655,7 @@
             
             try {
                 const tokenData = JSON.parse(tokens);
-                const response = await fetch('http://127.0.0.1:8000/api/auth/refresh/', {
+                const response = await fetch('http://127.0.0.1:8001/api/auth/refresh/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -679,7 +684,7 @@
                 const tokens = localStorage.getItem('saku_tokens');
                 if (tokens) {
                     const tokenData = JSON.parse(tokens);
-                    await fetch('http://127.0.0.1:8000/api/auth/logout/', {
+                    await fetch('http://127.0.0.1:8001/api/auth/logout/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

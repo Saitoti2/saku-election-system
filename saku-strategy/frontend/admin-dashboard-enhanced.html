@@ -345,12 +345,109 @@
                 left: -100%;
             }
             
+            .sidebar.active {
+                left: 0;
+            }
+            
             .main-content {
-                padding: 20px;
+                margin-left: 0;
+                padding: 80px 15px 20px;
+            }
+            
+            .header {
+                padding: 12px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.3em;
             }
             
             .stats-grid {
                 grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .stat-value {
+                font-size: 1.8em;
+            }
+            
+            .stat-label {
+                font-size: 0.85em;
+            }
+            
+            .table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            table {
+                min-width: 600px;
+                font-size: 0.85em;
+            }
+            
+            th,
+            td {
+                padding: 8px 6px;
+                font-size: 0.85em;
+            }
+            
+            .btn {
+                padding: 6px 10px;
+                font-size: 0.8em;
+            }
+            
+            .section-title {
+                font-size: 1.3em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.1em;
+            }
+            
+            .main-content {
+                padding: 70px 10px 15px;
+            }
+            
+            .stats-grid {
+                gap: 10px;
+            }
+            
+            .stat-card {
+                padding: 12px;
+            }
+            
+            .stat-value {
+                font-size: 1.5em;
+            }
+            
+            table {
+                min-width: 500px;
+                font-size: 0.8em;
+            }
+            
+            th,
+            td {
+                padding: 6px 4px;
+            }
+            
+            .btn {
+                padding: 5px 8px;
+                font-size: 0.75em;
+            }
+            
+            .sidebar {
+                padding: 60px 15px 20px;
+            }
+            
+            .sidebar-menu-item {
+                padding: 12px 10px;
+                font-size: 0.9em;
             }
         }
     </style>

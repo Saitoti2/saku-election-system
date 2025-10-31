@@ -513,6 +513,168 @@
         .logout-btn:hover {
             background: rgba(255,255,255,0.3);
         }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 8px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .header p {
+                font-size: 0.9em;
+            }
+            
+            .logout-btn {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .user-info {
+                padding: 15px;
+            }
+            
+            .user-info p {
+                font-size: 0.9em;
+                margin-bottom: 8px;
+            }
+            
+            .section-title {
+                font-size: 1.2em;
+            }
+            
+            .form-section {
+                padding: 20px 0;
+            }
+            
+            /* File upload cards - single column on mobile */
+            .form-section > div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+                gap: 15px !important;
+            }
+            
+            .file-upload-header {
+                padding: 12px 15px;
+            }
+            
+            .file-upload-label {
+                font-size: 0.9em;
+            }
+            
+            .file-upload-body {
+                padding: 20px 15px;
+                min-height: 100px;
+            }
+            
+            .file-preview {
+                gap: 10px;
+            }
+            
+            .file-preview-img,
+            .file-preview-icon {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .file-actions {
+                flex-direction: column;
+                gap: 6px;
+            }
+            
+            .file-action-btn {
+                padding: 10px;
+                font-size: 0.85em;
+            }
+            
+            .file-modal-content {
+                margin: 20px auto;
+                padding: 15px;
+                max-width: 95%;
+            }
+            
+            .file-modal embed {
+                min-height: 400px;
+            }
+            
+            .submit-btn {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+            
+            select,
+            input[type="text"] {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.3em;
+            }
+            
+            .logout-btn {
+                align-self: flex-end;
+                margin-top: 0;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .user-info h4 {
+                font-size: 1em;
+            }
+            
+            .section-title {
+                font-size: 1.1em;
+            }
+            
+            .file-upload-header {
+                padding: 10px 12px;
+            }
+            
+            .file-upload-label {
+                font-size: 0.85em;
+            }
+            
+            .file-upload-hint {
+                font-size: 0.75em;
+            }
+            
+            .info-box {
+                padding: 12px;
+            }
+            
+            .info-box h4 {
+                font-size: 1em;
+            }
+            
+            .info-box ul {
+                padding-left: 20px;
+                font-size: 0.9em;
+            }
+        }
     </style>
 </head>
 <body>

@@ -538,6 +538,124 @@
         .register-btn:hover {
             transform: translateY(-2px);
         }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 8px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .header p {
+                font-size: 0.95em;
+            }
+            
+            .logout-btn {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .user-info {
+                padding: 15px;
+            }
+            
+            .user-info-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .uploaded-documents-section {
+                padding: 20px;
+            }
+            
+            .documents-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .document-checklist {
+                gap: 8px;
+            }
+            
+            .document-checklist-item {
+                padding: 10px;
+                flex-wrap: wrap;
+            }
+            
+            .checklist-status,
+            .checklist-icon {
+                font-size: 1.2em;
+                min-width: 25px;
+            }
+            
+            .checklist-label {
+                font-size: 0.9em;
+            }
+            
+            .section-title {
+                font-size: 1.2em;
+            }
+            
+            .document-card {
+                padding: 15px;
+            }
+            
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.85em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .logout-btn {
+                align-self: flex-end;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .user-info-grid {
+                gap: 8px;
+            }
+            
+            .user-info-label {
+                min-width: 100px;
+                font-size: 0.9em;
+            }
+            
+            .checklist-status,
+            .checklist-icon {
+                font-size: 1em;
+            }
+            
+            .checklist-label {
+                font-size: 0.85em;
+            }
+        }
     </style>
 </head>
 <body>

@@ -310,8 +310,25 @@
         
         /* Responsive */
         @media (max-width: 768px) {
+            .header {
+                padding: 12px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.3em;
+            }
+            
+            .back-btn {
+                font-size: 0.85em;
+                padding: 6px 12px;
+            }
+            
             .main-content {
-                padding: 20px;
+                padding: 80px 15px 20px;
+            }
+            
+            .student-info-card {
+                padding: 15px;
             }
             
             .student-header {
@@ -320,12 +337,76 @@
                 gap: 15px;
             }
             
+            .student-details {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .detail-item {
+                font-size: 0.9em;
+            }
+            
+            .documents-section {
+                margin-top: 20px;
+            }
+            
             .documents-grid {
                 grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .document-card {
+                padding: 15px;
+            }
+            
+            .document-preview {
+                max-height: 200px;
             }
             
             .action-buttons {
                 flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+                padding: 12px;
+                font-size: 0.9em;
+            }
+            
+            .status-badge {
+                font-size: 0.85em;
+                padding: 6px 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.1em;
+            }
+            
+            .main-content {
+                padding: 70px 10px 15px;
+            }
+            
+            .student-info-card {
+                padding: 12px;
+            }
+            
+            .detail-label {
+                font-size: 0.85em;
+            }
+            
+            .detail-value {
+                font-size: 0.9em;
+            }
+            
+            .document-card {
+                padding: 12px;
+            }
+            
+            .document-title {
+                font-size: 0.95em;
             }
         }
     </style>

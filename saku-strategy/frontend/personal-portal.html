@@ -501,7 +501,7 @@
         <div class="header">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
-                    <h1>👤 SAKU Personal Portal</h1>
+                    <h1>SAKU Personal Portal</h1>
                     <p>Manage Your Election Documents</p>
                 </div>
                 <button onclick="logout()" class="logout-btn">Logout</button>
@@ -510,7 +510,7 @@
         
         <div class="content">
             <div class="user-info">
-                <h3>👤 Your Information</h3>
+                <h3>Your Information</h3>
                 <div class="user-info-grid">
                     <div class="user-info-item">
                         <span class="user-info-label">Name:</span>
@@ -541,26 +541,19 @@
                 </div>
             </div>
             
-            <!-- Uploaded Documents Section -->
-            <div class="uploaded-documents-section">
-                <h3>📁 Uploaded Documents</h3>
-                <div class="uploaded-documents-grid" id="uploadedDocumentsGrid">
-                    <!-- Uploaded documents will be populated here -->
-                </div>
-            </div>
-            
+            <!-- Documents Section -->
             <div id="documentsSection" class="documents-section" style="display: none;">
-                <h2 class="section-title">📄 Your Documents</h2>
+                <h2 class="section-title">Your Documents</h2>
                 <div class="documents-grid" id="documentsGrid">
                     <!-- Documents will be populated here -->
                 </div>
             </div>
             
             <div id="noRegistration" class="no-registration">
-                <h3>📝 No Election Registration Found</h3>
+                <h3>No Election Registration Found</h3>
                 <p>You haven't registered for any SAKU election positions yet.</p>
                 <p>Click the button below to start your election registration.</p>
-                <a href="election-registration.html?v=2" class="register-btn">🎯 Register for Elections</a>
+                <a href="election-registration.html?v=11" class="register-btn">Register for Elections</a>
             </div>
         </div>
     </div>
@@ -623,24 +616,7 @@
             console.log('📝 Updated userData with userProfile:', userData);
         }
         
-        // Mock registration data (in real app, this would come from API)
-        const mockRegistrationData = {
-            user_type: 'ASPIRANT',
-            council_position: 'CHAIR',
-            status: 'PENDING',
-            documents: {
-                school_fees_screenshot: { uploaded: true, filename: 'fees_screenshot.jpg', status: 'APPROVED' },
-                last_semester_results: { uploaded: true, filename: 'results_sem1.pdf', status: 'PENDING' },
-                second_last_semester_results: { uploaded: false, filename: null, status: 'MISSING' },
-                course_registration_screenshot: { uploaded: true, filename: 'registration.jpg', status: 'APPROVED' },
-                good_conduct_certificate: { uploaded: false, filename: null, status: 'MISSING' },
-                school_id_image: { uploaded: true, filename: 'student_id.jpg', status: 'PENDING' },
-                last_semester_transcript: { uploaded: true, filename: 'transcript1.pdf', status: 'APPROVED' },
-                second_last_semester_transcript: { uploaded: false, filename: null, status: 'MISSING' }
-            }
-        };
-        
-        // Document definitions
+        // Document definitions for each user type
         const documentTypes = {
             school_fees_screenshot: {
                 title: 'School Fees Screenshot',
@@ -893,93 +869,6 @@
             console.log('  Department:', department);
             console.log('  Faculty:', faculty);
             
-            // Display uploaded documents
-            displayUploadedDocuments();
-        }
-        
-        function displayUploadedDocuments() {
-            console.log('🔍 Displaying uploaded documents...');
-            console.log('🔍 Current userData:', userData);
-            
-            const uploadedDocumentsGrid = document.getElementById('uploadedDocumentsGrid');
-            uploadedDocumentsGrid.innerHTML = '';
-            
-            // Define document fields
-            const documentFields = [
-                { name: 'School Fees Screenshot', field: 'school_fees_screenshot', icon: '💰' },
-                { name: 'Last Semester Results', field: 'last_semester_results', icon: '📊' },
-                { name: 'Second Last Semester Results', field: 'second_last_semester_results', icon: '📈' },
-                { name: 'Course Registration Screenshot', field: 'course_registration_screenshot', icon: '📋' },
-                { name: 'Certificate of Good Conduct', field: 'good_conduct_certificate', icon: '📜' },
-                { name: 'School ID Image', field: 'school_id_image', icon: '🆔' },
-                { name: 'Last Semester Transcript', field: 'last_semester_transcript', icon: '📄' },
-                { name: 'Second Last Semester Transcript', field: 'second_last_semester_transcript', icon: '📑' }
-            ];
-            
-            // Filter only uploaded documents - check if field exists and has a value
-            const uploadedDocs = documentFields.filter(doc => {
-                const fieldValue = userData[doc.field];
-                console.log(`🔍 Checking ${doc.field}:`, fieldValue);
-                return fieldValue && fieldValue !== null && fieldValue !== '' && fieldValue !== undefined;
-            });
-            
-            console.log('📄 Uploaded documents found:', uploadedDocs);
-            
-            if (uploadedDocs.length === 0) {
-                uploadedDocumentsGrid.innerHTML = `
-                    <div class="no-documents-message">
-                        <div class="no-docs-icon">📁</div>
-                        <h4>No Documents Uploaded Yet</h4>
-                        <p>You haven't uploaded any documents yet. Start by registering for elections to upload your required documents.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Create cards for uploaded documents
-            uploadedDocs.forEach(doc => {
-                const card = document.createElement('div');
-                card.className = 'uploaded-document-card';
-                
-                const docUrl = userData[doc.field];
-                const isImage = docUrl && (docUrl.includes('.jpg') || docUrl.includes('.jpeg') || docUrl.includes('.png') || docUrl.includes('.gif'));
-                
-                card.innerHTML = `
-                    <div class="uploaded-doc-header">
-                        <div class="uploaded-doc-title">
-                            <span class="doc-icon">${doc.icon}</span>
-                            <h4>${doc.name}</h4>
-                        </div>
-                        <span class="uploaded-status">✅ Uploaded</span>
-                    </div>
-                    
-                    ${isImage ? `
-                        <div class="uploaded-doc-preview">
-                            <img src="${docUrl}" alt="${doc.name}" class="uploaded-preview-image">
-                        </div>
-                    ` : `
-                        <div class="uploaded-doc-preview">
-                            <div class="file-preview">
-                                <div class="file-icon">📄</div>
-                                <span class="file-name">Document File</span>
-                            </div>
-                        </div>
-                    `}
-                    
-                    <div class="uploaded-doc-actions">
-                        <button class="btn btn-primary" onclick="viewDocument('${doc.name}', '${docUrl}')">
-                            <span class="btn-icon">👁️</span>
-                            <span class="btn-text">View</span>
-                        </button>
-                        <button class="btn btn-secondary" onclick="replaceDocument('${doc.name}', '${doc.field}')">
-                            <span class="btn-icon">🔄</span>
-                            <span class="btn-text">Replace</span>
-                        </button>
-                    </div>
-                `;
-                
-                uploadedDocumentsGrid.appendChild(card);
-            });
         }
         
         function checkRegistrationStatus() {
@@ -1003,29 +892,65 @@
             const documentsGrid = document.getElementById('documentsGrid');
             documentsGrid.innerHTML = '';
             
-            Object.entries(documentTypes).forEach(([docType, docInfo]) => {
-                const docData = mockRegistrationData.documents[docType];
-                const card = createDocumentCard(docType, docInfo, docData);
-                documentsGrid.appendChild(card);
+            // Get required documents based on user_type
+            const requiredDocs = getRequiredDocuments(userData.user_type);
+            console.log('Required documents for user type:', userData.user_type, requiredDocs);
+            
+            requiredDocs.forEach(docType => {
+                if (documentTypes[docType]) {
+                    const docInfo = documentTypes[docType];
+                    const docValue = userData[docType];
+                    const card = createDocumentCard(docType, docInfo, docValue);
+                    documentsGrid.appendChild(card);
+                }
             });
         }
         
-        function createDocumentCard(docType, docInfo, docData) {
-            const card = document.createElement('div');
-            card.className = `document-card ${docData.uploaded ? 'uploaded' : 'missing'}`;
+        function getRequiredDocuments(userType) {
+            // Base documents for all election types
+            const baseDocs = [
+                'school_fees_screenshot',
+                'last_semester_results',
+                'second_last_semester_results',
+                'course_registration_screenshot',
+                'school_id_image',
+                'last_semester_transcript',
+                'second_last_semester_transcript'
+            ];
             
-            const statusClass = docData.status === 'APPROVED' ? 'status-approved' : 
-                              docData.status === 'PENDING' ? 'status-pending' : 'status-rejected';
+            // Add Good Conduct Certificate for ASPIRANT and DELEGATE
+            if (userType === 'ASPIRANT' || userType === 'DELEGATE') {
+                baseDocs.push('good_conduct_certificate');
+            }
+            
+            return baseDocs;
+        }
+        
+        function createDocumentCard(docType, docInfo, docValue) {
+            const card = document.createElement('div');
+            const hasFile = docValue && docValue !== null && docValue !== '';
+            card.className = `document-card ${hasFile ? 'uploaded' : 'missing'}`;
+            
+            // Determine status based on uploaded state
+            const status = hasFile ? 'UPLOADED' : 'MISSING';
+            const statusClass = 'status-pending'; // All are pending until admin approves
+            
+            // Extract filename from URL if it's a URL
+            let filename = 'Unknown';
+            if (hasFile) {
+                const urlParts = docValue.split('/');
+                filename = urlParts[urlParts.length - 1];
+            }
             
             card.innerHTML = `
                 <div class="document-header">
                     <h4 class="document-title">${docInfo.title}</h4>
-                    <span class="document-status ${statusClass}">${docData.status}</span>
+                    <span class="document-status ${statusClass}">${status}</span>
                 </div>
                 <p class="document-description">${docInfo.description}</p>
-                ${docData.uploaded ? `
+                ${hasFile ? `
                     <p style="color: #28a745; font-size: 0.9em; margin-bottom: 15px;">
-                        📁 ${docData.filename}
+                        📁 ${filename}
                     </p>
                 ` : `
                     <p style="color: #dc3545; font-size: 0.9em; margin-bottom: 15px;">
@@ -1033,7 +958,7 @@
                     </p>
                 `}
                 <div class="document-actions">
-                    ${docData.uploaded ? `
+                    ${hasFile ? `
                         <button class="btn btn-primary" onclick="viewDocument('${docType}')">
                             👁️ View
                         </button>

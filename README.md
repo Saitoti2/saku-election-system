@@ -48,6 +48,18 @@ Student's Association of KCA University - Election Management Platform
 - pip
 - Modern web browser
 
+## 🧱 Project Structure
+
+- `saku-strategy/backend/` – **active Django backend** (`core` project). All API endpoints, admin dashboard, and deployment entrypoints live here.
+- `saku-strategy/frontend/` – static student/admin portal served by `serve.py` during local demos.
+- `saku_election/` – legacy Django scaffold kept for reference. It is **not** used by `start.sh` or any deployment pipelines.
+- `start.sh` – orchestrates the virtualenv, backend API, and static frontend for local demos (recommended).
+- `start_minimal.sh` – lightweight launcher if you only need the static portal.
+
+> Tip: Always run backend commands (migrations, tests, shell) inside `saku-strategy/backend/` while the virtualenv from `./start.sh` is active.
+
+For a deeper dive into modules, commands, and environments see `docs/backend-overview.md`.
+
 ## 📞 Support
 
 For technical support or questions, contact the development team.

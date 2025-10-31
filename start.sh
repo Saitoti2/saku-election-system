@@ -10,20 +10,42 @@ if [ ! -d "saku-strategy" ]; then
     exit 1
 fi
 
+PROJECT_ROOT="$(pwd)"
+VENV_PATH="$PROJECT_ROOT/venv"
+
+# Ensure a local virtual environment exists
+if [ ! -d "$VENV_PATH" ]; then
+    echo "🧪 Creating local virtual environment..."
+    python3 -m venv "$VENV_PATH" || {
+        echo "❌ Failed to create virtual environment"
+        exit 1
+    }
+fi
+
+# shellcheck disable=SC1090
+source "$VENV_PATH/bin/activate"
+
+PYTHON="$(command -v python)"
+PIP="$(command -v pip)"
+
+echo "🐍 Using Python: $PYTHON"
+echo "📦 Using Pip: $PIP"
+
 # Navigate to backend directory
 cd saku-strategy/backend
 
-echo "📦 Installing dependencies..."
-pip3 install -r requirements.txt
+echo "📦 Installing backend dependencies..."
+"$PIP" install --upgrade pip >/dev/null 2>&1
+"$PIP" install -r requirements.txt
 
 echo "🗄️ Running database migrations..."
-python3 manage.py migrate
+"$PYTHON" manage.py migrate
 
 echo "📁 Collecting static files..."
-python3 manage.py collectstatic --noinput
+"$PYTHON" manage.py collectstatic --noinput
 
 echo "🚀 Starting Django backend server..."
-python3 manage.py runserver 0.0.0.0:8001 &
+"$PYTHON" manage.py runserver 0.0.0.0:8001 &
 DJANGO_PID=$!
 
 # Wait a moment for Django to start
@@ -33,7 +55,7 @@ sleep 3
 cd ../frontend
 
 echo "🌐 Starting frontend server..."
-python3 serve.py &
+"$PYTHON" serve.py &
 FRONTEND_PID=$!
 
 echo ""

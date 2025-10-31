@@ -24,12 +24,13 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
+    department = DepartmentSerializer(read_only=True)
     department_name = serializers.CharField(source='department.name', read_only=True)
     faculty_name = serializers.CharField(source='department.faculty.name', read_only=True, allow_null=True)
 
     class Meta:
         model = Course
-        fields = ['id', 'name', 'code', 'department_name', 'faculty_name']
+        fields = ['id', 'name', 'code', 'department', 'department_name', 'faculty_name']
 
 
 class UserSerializer(serializers.ModelSerializer):

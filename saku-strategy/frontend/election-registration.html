@@ -489,8 +489,15 @@
             document.getElementById('userName').textContent = userData.full_name || userProfile.full_name || 'Unknown';
             document.getElementById('userRegNumber').textContent = userData.reg_number || userProfile.student_id || 'Unknown';
             document.getElementById('userCourse').textContent = userData.course?.name || userProfile.course?.name || 'Unknown';
-            document.getElementById('userDepartment').textContent = userData.department || userProfile.department || 'Unknown';
-            document.getElementById('userFaculty').textContent = userData.faculty || userProfile.faculty || 'Unknown';
+            
+            // Extract department and faculty names from nested objects
+            const departmentName = userData.department?.name || userProfile.department?.name || 
+                                 userData.course?.department?.name || userProfile.course?.department?.name || 'Unknown';
+            const facultyName = userData.faculty?.name || userProfile.faculty?.name || 
+                              userData.course?.department?.faculty?.name || userProfile.course?.department?.faculty?.name || 'Unknown';
+            
+            document.getElementById('userDepartment').textContent = departmentName;
+            document.getElementById('userFaculty').textContent = facultyName;
         });
         
         // User type change handler

@@ -112,10 +112,38 @@
             border-color: #667eea;
         }
         
+        .file-upload.has-background {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-color: #667eea;
+        }
+        
+        .file-upload.has-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(102, 126, 234, 0.05), rgba(255, 255, 255, 0.92));
+            z-index: 0;
+            backdrop-filter: blur(2px);
+        }
+        
+        .file-upload.has-background > * {
+            position: relative;
+            z-index: 1;
+        }
+        
         .file-upload-header {
             background: #f9fafb;
             padding: 15px 20px;
             border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .file-upload.has-background .file-upload-header {
+            background: rgba(255, 255, 255, 0.98);
         }
         
         .file-upload-label {
@@ -901,6 +929,11 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const fileUrl = e.target.result;
+                    
+                    // Set background image on card
+                    uploadContainer.style.backgroundImage = `url(${fileUrl})`;
+                    uploadContainer.classList.add('has-background');
+                    
                     previewContent.innerHTML = `
                         <img src="${fileUrl}" alt="${file.name}" class="file-preview-img">
                         <div class="file-info">
@@ -1007,6 +1040,8 @@
             uploadBody.classList.remove('has-file');
             previewContainer.style.display = 'none';
             uploadContainer.style.cursor = 'pointer';
+            uploadContainer.style.backgroundImage = '';
+            uploadContainer.classList.remove('has-background');
             
             // Reset click handler
             uploadContainer.onclick = function(e) {

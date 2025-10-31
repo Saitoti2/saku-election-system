@@ -407,9 +407,9 @@
                 <!-- Statistics will be populated here -->
             </div>
             
-            <div class="table-container">
+            <div class="table-container" id="tableContainer">
                 <div style="padding: 20px; border-bottom: 1px solid #dee2e6;">
-                    <h3 style="margin: 0;">📋 Recent Student Registrations</h3>
+                    <h3 style="margin: 0;" id="tableTitle">📋 Recent Student Registrations</h3>
                 </div>
                 <table class="profiles-table" id="profilesTable">
                     <thead>
@@ -565,6 +565,7 @@
         
         function displayStatistics(stats) {
             const statsGrid = document.getElementById('statsGrid');
+            statsGrid.style.display = 'grid';
             statsGrid.innerHTML = `
                 <div class="stat-card">
                     <div class="stat-number">${stats.total_profiles}</div>
@@ -597,6 +598,19 @@
             const tbody = document.getElementById('profilesTableBody');
             tbody.innerHTML = '';
             
+            if (!profiles || profiles.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="7" style="text-align: center; padding: 40px; color: #666;">
+                        <div style="font-size: 3em; margin-bottom: 10px;">📋</div>
+                        <div style="font-size: 1.2em; font-weight: 600;">No profiles found</div>
+                        <div style="margin-top: 5px;">There are currently no student registrations matching this filter.</div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+                return;
+            }
+            
             profiles.forEach(profile => {
                 const row = document.createElement('tr');
                 
@@ -606,11 +620,15 @@
                 const statusText = profile.vetting_status === 'PASSED' ? 'Approved' : 
                                  profile.vetting_status === 'FAILED' ? 'Rejected' : 'Pending';
                 
+                // Get human-readable display names
+                const userTypeDisplay = profile.user_type_display || profile.user_type;
+                const positionDisplay = profile.council_position_display || profile.council_position || '-';
+                
                 row.innerHTML = `
                     <td><a href="student-verification.html?id=${profile.id}" style="color: #667eea; text-decoration: none; font-weight: 600;">${profile.full_name}</a></td>
                     <td>${profile.student_id}</td>
-                    <td>${profile.user_type}</td>
-                    <td>${profile.council_position || '-'}</td>
+                    <td>${userTypeDisplay}</td>
+                    <td>${positionDisplay}</td>
                     <td><span class="status-badge ${statusClass}">${statusText}</span></td>
                     <td>${new Date(profile.created_at).toLocaleDateString()}</td>
                     <td>
@@ -648,51 +666,76 @@
         // Menu functions
         function showDashboard() {
             setActiveMenu(0);
+            document.getElementById('tableTitle').textContent = '📋 Recent Student Registrations';
+            document.getElementById('tableContainer').style.display = 'block';
             loadAdminData();
         }
         
         function showAllProfiles() {
             setActiveMenu(1);
+            document.getElementById('tableTitle').textContent = '👥 All Students';
+            document.getElementById('tableContainer').style.display = 'block';
+            document.getElementById('statsGrid').style.display = 'none';
             displayProfiles(allProfiles);
         }
         
         function showPendingApprovals() {
             setActiveMenu(2);
+            document.getElementById('tableTitle').textContent = '⏳ Pending Approvals';
+            document.getElementById('tableContainer').style.display = 'block';
+            document.getElementById('statsGrid').style.display = 'none';
             const pending = allProfiles.filter(p => p.vetting_status === 'PENDING' || p.vetting_status === 'NOT_STARTED');
             displayProfiles(pending);
         }
         
         function showApprovedStudents() {
             setActiveMenu(3);
+            document.getElementById('tableTitle').textContent = '✅ Approved Students';
+            document.getElementById('tableContainer').style.display = 'block';
+            document.getElementById('statsGrid').style.display = 'none';
             const approved = allProfiles.filter(p => p.vetting_status === 'PASSED');
             displayProfiles(approved);
         }
         
         function showRejectedStudents() {
             setActiveMenu(4);
+            document.getElementById('tableTitle').textContent = '❌ Rejected Students';
+            document.getElementById('tableContainer').style.display = 'block';
+            document.getElementById('statsGrid').style.display = 'none';
             const rejected = allProfiles.filter(p => p.vetting_status === 'FAILED');
             displayProfiles(rejected);
         }
         
         function showStatistics() {
             setActiveMenu(5);
+            document.getElementById('tableTitle').textContent = '📈 Statistics';
+            document.getElementById('tableContainer').style.display = 'block';
             loadStatistics();
         }
         
         function showAspirants() {
             setActiveMenu(6);
+            document.getElementById('tableTitle').textContent = '🎯 Aspirants';
+            document.getElementById('tableContainer').style.display = 'block';
+            document.getElementById('statsGrid').style.display = 'none';
             const aspirants = allProfiles.filter(p => p.user_type === 'ASPIRANT');
             displayProfiles(aspirants);
         }
         
         function showDelegates() {
             setActiveMenu(7);
+            document.getElementById('tableTitle').textContent = '👤 Delegates';
+            document.getElementById('tableContainer').style.display = 'block';
+            document.getElementById('statsGrid').style.display = 'none';
             const delegates = allProfiles.filter(p => p.user_type === 'DELEGATE');
             displayProfiles(delegates);
         }
         
         function showIECKMembers() {
             setActiveMenu(8);
+            document.getElementById('tableTitle').textContent = '⚖️ IECK Members';
+            document.getElementById('tableContainer').style.display = 'block';
+            document.getElementById('statsGrid').style.display = 'none';
             const ieck = allProfiles.filter(p => p.user_type === 'IECK');
             displayProfiles(ieck);
         }

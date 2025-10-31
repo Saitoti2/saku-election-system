@@ -156,7 +156,8 @@
         }
         
         .file-upload-icon {
-            font-size: 1.5em;
+            font-size: 1.2em;
+            opacity: 0.6;
         }
         
         .file-upload-hint {
@@ -238,10 +239,10 @@
             flex: 1;
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.85em;
+            font-size: 0.8em;
             font-weight: 600;
             transition: all 0.2s;
         }
@@ -513,7 +514,7 @@
         <div class="header">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
-                    <h1>🎯 SAKU Election Registration</h1>
+                    <h1>SAKU Election Registration</h1>
                     <p>Choose Your Role & Upload Documents</p>
                 </div>
                 <button onclick="logout()" class="logout-btn">Logout</button>
@@ -522,7 +523,7 @@
         
         <div class="form-container">
             <div class="user-info" id="userInfo">
-                <h4>👤 Your Information</h4>
+                <h4>Your Information</h4>
                 <p><strong>Name:</strong> <span id="userName"></span></p>
                 <p><strong>Registration Number:</strong> <span id="userRegNumber"></span></p>
                 <p><strong>Current Course:</strong> <span id="userCourse"></span></p>
@@ -532,7 +533,7 @@
             
             
             <div class="form-section">
-                <h3 class="section-title">📚 Course Information</h3>
+                <h3 class="section-title">Course Information</h3>
                 <div class="form-group course-search-container">
                     <label for="course_search">Update Course (if different) <span class="required">*</span></label>
                     <input type="text" id="course_search" placeholder="Type your course name to search..." autocomplete="off">
@@ -545,14 +546,14 @@
             </div>
             
             <div class="info-box" id="requirementsBox" style="display: none;">
-                <h4 id="requirementsTitle">📋 Registration Requirements</h4>
+                    <h4 id="requirementsTitle">Registration Requirements</h4>
                 <div id="requirementsContent"></div>
             </div>
             
             <form id="registrationForm">
                 <!-- Registration Type -->
                 <div class="form-section">
-                    <div class="section-title">🎯 What Are You Vying For?</div>
+                    <div class="section-title">What Are You Vying For?</div>
                     <div class="form-group">
                         <label for="user_type">Registration Type <span class="required">*</span></label>
                         <select id="user_type" name="user_type" required>
@@ -580,7 +581,7 @@
                 
                 <!-- Document Uploads -->
                 <div class="form-section">
-                    <div class="section-title">📄 Required Documents</div>
+                    <div class="section-title">Required Documents</div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                         <div class="form-group">
                             <div class="file-upload" id="school_fees_upload" data-field="school_fees_screenshot">
@@ -737,7 +738,7 @@
                 </div>
                 
                 <button type="submit" class="submit-btn" id="submitBtn">
-                    🚀 Submit Election Registration
+                    Submit Election Registration
                 </button>
             </form>
         </div>
@@ -816,17 +817,17 @@
                     goodConductGroup.style.display = 'block';
                     goodConductInput.required = true;
                     
-                    requirementsTitle.textContent = '📋 SAKU Council Aspirant Requirements';
+                    requirementsTitle.textContent = 'SAKU Council Aspirant Requirements';
                     requirementsContent.innerHTML = `
                         <p><strong>To vie for SAKU Council positions, you need:</strong></p>
                         <ul>
-                            <li>✅ 80%+ school fees clearance (screenshot)</li>
-                            <li>✅ Last 2 semester results (2 PDFs)</li>
-                            <li>✅ Current semester course registration (screenshot)</li>
-                            <li>✅ Certificate of good conduct (PDF)</li>
-                            <li>✅ KCAU student ID (image)</li>
-                            <li>✅ Passed last 2 semesters (2 transcripts PDF)</li>
-                            <li>✅ WhatsApp number for notifications</li>
+                            <li>80%+ school fees clearance (screenshot)</li>
+                            <li>Last 2 semester results (2 PDFs)</li>
+                            <li>Current semester course registration (screenshot)</li>
+                            <li>Certificate of good conduct (PDF)</li>
+                            <li>KCAU student ID (image)</li>
+                            <li>Passed last 2 semesters (2 transcripts PDF)</li>
+                            <li>WhatsApp number for notifications</li>
                         </ul>
                         <p><strong>Available Positions:</strong> Chair, Vice Chair, Secretary General, Finance Secretary, Academic Secretary, Sports Secretary, Special Interests Secretary</p>
                     `;
@@ -835,17 +836,17 @@
                     goodConductGroup.style.display = 'block';
                     goodConductInput.required = true;
                     
-                    requirementsTitle.textContent = '📋 Delegate Requirements';
+                    requirementsTitle.textContent = 'Delegate Requirements';
                     requirementsContent.innerHTML = `
                         <p><strong>To become a Delegate for your department, you need:</strong></p>
                         <ul>
-                            <li>✅ 80%+ school fees clearance (screenshot)</li>
-                            <li>✅ Last 2 semester results (2 PDFs)</li>
-                            <li>✅ Current semester course registration (screenshot)</li>
-                            <li>✅ Certificate of good conduct (PDF)</li>
-                            <li>✅ KCAU student ID (image)</li>
-                            <li>✅ Passed last 2 semesters (2 transcripts PDF)</li>
-                            <li>✅ WhatsApp number for notifications</li>
+                            <li>80%+ school fees clearance (screenshot)</li>
+                            <li>Last 2 semester results (2 PDFs)</li>
+                            <li>Current semester course registration (screenshot)</li>
+                            <li>Certificate of good conduct (PDF)</li>
+                            <li>KCAU student ID (image)</li>
+                            <li>Passed last 2 semesters (2 transcripts PDF)</li>
+                            <li>WhatsApp number for notifications</li>
                         </ul>
                         <p><strong>Role:</strong> Represent your department in SAKU elections and decision-making processes</p>
                     `;
@@ -854,16 +855,16 @@
                     goodConductGroup.style.display = 'none';
                     goodConductInput.required = false;
                     
-                    requirementsTitle.textContent = '📋 IECK Member Requirements';
+                    requirementsTitle.textContent = 'IECK Member Requirements';
                     requirementsContent.innerHTML = `
                         <p><strong>To join the Independent Electoral Commission (IECK), you need:</strong></p>
                         <ul>
-                            <li>✅ 80%+ school fees clearance (screenshot)</li>
-                            <li>✅ Last 2 semester results (2 PDFs)</li>
-                            <li>✅ Current semester course registration (screenshot)</li>
-                            <li>✅ KCAU student ID (image)</li>
-                            <li>✅ Passed last 2 semesters (2 transcripts PDF)</li>
-                            <li>✅ WhatsApp number for notifications</li>
+                            <li>80%+ school fees clearance (screenshot)</li>
+                            <li>Last 2 semester results (2 PDFs)</li>
+                            <li>Current semester course registration (screenshot)</li>
+                            <li>KCAU student ID (image)</li>
+                            <li>Passed last 2 semesters (2 transcripts PDF)</li>
+                            <li>WhatsApp number for notifications</li>
                         </ul>
                         <p><strong>Note:</strong> IECK members do NOT need a Certificate of Good Conduct</p>
                         <p><strong>Role:</strong> Ensure fair and transparent SAKU elections</p>
@@ -943,15 +944,9 @@
                     `;
                     
                     actionsContainer.innerHTML = `
-                        <button type="button" class="file-action-btn upload" onclick="triggerFileInput('${fieldName}')">
-                            🔄 Replace
-                        </button>
-                        <button type="button" class="file-action-btn view" onclick="viewFileInModal('${fileUrl}', '${fieldName}')">
-                            👁️ View
-                        </button>
-                        <button type="button" class="file-action-btn delete" onclick="deleteFile('${fieldName}')">
-                            🗑️ Delete
-                        </button>
+                        <button type="button" class="file-action-btn upload" onclick="triggerFileInput('${fieldName}')">Replace</button>
+                        <button type="button" class="file-action-btn view" onclick="viewFileInModal('${fileUrl}', '${fieldName}')">View</button>
+                        <button type="button" class="file-action-btn delete" onclick="deleteFile('${fieldName}')">Delete</button>
                     `;
                     
                     currentFileData[fieldName] = { fileUrl, isImage: true, fileName: file.name };
@@ -968,16 +963,10 @@
                 `;
                 
                 actionsContainer.innerHTML = `
-                    <button type="button" class="file-action-btn upload" onclick="triggerFileInput('${fieldName}')">
-                        🔄 Replace
-                    </button>
-                    <button type="button" class="file-action-btn view" onclick="viewFileInModal(null, '${fieldName}')">
-                        📄 View
-                    </button>
-                    <button type="button" class="file-action-btn delete" onclick="deleteFile('${fieldName}')">
-                        🗑️ Delete
-                    </button>
-                `;
+                        <button type="button" class="file-action-btn upload" onclick="triggerFileInput('${fieldName}')">Replace</button>
+                        <button type="button" class="file-action-btn view" onclick="viewFileInModal(null, '${fieldName}')">View</button>
+                        <button type="button" class="file-action-btn delete" onclick="deleteFile('${fieldName}')">Delete</button>
+                    `;
                 
                 currentFileData[fieldName] = { fileName: file.name, isImage: false };
                 previewContainer.style.display = 'block';
@@ -1123,64 +1112,67 @@
                 }
             });
             
-            // Submit to backend API
-            fetch('http://127.0.0.1:8001/api/auth/register/', {
-                method: 'POST',
+            // Get authentication token
+            const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
+            
+            if (!tokens.access) {
+                alert('Please login first');
+                window.location.href = 'login-fixed.html';
+                return;
+            }
+            
+            // Submit to backend API using PUT for profile update
+            fetch('http://127.0.0.1:8001/api/auth/profile/update/', {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${tokens.access}`
+                },
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
                 console.log('Registration response:', data);
                 
-                if (data.access && data.profile) {
-                    // Store authentication tokens and user profile
-                    localStorage.setItem('saku_tokens', JSON.stringify({
-                        access: data.access,
-                        refresh: data.refresh
-                    }));
+                if (data.profile) {
+                    // Update stored profile
+                    localStorage.setItem('saku_user_profile', JSON.stringify(data.profile));
                     
-                    // Store profile with admin flag
-                    const profileWithAdmin = {
-                        ...data.profile,
-                        is_admin: data.is_admin
-                    };
-                    localStorage.setItem('saku_user_profile', JSON.stringify(profileWithAdmin));
-                    
-                    submitBtn.innerHTML = '✅ Registration Submitted Successfully!';
+                    submitBtn.innerHTML = 'Registration Submitted Successfully!';
                     submitBtn.style.background = '#28a745';
                     
                     // Show success message
                     const successDiv = document.createElement('div');
                     successDiv.className = 'success-message';
                     successDiv.innerHTML = `
-                        <h4>🎉 Registration Successful!</h4>
+                        <h4>Registration Successful!</h4>
                         <p>Your election registration has been submitted successfully. The admin has been notified via WhatsApp and will review your application soon.</p>
                         <p><strong>Registration Type:</strong> ${userType}</p>
-                        <p>You can now access your personal portal to view and manage your documents.</p>
+                        <p>Redirecting to your personal portal...</p>
                     `;
                     
                     document.querySelector('.form-container').insertBefore(successDiv, document.getElementById('registrationForm'));
                     
-                    // Redirect to personal portal after 3 seconds
+                    // Redirect to personal portal after 2 seconds
                     setTimeout(() => {
                         window.location.href = 'personal-portal.html';
-                    }, 3000);
+                    }, 2000);
                 } else {
-                    throw new Error('Invalid response format');
+                    throw new Error(data.error || 'Invalid response format');
                 }
                 
             })
             .catch(error => {
                 console.error('Error:', error);
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '🚀 Submit Election Registration';
+                submitBtn.innerHTML = 'Submit Election Registration';
                 
                 // Show error message
                 const errorDiv = document.createElement('div');
                 errorDiv.className = 'error-message';
                 errorDiv.innerHTML = `
-                    <h4>❌ Registration Failed</h4>
+                    <h4>Registration Failed</h4>
                     <p>There was an error submitting your registration. Please try again or contact support.</p>
+                    <p><strong>Error:</strong> ${error.message}</p>
                 `;
                 
                 document.querySelector('.form-container').insertBefore(errorDiv, document.getElementById('registrationForm'));

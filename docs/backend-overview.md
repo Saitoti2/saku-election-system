@@ -11,11 +11,6 @@ This project currently contains two Django codebases. Only one is active in loca
 - App modules: business logic for registrations lives in `elections/`
 - Static assets are collected into `staticfiles/`
 
-### Legacy scaffold (`saku_election`)
-- Earlier prototype of the API kept for reference.
-- Not referenced by any tooling (`start.sh`, Dockerfile, Railway, Render, etc.).
-- Safe to ignore for day-to-day work; don’t install requirements from this folder.
-
 ### Working with the backend
 - Activate the project virtualenv (`source venv/bin/activate`) or run `./start.sh`.
 - Run management commands from `saku-strategy/backend` (e.g. `python manage.py migrate`).

@@ -914,12 +914,31 @@
             document.getElementById('userDepartment').textContent = department;
             document.getElementById('userFaculty').textContent = faculty;
             
-            console.log('✅ User info displayed:');
+            // Update registration status based on vetting_status
+            const registrationStatus = document.getElementById('registrationStatus');
+            const vettingStatus = userData.vetting_status || 'NOT_STARTED';
+            
+            if (vettingStatus === 'PASSED') {
+                registrationStatus.textContent = 'Approved';
+                registrationStatus.className = 'status-badge status-approved';
+            } else if (vettingStatus === 'FAILED') {
+                registrationStatus.textContent = 'Rejected';
+                registrationStatus.className = 'status-badge status-rejected';
+            } else if (vettingStatus === 'IN_PROGRESS') {
+                registrationStatus.textContent = 'In Progress';
+                registrationStatus.className = 'status-badge status-pending';
+            } else {
+                registrationStatus.textContent = 'Not Started';
+                registrationStatus.className = 'status-badge status-pending';
+            }
+            
+            console.log('User info displayed:');
             console.log('  Name:', name);
             console.log('  Reg Number:', regNumber);
             console.log('  Course:', course);
             console.log('  Department:', department);
             console.log('  Faculty:', faculty);
+            console.log('  Vetting Status:', vettingStatus);
             
         }
         

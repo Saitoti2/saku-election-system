@@ -1086,22 +1086,12 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<div class="spinner"></div>Submitting Registration...';
             
-            // Prepare form data
+            // Prepare form data - only send what's being updated
             const formData = new FormData();
             const userType = document.getElementById('user_type').value;
             
-            // Use existing user data (user must be logged in)
-            formData.append('username', userData.reg_number || userProfile.student_id);
-            formData.append('email', (userData.reg_number || userProfile.student_id) + '@kca.ac.ke'); // Generate email
-            formData.append('password', 'defaultpassword123'); // Default password
+            // Only append election-specific fields
             formData.append('user_type', userType);
-            formData.append('full_name', userData.full_name || userProfile.full_name);
-            formData.append('gender', userData.gender || userProfile.gender);
-            formData.append('student_id', userData.reg_number || userProfile.student_id);
-            formData.append('year_of_study', userData.year_of_study || userProfile.year_of_study);
-            formData.append('whatsapp_number', userData.whatsapp_number || userProfile.whatsapp_number);
-            formData.append('phone_number', userData.phone_number || userProfile.phone_number);
-            formData.append('course_id', userData.course?.id || userProfile.course?.id || '1');
             
             // Add council position for all election types
             const councilPosition = document.getElementById('council_position').value;
@@ -1148,9 +1138,12 @@
             .then(async response => {
                 const data = await response.json();
                 console.log('Registration response:', data);
+                console.log('Response status:', response.status);
                 
                 if (!response.ok) {
-                    throw new Error(data.error || data.details || `Server error: ${response.status}`);
+                    const errorMsg = data.details ? JSON.stringify(data.details) : data.error || `Server error: ${response.status}`;
+                    console.error('Error details:', data);
+                    throw new Error(errorMsg);
                 }
                 
                 if (data.profile) {

@@ -539,6 +539,203 @@
             transform: translateY(-2px);
         }
         
+        /* Notification Toast System - Same as election-registration.html */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 400px;
+        }
+        
+        .toast {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 16px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            animation: slideIn 0.3s ease-out;
+            min-width: 300px;
+            border-left: 4px solid;
+        }
+        
+        .toast.success { border-left-color: #28a745; }
+        .toast.error { border-left-color: #dc3545; }
+        .toast.info { border-left-color: #667eea; }
+        .toast.warning { border-left-color: #ffc107; }
+        
+        .toast-icon {
+            font-size: 1.5em;
+            flex-shrink: 0;
+        }
+        
+        .toast-content {
+            flex: 1;
+        }
+        
+        .toast-title {
+            font-weight: 600;
+            font-size: 1em;
+            color: #1f2937;
+            margin: 0 0 4px 0;
+        }
+        
+        .toast-message {
+            font-size: 0.9em;
+            color: #6b7280;
+            margin: 0;
+            line-height: 1.4;
+        }
+        
+        .toast-close {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .toast-close:hover {
+            color: #374151;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+        
+        .toast.closing {
+            animation: slideOut 0.3s ease-in forwards;
+        }
+        
+        .confirm-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease-out;
+        }
+        
+        .confirm-overlay.show {
+            display: flex;
+        }
+        
+        .confirm-dialog {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: scaleIn 0.2s ease-out;
+        }
+        
+        .confirm-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0 0 10px 0;
+        }
+        
+        .confirm-message {
+            color: #6b7280;
+            margin: 0 0 25px 0;
+            line-height: 1.5;
+        }
+        
+        .confirm-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .confirm-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95em;
+        }
+        
+        .confirm-btn.cancel {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        
+        .confirm-btn.cancel:hover {
+            background: #e5e7eb;
+        }
+        
+        .confirm-btn.confirm {
+            background: #667eea;
+            color: white;
+        }
+        
+        .confirm-btn.confirm:hover {
+            background: #5568d3;
+            transform: translateY(-1px);
+        }
+        
+        .confirm-btn.danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .confirm-btn.danger:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
         /* Mobile Responsive */
         @media (max-width: 768px) {
             body {
@@ -655,6 +852,21 @@
             .checklist-label {
                 font-size: 0.85em;
             }
+            
+            .toast-container {
+                right: 10px;
+                max-width: calc(100% - 20px);
+            }
+            
+            .toast {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .confirm-dialog {
+                width: 95%;
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -745,15 +957,104 @@
             </form>
         </div>
     </div>
+    
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+    
+    <!-- Confirm Dialog -->
+    <div class="confirm-overlay" id="confirmOverlay">
+        <div class="confirm-dialog">
+            <div class="confirm-title" id="confirmTitle"></div>
+            <div class="confirm-message" id="confirmMessage"></div>
+            <div class="confirm-actions">
+                <button class="confirm-btn cancel" id="confirmCancelBtn">Cancel</button>
+                <button class="confirm-btn confirm" id="confirmOkBtn">OK</button>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // Notification Toast System
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+            
+            const icons = {
+                success: '✓',
+                error: '✕',
+                info: 'ℹ',
+                warning: '⚠'
+            };
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type] || icons.info}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.classList.add('closing'); setTimeout(() => this.parentElement.remove(), 300)">×</button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                toast.classList.add('closing');
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+        
+        function confirmDialog(title, message, confirmText = 'OK', cancelText = 'Cancel', dangerous = false) {
+            return new Promise((resolve) => {
+                const overlay = document.getElementById('confirmOverlay');
+                const titleEl = document.getElementById('confirmTitle');
+                const messageEl = document.getElementById('confirmMessage');
+                const okBtn = document.getElementById('confirmOkBtn');
+                const cancelBtn = document.getElementById('confirmCancelBtn');
+                
+                titleEl.textContent = title;
+                messageEl.textContent = message;
+                okBtn.textContent = confirmText;
+                cancelBtn.textContent = cancelText;
+                
+                // Set button style based on danger
+                okBtn.className = `confirm-btn confirm ${dangerous ? 'danger' : ''}`;
+                
+                // Clear previous listeners
+                const newOkBtn = okBtn.cloneNode(true);
+                const newCancelBtn = cancelBtn.cloneNode(true);
+                okBtn.parentNode.replaceChild(newOkBtn, okBtn);
+                cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+                
+                document.getElementById('confirmOkBtn').addEventListener('click', () => {
+                    overlay.classList.remove('show');
+                    resolve(true);
+                });
+                
+                document.getElementById('confirmCancelBtn').addEventListener('click', () => {
+                    overlay.classList.remove('show');
+                    resolve(false);
+                });
+                
+                overlay.classList.add('show');
+            });
+        }
+        
+        // Custom alert replacement
+        function showAlert(title, message) {
+            return confirmDialog(title, message, 'OK', '', false);
+        }
+        
         // Check if user is logged in (using correct localStorage keys)
         const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
         const userProfile = JSON.parse(localStorage.getItem('saku_user_profile') || '{}');
         
         if (!tokens.access || !userProfile.id) {
-            alert('Please login first');
-            window.location.href = 'login-fixed.html';
+            showToast('info', 'Authentication Required', 'Please login first');
+            setTimeout(() => {
+                window.location.href = 'login-fixed.html';
+            }, 2000);
         }
         
         // Get user data from localStorage (using correct keys)
@@ -909,15 +1210,19 @@
                                 }
                             });
                         } else {
-                            console.log('❌ Token refresh failed, redirecting to login');
-                            alert('Session expired. Please login again.');
-                            window.location.href = 'login-fixed.html';
+                            console.log('Token refresh failed, redirecting to login');
+                            showToast('warning', 'Session Expired', 'Your session has expired. Please login again.');
+                            setTimeout(() => {
+                                window.location.href = 'login-fixed.html';
+                            }, 2000);
                             return;
                         }
                     } catch (refreshError) {
-                        console.error('❌ Token refresh error:', refreshError);
-                        alert('Session expired. Please login again.');
-                        window.location.href = 'login-fixed.html';
+                        console.error('Token refresh error:', refreshError);
+                        showToast('warning', 'Session Expired', 'Your session has expired. Please login again.');
+                        setTimeout(() => {
+                            window.location.href = 'login-fixed.html';
+                        }, 2000);
                         return;
                     }
                 }
@@ -978,8 +1283,10 @@
                     console.error('❌ Error response:', errorText);
                     
                     if (response.status === 401) {
-                        alert('Authentication failed. Please login again.');
-                        window.location.href = 'login-fixed.html';
+                        showToast('warning', 'Authentication Failed', 'Please login again');
+                        setTimeout(() => {
+                            window.location.href = 'login-fixed.html';
+                        }, 2000);
                         return;
                     }
                     
@@ -1219,7 +1526,7 @@
         
         function viewDocument(docType) {
             // In real app, this would open the document
-            alert(`Viewing document: ${documentTypes[docType].title}`);
+            showToast('info', 'Viewing Document', documentTypes[docType].title);
         }
         
         function closeModal() {
@@ -1240,7 +1547,7 @@
                 
                 // Simulate upload
                 setTimeout(() => {
-                    alert(`Document uploaded successfully: ${file.name}`);
+                    showToast('success', 'Document Uploaded', `${file.name} uploaded successfully`);
                     closeModal();
                     displayDocuments(); // Refresh the display
                 }, 1000);
@@ -1259,7 +1566,7 @@
             if (docUrl) {
                 window.open(docUrl, '_blank');
             } else {
-                alert('Document not available');
+                showToast('warning', 'Document Not Available', 'The requested document is not available');
             }
         }
         
@@ -1277,7 +1584,7 @@
                         const userProfile = JSON.parse(localStorage.getItem('saku_user_profile') || '{}');
                         
                         if (!tokens.access || !userProfile.id) {
-                            alert('Please login first');
+                            showToast('warning', 'Authentication Required', 'Please login first');
                             return;
                         }
                         
@@ -1303,13 +1610,13 @@
                             
                             // Refresh the display
                             displayUploadedDocuments();
-                            alert(`${docName} updated successfully!`);
+                            showToast('success', 'Document Updated', `${docName} updated successfully`);
                         } else {
-                            alert('Failed to update document. Please try again.');
+                            showToast('error', 'Update Failed', 'Failed to update document. Please try again.');
                         }
                     } catch (error) {
                         console.error('Error updating document:', error);
-                        alert('Error updating document. Please try again.');
+                        showToast('error', 'Update Error', 'Error updating document. Please try again.');
                     }
                 }
             };

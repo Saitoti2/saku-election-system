@@ -514,6 +514,215 @@
             background: rgba(255,255,255,0.3);
         }
         
+        /* Notification Toast System */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 400px;
+        }
+        
+        .toast {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 16px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            animation: slideIn 0.3s ease-out;
+            min-width: 300px;
+            border-left: 4px solid;
+        }
+        
+        .toast.success {
+            border-left-color: #28a745;
+        }
+        
+        .toast.error {
+            border-left-color: #dc3545;
+        }
+        
+        .toast.info {
+            border-left-color: #667eea;
+        }
+        
+        .toast.warning {
+            border-left-color: #ffc107;
+        }
+        
+        .toast-icon {
+            font-size: 1.5em;
+            flex-shrink: 0;
+        }
+        
+        .toast-content {
+            flex: 1;
+        }
+        
+        .toast-title {
+            font-weight: 600;
+            font-size: 1em;
+            color: #1f2937;
+            margin: 0 0 4px 0;
+        }
+        
+        .toast-message {
+            font-size: 0.9em;
+            color: #6b7280;
+            margin: 0;
+            line-height: 1.4;
+        }
+        
+        .toast-close {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .toast-close:hover {
+            color: #374151;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+        
+        .toast.closing {
+            animation: slideOut 0.3s ease-in forwards;
+        }
+        
+        /* Confirm Dialog */
+        .confirm-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease-out;
+        }
+        
+        .confirm-overlay.show {
+            display: flex;
+        }
+        
+        .confirm-dialog {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: scaleIn 0.2s ease-out;
+        }
+        
+        .confirm-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0 0 10px 0;
+        }
+        
+        .confirm-message {
+            color: #6b7280;
+            margin: 0 0 25px 0;
+            line-height: 1.5;
+        }
+        
+        .confirm-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .confirm-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95em;
+        }
+        
+        .confirm-btn.cancel {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        
+        .confirm-btn.cancel:hover {
+            background: #e5e7eb;
+        }
+        
+        .confirm-btn.confirm {
+            background: #667eea;
+            color: white;
+        }
+        
+        .confirm-btn.confirm:hover {
+            background: #5568d3;
+            transform: translateY(-1px);
+        }
+        
+        .confirm-btn.danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .confirm-btn.danger:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
         /* Mobile Responsive */
         @media (max-width: 768px) {
             body {
@@ -673,6 +882,21 @@
             .info-box ul {
                 padding-left: 20px;
                 font-size: 0.9em;
+            }
+            
+            .toast-container {
+                right: 10px;
+                max-width: calc(100% - 20px);
+            }
+            
+            .toast {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .confirm-dialog {
+                width: 95%;
+                padding: 20px;
             }
         }
     </style>
@@ -919,24 +1143,114 @@
             <div id="fileModalContent"></div>
         </div>
     </div>
+    
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+    
+    <!-- Confirm Dialog -->
+    <div class="confirm-overlay" id="confirmOverlay">
+        <div class="confirm-dialog">
+            <div class="confirm-title" id="confirmTitle"></div>
+            <div class="confirm-message" id="confirmMessage"></div>
+            <div class="confirm-actions">
+                <button class="confirm-btn cancel" id="confirmCancelBtn">Cancel</button>
+                <button class="confirm-btn confirm" id="confirmOkBtn">OK</button>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // Notification Toast System
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+            
+            const icons = {
+                success: '✓',
+                error: '✕',
+                info: 'ℹ',
+                warning: '⚠'
+            };
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type] || icons.info}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.classList.add('closing'); setTimeout(() => this.parentElement.remove(), 300)">×</button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                toast.classList.add('closing');
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+        
+        function confirmDialog(title, message, confirmText = 'OK', cancelText = 'Cancel', dangerous = false) {
+            return new Promise((resolve) => {
+                const overlay = document.getElementById('confirmOverlay');
+                const titleEl = document.getElementById('confirmTitle');
+                const messageEl = document.getElementById('confirmMessage');
+                const okBtn = document.getElementById('confirmOkBtn');
+                const cancelBtn = document.getElementById('confirmCancelBtn');
+                
+                titleEl.textContent = title;
+                messageEl.textContent = message;
+                okBtn.textContent = confirmText;
+                cancelBtn.textContent = cancelText;
+                
+                // Set button style based on danger
+                okBtn.className = `confirm-btn confirm ${dangerous ? 'danger' : ''}`;
+                
+                // Clear previous listeners
+                const newOkBtn = okBtn.cloneNode(true);
+                const newCancelBtn = cancelBtn.cloneNode(true);
+                okBtn.parentNode.replaceChild(newOkBtn, okBtn);
+                cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+                
+                document.getElementById('confirmOkBtn').addEventListener('click', () => {
+                    overlay.classList.remove('show');
+                    resolve(true);
+                });
+                
+                document.getElementById('confirmCancelBtn').addEventListener('click', () => {
+                    overlay.classList.remove('show');
+                    resolve(false);
+                });
+                
+                overlay.classList.add('show');
+            });
+        }
+        
+        // Custom alert replacement
+        function showAlert(title, message) {
+            return confirmDialog(title, message, 'OK', '', false);
+        }
         // Check if user is logged in (using correct localStorage keys)
         const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
         const userProfile = JSON.parse(localStorage.getItem('saku_user_profile') || '{}');
         
         // Require login to access registration page
         if (!tokens.access || !userProfile.id) {
-            alert('Please login first to register for elections');
+            showToast('info', 'Authentication Required', 'Please login first to register for elections');
+            setTimeout(() => {
             window.location.href = 'login-fixed.html';
+            }, 2000);
         }
         
         // Check if user has already registered - if yes, redirect to personal portal
         const userType = userProfile.user_type;
         if (userType && userType !== 'STUDENT') {
             console.log('User has already registered as:', userType);
-            alert('You have already registered for elections. Redirecting to your portal...');
-            window.location.href = 'personal-portal.html';
+            showToast('info', 'Already Registered', 'You have already registered for elections. Redirecting to your portal...');
+            setTimeout(() => {
+                window.location.href = 'personal-portal.html';
+            }, 2000);
         }
         
         // Get user data from localStorage (using correct keys)
@@ -1199,9 +1513,16 @@
             document.getElementById('fileModal').style.display = 'none';
         }
         
-        function deleteFile(fieldName) {
+        async function deleteFile(fieldName) {
             event.stopPropagation();
-            if (!confirm('Are you sure you want to delete this file?')) {
+            const confirmed = await confirmDialog(
+                'Delete File',
+                'Are you sure you want to delete this file?',
+                'Delete',
+                'Cancel',
+                true
+            );
+            if (!confirmed) {
                 return;
             }
             
@@ -1210,6 +1531,8 @@
             const uploadBody = uploadContainer.querySelector('.file-upload-body');
             const previewContainer = uploadContainer.querySelector('.file-preview-container');
             const actionsContainer = uploadContainer.querySelector('.file-actions');
+            
+            showToast('success', 'File Deleted', 'File has been removed successfully');
             
             input.value = '';
             uploadBody.classList.remove('has-file');
@@ -1292,8 +1615,10 @@
             const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
             
             if (!tokens.access) {
-                alert('Please login first');
-                window.location.href = 'login-fixed.html';
+                showToast('info', 'Authentication Required', 'Please login first');
+                setTimeout(() => {
+                    window.location.href = 'login-fixed.html';
+                }, 2000);
                 return;
             }
             
@@ -1304,7 +1629,7 @@
                     headers: {
                         'Authorization': `Bearer ${tokens.access}`
                     },
-                    body: formData
+                body: formData
                 });
                 
                 // If token expired (401), try to refresh it
@@ -1343,14 +1668,18 @@
                             });
                         } else {
                             console.log('Token refresh failed, redirecting to login');
-                            alert('Session expired. Please login again.');
-                            window.location.href = 'login-fixed.html';
+                            showToast('warning', 'Session Expired', 'Your session has expired. Please login again.');
+                            setTimeout(() => {
+                                window.location.href = 'login-fixed.html';
+                            }, 2000);
                             return null;
                         }
                     } catch (refreshError) {
                         console.error('Token refresh error:', refreshError);
-                        alert('Session expired. Please login again.');
-                        window.location.href = 'login-fixed.html';
+                        showToast('warning', 'Session Expired', 'Your session has expired. Please login again.');
+                        setTimeout(() => {
+                            window.location.href = 'login-fixed.html';
+                        }, 2000);
                         return null;
                     }
                 }
@@ -1378,22 +1707,13 @@
                     submitBtn.innerHTML = 'Registration Submitted Successfully!';
                     submitBtn.style.background = '#28a745';
                     
-                    // Show success message
-                    const successDiv = document.createElement('div');
-                    successDiv.className = 'success-message';
-                    successDiv.innerHTML = `
-                        <h4>Registration Successful!</h4>
-                        <p>Your election registration has been submitted successfully. The admin has been notified via WhatsApp and will review your application soon.</p>
-                        <p><strong>Registration Type:</strong> ${userType}</p>
-                        <p>Redirecting to your personal portal...</p>
-                    `;
+                    // Show success toast
+                    showToast('success', 'Registration Successful', 'Your registration has been submitted. Admin will review your application soon.');
                     
-                    document.querySelector('.form-container').insertBefore(successDiv, document.getElementById('registrationForm'));
-                    
-                    // Redirect to personal portal after 2 seconds
+                    // Redirect to personal portal after 3 seconds
                     setTimeout(() => {
                         window.location.href = 'personal-portal.html';
-                    }, 2000);
+                    }, 3000);
                 } else {
                     throw new Error(data.error || 'Invalid response format');
                 }
@@ -1403,16 +1723,8 @@
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'Submit Election Registration';
                 
-                // Show error message
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'error-message';
-                errorDiv.innerHTML = `
-                    <h4>Registration Failed</h4>
-                    <p>There was an error submitting your registration. Please try again or contact support.</p>
-                    <p><strong>Error:</strong> ${error.message}</p>
-                `;
-                
-                document.querySelector('.form-container').insertBefore(errorDiv, document.getElementById('registrationForm'));
+                // Show error toast
+                showToast('error', 'Registration Failed', `There was an error submitting your registration. ${error.message}`);
             });
         });
     </script>

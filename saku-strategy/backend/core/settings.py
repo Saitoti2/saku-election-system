@@ -21,15 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-secret-dl(r77u%@%$!e&7+&q^ipsk+t#i3ld7h*@x^k=a=$^at(0ych*')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-import os
 DEBUG = os.getenv('DJANGO_DEBUG','True')=='True'
 
-import os
-from dotenv import load_dotenv
-load_dotenv()
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS','*').split(',')
 
 
@@ -94,15 +94,30 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'OPTIONS': {
-            'timeout': 20,
+# Database configuration with fallback to SQLite for local development
+import dj_database_url
+
+# Try to use PostgreSQL from environment (Railway, Heroku, etc.)
+DATABASE_URL = os.getenv('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+else:
+    # Fallback to SQLite for local development
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+            'OPTIONS': {
+                'timeout': 20,
+            }
         }
     }
-}
 
 
 # Password validation
@@ -151,11 +166,17 @@ MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings (only if CORS is available)
+# For Railway deployment, allow the frontend domain
+RAILWAY_FRONTEND_URL = os.getenv('RAILWAY_STATIC_URL', '')
+ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+if RAILWAY_FRONTEND_URL:
+    ALLOWED_ORIGINS.append(RAILWAY_FRONTEND_URL)
+
 if CORS_AVAILABLE:
-    CORS_ALLOWED_ORIGINS = [
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ]
+    CORS_ALLOWED_ORIGINS = ALLOWED_ORIGINS
     CORS_ALLOW_CREDENTIALS = True
 else:
     # Fallback: Allow all origins for development (not recommended for production)

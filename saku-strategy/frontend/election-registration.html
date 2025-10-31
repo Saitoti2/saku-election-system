@@ -100,11 +100,14 @@
         
         .file-upload {
             border: 2px dashed #ddd;
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 25px;
             text-align: center;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
             background: #fafafa;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
         
         .file-upload:hover {
@@ -112,10 +115,18 @@
             background: #f8f9ff;
         }
         
+        .file-upload.dragover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: scale(1.02);
+        }
+        
         .file-upload input[type="file"] {
-            border: none;
-            padding: 0;
-            background: transparent;
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
         }
         
         .file-upload-label {
@@ -123,12 +134,108 @@
             margin-bottom: 10px;
             font-weight: 600;
             color: #333;
+            font-size: 0.95em;
         }
         
         .file-upload-hint {
-            font-size: 0.9em;
+            font-size: 0.85em;
             color: #666;
             margin-top: 5px;
+        }
+        
+        .file-upload-icon {
+            font-size: 2.5em;
+            margin: 10px 0;
+            opacity: 0.5;
+        }
+        
+        .file-preview-container {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            display: none;
+        }
+        
+        .file-preview-container.has-file {
+            display: block;
+        }
+        
+        .file-preview {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .file-preview img, .file-preview-icon {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .file-preview-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f3f4f6;
+            font-size: 2em;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-info-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+        
+        .file-info-size {
+            font-size: 0.85em;
+            color: #666;
+        }
+        
+        .file-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .file-action-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .file-action-btn:hover {
+            background: #5568d3;
+            transform: translateY(-1px);
+        }
+        
+        .file-action-btn.remove {
+            background: #dc3545;
+        }
+        
+        .file-action-btn.remove:hover {
+            background: #c82333;
+        }
+        
+        .file-action-btn.preview {
+            background: #28a745;
+        }
+        
+        .file-action-btn.preview:hover {
+            background: #218838;
         }
         
         .course-search-container {
@@ -385,66 +492,98 @@
                     <div class="section-title">📄 Required Documents</div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                         <div class="form-group">
-                            <div class="file-upload">
+                            <div class="file-upload" id="school_fees_upload">
                                 <label class="file-upload-label">School Fees Screenshot (80%+ clearance) <span class="required">*</span></label>
+                                <div class="file-upload-icon">📷</div>
                                 <input type="file" name="school_fees_screenshot" accept="image/*" required>
                                 <div class="file-upload-hint">Upload screenshot showing 80%+ fees clearance</div>
+                                <div class="file-preview-container" id="school_fees_preview">
+                                    <div class="file-preview" id="school_fees_preview_content"></div>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <div class="file-upload">
+                            <div class="file-upload" id="last_semester_upload">
                                 <label class="file-upload-label">Last Semester Results (PDF) <span class="required">*</span></label>
+                                <div class="file-upload-icon">📄</div>
                                 <input type="file" name="last_semester_results" accept=".pdf" required>
                                 <div class="file-upload-hint">Upload PDF of your last semester results</div>
+                                <div class="file-preview-container" id="last_semester_preview">
+                                    <div class="file-preview" id="last_semester_preview_content"></div>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <div class="file-upload">
+                            <div class="file-upload" id="second_last_semester_upload">
                                 <label class="file-upload-label">Second Last Semester Results (PDF) <span class="required">*</span></label>
+                                <div class="file-upload-icon">📄</div>
                                 <input type="file" name="second_last_semester_results" accept=".pdf" required>
                                 <div class="file-upload-hint">Upload PDF of your second last semester results</div>
+                                <div class="file-preview-container" id="second_last_semester_preview">
+                                    <div class="file-preview" id="second_last_semester_preview_content"></div>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <div class="file-upload">
+                            <div class="file-upload" id="course_registration_upload">
                                 <label class="file-upload-label">Course Registration Screenshot <span class="required">*</span></label>
+                                <div class="file-upload-icon">📷</div>
                                 <input type="file" name="course_registration_screenshot" accept="image/*" required>
                                 <div class="file-upload-hint">Upload screenshot of current semester registration</div>
+                                <div class="file-preview-container" id="course_registration_preview">
+                                    <div class="file-preview" id="course_registration_preview_content"></div>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="form-group" id="good-conduct-group" style="display: none;">
-                            <div class="file-upload">
+                            <div class="file-upload" id="good_conduct_upload">
                                 <label class="file-upload-label">Certificate of Good Conduct (PDF) <span class="required">*</span></label>
+                                <div class="file-upload-icon">📋</div>
                                 <input type="file" name="good_conduct_certificate" accept=".pdf">
                                 <div class="file-upload-hint">Upload PDF of good conduct certificate</div>
+                                <div class="file-preview-container" id="good_conduct_preview">
+                                    <div class="file-preview" id="good_conduct_preview_content"></div>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <div class="file-upload">
+                            <div class="file-upload" id="school_id_upload">
                                 <label class="file-upload-label">School ID Image <span class="required">*</span></label>
+                                <div class="file-upload-icon">🆔</div>
                                 <input type="file" name="school_id_image" accept="image/*" required>
                                 <div class="file-upload-hint">Upload image of your KCAU student ID</div>
+                                <div class="file-preview-container" id="school_id_preview">
+                                    <div class="file-preview" id="school_id_preview_content"></div>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <div class="file-upload">
+                            <div class="file-upload" id="last_transcript_upload">
                                 <label class="file-upload-label">Last Semester Transcript (PDF) <span class="required">*</span></label>
+                                <div class="file-upload-icon">📊</div>
                                 <input type="file" name="last_semester_transcript" accept=".pdf" required>
                                 <div class="file-upload-hint">Upload PDF of last semester transcript</div>
+                                <div class="file-preview-container" id="last_transcript_preview">
+                                    <div class="file-preview" id="last_transcript_preview_content"></div>
+                                </div>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <div class="file-upload">
+                            <div class="file-upload" id="second_last_transcript_upload">
                                 <label class="file-upload-label">Second Last Semester Transcript (PDF) <span class="required">*</span></label>
+                                <div class="file-upload-icon">📊</div>
                                 <input type="file" name="second_last_semester_transcript" accept=".pdf" required>
                                 <div class="file-upload-hint">Upload PDF of second last semester transcript</div>
+                                <div class="file-preview-container" id="second_last_transcript_preview">
+                                    <div class="file-preview" id="second_last_transcript_preview_content"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -498,6 +637,9 @@
             
             document.getElementById('userDepartment').textContent = departmentName;
             document.getElementById('userFaculty').textContent = facultyName;
+            
+            // Initialize file uploads
+            setupFileUploads();
         });
         
         // User type change handler
@@ -580,6 +722,132 @@
             }
         });
         
+        // File upload preview functionality
+        function setupFileUploads() {
+            const fileInputs = document.querySelectorAll('.file-upload input[type="file"]');
+            
+            fileInputs.forEach(input => {
+                const uploadContainer = input.closest('.file-upload');
+                const previewContainer = uploadContainer.querySelector('.file-preview-container');
+                const previewContent = uploadContainer.querySelector('.file-preview');
+                const uploadIcon = uploadContainer.querySelector('.file-upload-icon');
+                
+                // Handle file selection
+                input.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        displayFilePreview(file, previewContainer, previewContent, uploadContainer);
+                    }
+                });
+                
+                // Drag and drop functionality
+                uploadContainer.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    uploadContainer.classList.add('dragover');
+                });
+                
+                uploadContainer.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    uploadContainer.classList.remove('dragover');
+                });
+                
+                uploadContainer.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    uploadContainer.classList.remove('dragover');
+                    
+                    const file = e.dataTransfer.files[0];
+                    if (file && isValidFileType(file, input.accept)) {
+                        input.files = e.dataTransfer.files;
+                        displayFilePreview(file, previewContainer, previewContent, uploadContainer);
+                    } else {
+                        alert('Invalid file type. Please select a valid file.');
+                    }
+                });
+            });
+        }
+        
+        function isValidFileType(file, acceptPattern) {
+            if (!acceptPattern) return true;
+            
+            const acceptTypes = acceptPattern.split(',');
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            const fileType = file.type;
+            
+            return acceptTypes.some(accept => {
+                accept = accept.trim();
+                if (accept.startsWith('.')) {
+                    return accept === fileExtension;
+                } else {
+                    return fileType.match(accept.replace('*', '.*'));
+                }
+            });
+        }
+        
+        function displayFilePreview(file, previewContainer, previewContent, uploadContainer) {
+            const isImage = file.type.startsWith('image/');
+            const fileSize = formatFileSize(file.size);
+            
+            let previewHTML = '';
+            
+            if (isImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewHTML = `
+                        <img src="${e.target.result}" alt="${file.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e7eb;">
+                        <div class="file-info">
+                            <div class="file-info-name">${file.name}</div>
+                            <div class="file-info-size">${fileSize}</div>
+                        </div>
+                        <div class="file-actions">
+                            <button type="button" class="file-action-btn preview" onclick="previewFile('${e.target.result}')">👁️ View</button>
+                            <button type="button" class="file-action-btn remove" onclick="removeFile(this)">🗑️ Remove</button>
+                        </div>
+                    `;
+                    previewContent.innerHTML = previewHTML;
+                    previewContainer.classList.add('has-file');
+                    uploadContainer.querySelector('.file-upload-icon').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewHTML = `
+                    <div class="file-preview-icon">📄</div>
+                    <div class="file-info">
+                        <div class="file-info-name">${file.name}</div>
+                        <div class="file-info-size">${fileSize}</div>
+                    </div>
+                    <div class="file-actions">
+                        <button type="button" class="file-action-btn remove" onclick="removeFile(this)">🗑️ Remove</button>
+                    </div>
+                `;
+                previewContent.innerHTML = previewHTML;
+                previewContainer.classList.add('has-file');
+                uploadContainer.querySelector('.file-upload-icon').style.display = 'none';
+            }
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+        
+        function previewFile(fileUrl) {
+            window.open(fileUrl, '_blank');
+        }
+        
+        function removeFile(button) {
+            const previewContainer = button.closest('.file-preview-container');
+            const uploadContainer = previewContainer.closest('.file-upload');
+            const input = uploadContainer.querySelector('input[type="file"]');
+            const icon = uploadContainer.querySelector('.file-upload-icon');
+            
+            input.value = '';
+            previewContainer.classList.remove('has-file');
+            icon.style.display = 'block';
+        }
+        
         // Logout function
         function logout() {
             // Clear all authentication data
@@ -643,7 +911,7 @@
             });
             
             // Submit to backend API
-            fetch('http://127.0.0.1:8000/api/auth/register/', {
+            fetch('http://127.0.0.1:8001/api/auth/register/', {
                 method: 'POST',
                 body: formData
             })

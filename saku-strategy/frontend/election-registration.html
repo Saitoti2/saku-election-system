@@ -325,6 +325,12 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
         
+        .file-modal embed {
+            width: 100%;
+            min-height: 600px;
+            border-radius: 12px;
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -821,13 +827,13 @@
                     requirementsContent.innerHTML = `
                         <p><strong>To vie for SAKU Council positions, you need:</strong></p>
                         <ul>
-                            <li>80%+ school fees clearance (screenshot)</li>
-                            <li>Last 2 semester results (2 PDFs)</li>
-                            <li>Current semester course registration (screenshot)</li>
-                            <li>Certificate of good conduct (PDF)</li>
-                            <li>KCAU student ID (image)</li>
-                            <li>Passed last 2 semesters (2 transcripts PDF)</li>
-                            <li>WhatsApp number for notifications</li>
+                            <li>✅ 80%+ school fees clearance (screenshot)</li>
+                            <li>✅ Last 2 semester results (2 PDFs)</li>
+                            <li>✅ Current semester course registration (screenshot)</li>
+                            <li>✅ Certificate of good conduct (PDF)</li>
+                            <li>✅ KCAU student ID (image)</li>
+                            <li>✅ Passed last 2 semesters (2 transcripts PDF)</li>
+                            <li>✅ WhatsApp number for notifications</li>
                         </ul>
                         <p><strong>Available Positions:</strong> Chair, Vice Chair, Secretary General, Finance Secretary, Academic Secretary, Sports Secretary, Special Interests Secretary</p>
                     `;
@@ -840,13 +846,13 @@
                     requirementsContent.innerHTML = `
                         <p><strong>To become a Delegate for your department, you need:</strong></p>
                         <ul>
-                            <li>80%+ school fees clearance (screenshot)</li>
-                            <li>Last 2 semester results (2 PDFs)</li>
-                            <li>Current semester course registration (screenshot)</li>
-                            <li>Certificate of good conduct (PDF)</li>
-                            <li>KCAU student ID (image)</li>
-                            <li>Passed last 2 semesters (2 transcripts PDF)</li>
-                            <li>WhatsApp number for notifications</li>
+                            <li>✅ 80%+ school fees clearance (screenshot)</li>
+                            <li>✅ Last 2 semester results (2 PDFs)</li>
+                            <li>✅ Current semester course registration (screenshot)</li>
+                            <li>✅ Certificate of good conduct (PDF)</li>
+                            <li>✅ KCAU student ID (image)</li>
+                            <li>✅ Passed last 2 semesters (2 transcripts PDF)</li>
+                            <li>✅ WhatsApp number for notifications</li>
                         </ul>
                         <p><strong>Role:</strong> Represent your department in SAKU elections and decision-making processes</p>
                     `;
@@ -859,12 +865,12 @@
                     requirementsContent.innerHTML = `
                         <p><strong>To join the Independent Electoral Commission (IECK), you need:</strong></p>
                         <ul>
-                            <li>80%+ school fees clearance (screenshot)</li>
-                            <li>Last 2 semester results (2 PDFs)</li>
-                            <li>Current semester course registration (screenshot)</li>
-                            <li>KCAU student ID (image)</li>
-                            <li>Passed last 2 semesters (2 transcripts PDF)</li>
-                            <li>WhatsApp number for notifications</li>
+                            <li>✅ 80%+ school fees clearance (screenshot)</li>
+                            <li>✅ Last 2 semester results (2 PDFs)</li>
+                            <li>✅ Current semester course registration (screenshot)</li>
+                            <li>✅ KCAU student ID (image)</li>
+                            <li>✅ Passed last 2 semesters (2 transcripts PDF)</li>
+                            <li>✅ WhatsApp number for notifications</li>
                         </ul>
                         <p><strong>Note:</strong> IECK members do NOT need a Certificate of Good Conduct</p>
                         <p><strong>Role:</strong> Ensure fair and transparent SAKU elections</p>
@@ -954,22 +960,28 @@
                 };
                 reader.readAsDataURL(file);
             } else {
-                previewContent.innerHTML = `
-                    <div class="file-preview-icon">📄</div>
-                    <div class="file-info">
-                        <div class="file-info-name">${file.name}</div>
-                        <div class="file-info-size">${fileSize}</div>
-                    </div>
-                `;
-                
-                actionsContainer.innerHTML = `
+                // Handle PDF files
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const fileUrl = e.target.result;
+                    previewContent.innerHTML = `
+                        <div class="file-preview-icon">📄</div>
+                        <div class="file-info">
+                            <div class="file-info-name">${file.name}</div>
+                            <div class="file-info-size">${fileSize}</div>
+                        </div>
+                    `;
+                    
+                    actionsContainer.innerHTML = `
                         <button type="button" class="file-action-btn upload" onclick="triggerFileInput('${fieldName}')">Replace</button>
                         <button type="button" class="file-action-btn view" onclick="viewFileInModal(null, '${fieldName}')">View</button>
                         <button type="button" class="file-action-btn delete" onclick="deleteFile('${fieldName}')">Delete</button>
                     `;
-                
-                currentFileData[fieldName] = { fileName: file.name, isImage: false };
-                previewContainer.style.display = 'block';
+                    
+                    currentFileData[fieldName] = { fileUrl, fileName: file.name, isImage: false };
+                    previewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
             }
         }
         
@@ -997,11 +1009,15 @@
             
             if (fileData && fileData.isImage) {
                 modalContent.innerHTML = `<img src="${fileData.fileUrl}" class="file-modal-img">`;
+            } else if (fileData && fileData.fileUrl) {
+                modalContent.innerHTML = `
+                    <embed src="${fileData.fileUrl}" type="application/pdf" width="100%" height="100%" class="file-modal-pdf" />
+                `;
             } else {
                 modalContent.innerHTML = `
                     <div class="file-modal-pdf">
                         <div style="font-size: 4em; margin-bottom: 20px;">📄</div>
-                        <div style="font-size: 1.2em; color: white; font-weight: 600;">${fileData ? fileData.fileName : 'PDF Document'}</div>
+                        <div style="font-size: 1.2em; color: white; font-weight: 600;">PDF Document Preview Unavailable</div>
                     </div>
                 `;
             }
@@ -1129,9 +1145,13 @@
                 },
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
+            .then(async response => {
+                const data = await response.json();
                 console.log('Registration response:', data);
+                
+                if (!response.ok) {
+                    throw new Error(data.error || data.details || `Server error: ${response.status}`);
+                }
                 
                 if (data.profile) {
                     // Update stored profile
@@ -1159,7 +1179,6 @@
                 } else {
                     throw new Error(data.error || 'Invalid response format');
                 }
-                
             })
             .catch(error => {
                 console.error('Error:', error);

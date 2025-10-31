@@ -1128,14 +1128,69 @@
             }
             
             // Submit to backend API using PUT for profile update
-            fetch('http://127.0.0.1:8001/api/auth/profile/update/', {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${tokens.access}`
-                },
-                body: formData
-            })
-            .then(async response => {
+            async function submitRegistration() {
+                let response = await fetch('http://127.0.0.1:8001/api/auth/profile/update/', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${tokens.access}`
+                    },
+                    body: formData
+                });
+                
+                // If token expired (401), try to refresh it
+                if (response.status === 401 && tokens.refresh) {
+                    console.log('Token expired, attempting to refresh...');
+                    
+                    try {
+                        const refreshResponse = await fetch('http://127.0.0.1:8001/api/auth/refresh/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                refresh: tokens.refresh
+                            })
+                        });
+                        
+                        if (refreshResponse.ok) {
+                            const newTokens = await refreshResponse.json();
+                            console.log('Token refreshed successfully');
+                            
+                            // Update tokens in localStorage
+                            const updatedTokens = {
+                                access: newTokens.access,
+                                refresh: tokens.refresh
+                            };
+                            localStorage.setItem('saku_tokens', JSON.stringify(updatedTokens));
+                            
+                            // Retry the original request with new token
+                            response = await fetch('http://127.0.0.1:8001/api/auth/profile/update/', {
+                                method: 'PUT',
+                                headers: {
+                                    'Authorization': `Bearer ${newTokens.access}`
+                                },
+                                body: formData
+                            });
+                        } else {
+                            console.log('Token refresh failed, redirecting to login');
+                            alert('Session expired. Please login again.');
+                            window.location.href = 'login-fixed.html';
+                            return null;
+                        }
+                    } catch (refreshError) {
+                        console.error('Token refresh error:', refreshError);
+                        alert('Session expired. Please login again.');
+                        window.location.href = 'login-fixed.html';
+                        return null;
+                    }
+                }
+                
+                return response;
+            }
+            
+            submitRegistration().then(async response => {
+                if (!response) return; // User was redirected
+                
                 const data = await response.json();
                 console.log('Registration response:', data);
                 console.log('Response status:', response.status);

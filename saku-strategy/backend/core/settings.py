@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database configuration with fallback to SQLite for local development
 import dj_database_url
 
-# Try to use PostgreSQL from environment (Railway, Heroku, etc.)
+# Try to use PostgreSQL from environment (Render, Heroku, etc.)
 DATABASE_URL = os.getenv('DATABASE_URL')
 if DATABASE_URL:
     DATABASES = {
@@ -166,14 +166,14 @@ MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings (only if CORS is available)
-# For Railway deployment, allow the frontend domain
-RAILWAY_FRONTEND_URL = os.getenv('RAILWAY_STATIC_URL', '')
+# For deployment platforms, allow frontend domains
+RENDER_STATIC_URL = os.getenv('RENDER_EXTERNAL_URL', '')
 ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
-if RAILWAY_FRONTEND_URL:
-    ALLOWED_ORIGINS.append(RAILWAY_FRONTEND_URL)
+if RENDER_STATIC_URL:
+    ALLOWED_ORIGINS.append(RENDER_STATIC_URL)
 
 if CORS_AVAILABLE:
     CORS_ALLOWED_ORIGINS = ALLOWED_ORIGINS

@@ -216,7 +216,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔐 SAKU Login</h1>
+            <h1>SAKU Login</h1>
             <p>Access Your Portal</p>
         </div>
         
@@ -229,7 +229,7 @@
             </div>
             
             <div class="info-box">
-                <h4>🔒 Secure Authentication</h4>
+                <h4>Secure Authentication</h4>
                 <p>Your session will automatically expire after 5 minutes of inactivity for security.</p>
             </div>
             
@@ -250,7 +250,7 @@
                 </div>
                 
                 <button type="submit" class="submit-btn" id="submitBtn">
-                    🚀 Sign In
+                    Sign In
                 </button>
             </form>
             
@@ -369,14 +369,14 @@
                     clearSavedCredentials();
                 }
                 
-                submitBtn.innerHTML = '✅ Login Successful!';
+                submitBtn.innerHTML = 'Login Successful!';
                 submitBtn.style.background = '#28a745';
                 
                 // Show success message
                 const successDiv = document.createElement('div');
                 successDiv.className = 'success-message';
                 successDiv.innerHTML = `
-                    <h4>🎉 Welcome Back, ${data.profile.full_name || data.profile.username}!</h4>
+                    <h4>Welcome Back, ${data.profile.full_name || data.profile.username}!</h4>
                     <p>You have been authenticated successfully. Redirecting...</p>
                 `;
                 
@@ -387,7 +387,8 @@
                     if (data.is_admin) {
                         window.location.href = 'admin-dashboard-enhanced.html';
                     } else {
-                        window.location.href = 'election-registration.html';
+                        // All students go to personal portal to review submissions and admin insights
+                        window.location.href = 'personal-portal.html';
                     }
                 }, 2000);
                 
@@ -398,14 +399,14 @@
                 const errorDiv = document.createElement('div');
                 errorDiv.className = 'error-message';
                 errorDiv.innerHTML = `
-                    <h4>❌ Login Failed</h4>
+                    <h4>Login Failed</h4>
                     <p>${error.message}</p>
                 `;
                 
                 document.querySelector('.form-container').insertBefore(errorDiv, document.getElementById('loginForm'));
                 
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '🚀 Sign In';
+                submitBtn.innerHTML = 'Sign In';
             }
         });
         

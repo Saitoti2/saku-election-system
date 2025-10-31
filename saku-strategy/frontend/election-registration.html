@@ -99,67 +99,83 @@
         }
         
         .file-upload {
-            border: 2px dashed #ddd;
-            border-radius: 12px;
-            padding: 25px;
-            text-align: center;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 0;
             transition: all 0.3s;
-            background: #fafafa;
-            cursor: pointer;
+            background: white;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
         .file-upload:hover {
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
             border-color: #667eea;
-            background: #f8f9ff;
         }
         
-        .file-upload.dragover {
-            border-color: #667eea;
-            background: #f0f4ff;
-            transform: scale(1.02);
-        }
-        
-        .file-upload input[type="file"] {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        .file-upload-label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #333;
-            font-size: 0.95em;
-        }
-        
-        .file-upload-hint {
-            font-size: 0.85em;
-            color: #666;
-            margin-top: 5px;
+        .file-upload-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
         .file-upload-icon {
             font-size: 2.5em;
-            margin: 10px 0;
-            opacity: 0.5;
+            background: rgba(255,255,255,0.2);
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .file-preview-container {
-            margin-top: 15px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
+        .file-upload-info {
+            flex: 1;
+        }
+        
+        .file-upload-label {
+            display: block;
+            margin: 0 0 5px 0;
+            font-weight: 700;
+            font-size: 1em;
+            color: white;
+        }
+        
+        .file-upload-hint {
+            font-size: 0.85em;
+            color: rgba(255,255,255,0.9);
+            margin: 0;
+        }
+        
+        .file-upload-body {
+            padding: 20px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .file-upload-body.has-file {
+            justify-content: flex-start;
+            align-items: stretch;
+        }
+        
+        .file-upload input[type="file"] {
             display: none;
         }
         
-        .file-preview-container.has-file {
-            display: block;
+        .file-preview-container {
+            width: 100%;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
         }
         
         .file-preview {
@@ -172,15 +188,17 @@
             width: 80px;
             height: 80px;
             object-fit: cover;
-            border-radius: 8px;
-            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            border: 2px solid #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
         }
         
         .file-preview-icon {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f3f4f6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             font-size: 2em;
         }
         
@@ -189,53 +207,123 @@
         }
         
         .file-info-name {
-            font-weight: 600;
+            font-weight: 700;
             color: #333;
             margin-bottom: 5px;
             word-break: break-all;
+            font-size: 1em;
         }
         
         .file-info-size {
             font-size: 0.85em;
-            color: #666;
+            color: #6b7280;
+            font-weight: 600;
         }
         
         .file-actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            margin-top: 20px;
         }
         
         .file-action-btn {
-            background: #667eea;
+            flex: 1;
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
+            padding: 12px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 0.85em;
-            font-weight: 600;
+            font-size: 0.9em;
+            font-weight: 700;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .file-action-btn:hover {
-            background: #5568d3;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        .file-action-btn.remove {
-            background: #dc3545;
+        .file-action-btn.upload {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
-        .file-action-btn.remove:hover {
-            background: #c82333;
+        .file-action-btn.view {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         }
         
-        .file-action-btn.preview {
-            background: #28a745;
+        .file-action-btn.delete {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
         }
         
-        .file-action-btn.preview:hover {
-            background: #218838;
+        .file-action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Modal for viewing files */
+        .file-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s;
+        }
+        
+        .file-modal-content {
+            position: relative;
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .file-modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .file-modal-close:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+        
+        .file-modal img, .file-modal-pdf {
+            max-width: 100%;
+            max-height: calc(100vh - 150px);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .course-search-container {
@@ -493,97 +581,153 @@
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                         <div class="form-group">
                             <div class="file-upload" id="school_fees_upload">
-                                <label class="file-upload-label">School Fees Screenshot (80%+ clearance) <span class="required">*</span></label>
-                                <div class="file-upload-icon">📷</div>
-                                <input type="file" name="school_fees_screenshot" accept="image/*" required>
-                                <div class="file-upload-hint">Upload screenshot showing 80%+ fees clearance</div>
-                                <div class="file-preview-container" id="school_fees_preview">
-                                    <div class="file-preview" id="school_fees_preview_content"></div>
+                                <div class="file-upload-header">
+                                    <div class="file-upload-icon">📷</div>
+                                    <div class="file-upload-info">
+                                        <label class="file-upload-label">School Fees Screenshot <span class="required">*</span></label>
+                                        <div class="file-upload-hint">80%+ clearance required</div>
+                                    </div>
                                 </div>
+                                <div class="file-upload-body" id="school_fees_body">
+                                    <div class="file-preview-container" id="school_fees_preview" style="display: none;">
+                                        <div class="file-preview" id="school_fees_preview_content"></div>
+                                        <div class="file-actions" id="school_fees_actions"></div>
+                                    </div>
+                                </div>
+                                <input type="file" name="school_fees_screenshot" accept="image/*" required>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <div class="file-upload" id="last_semester_upload">
-                                <label class="file-upload-label">Last Semester Results (PDF) <span class="required">*</span></label>
-                                <div class="file-upload-icon">📄</div>
-                                <input type="file" name="last_semester_results" accept=".pdf" required>
-                                <div class="file-upload-hint">Upload PDF of your last semester results</div>
-                                <div class="file-preview-container" id="last_semester_preview">
-                                    <div class="file-preview" id="last_semester_preview_content"></div>
+                                <div class="file-upload-header">
+                                    <div class="file-upload-icon">📄</div>
+                                    <div class="file-upload-info">
+                                        <label class="file-upload-label">Last Semester Results <span class="required">*</span></label>
+                                        <div class="file-upload-hint">PDF format required</div>
+                                    </div>
                                 </div>
+                                <div class="file-upload-body" id="last_semester_body">
+                                    <div class="file-preview-container" id="last_semester_preview" style="display: none;">
+                                        <div class="file-preview" id="last_semester_preview_content"></div>
+                                        <div class="file-actions" id="last_semester_actions"></div>
+                                    </div>
+                                </div>
+                                <input type="file" name="last_semester_results" accept=".pdf" required>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <div class="file-upload" id="second_last_semester_upload">
-                                <label class="file-upload-label">Second Last Semester Results (PDF) <span class="required">*</span></label>
-                                <div class="file-upload-icon">📄</div>
-                                <input type="file" name="second_last_semester_results" accept=".pdf" required>
-                                <div class="file-upload-hint">Upload PDF of your second last semester results</div>
-                                <div class="file-preview-container" id="second_last_semester_preview">
-                                    <div class="file-preview" id="second_last_semester_preview_content"></div>
+                                <div class="file-upload-header">
+                                    <div class="file-upload-icon">📄</div>
+                                    <div class="file-upload-info">
+                                        <label class="file-upload-label">Second Last Semester Results <span class="required">*</span></label>
+                                        <div class="file-upload-hint">PDF format required</div>
+                                    </div>
                                 </div>
+                                <div class="file-upload-body" id="second_last_semester_body">
+                                    <div class="file-preview-container" id="second_last_semester_preview" style="display: none;">
+                                        <div class="file-preview" id="second_last_semester_preview_content"></div>
+                                        <div class="file-actions" id="second_last_semester_actions"></div>
+                                    </div>
+                                </div>
+                                <input type="file" name="second_last_semester_results" accept=".pdf" required>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <div class="file-upload" id="course_registration_upload">
-                                <label class="file-upload-label">Course Registration Screenshot <span class="required">*</span></label>
-                                <div class="file-upload-icon">📷</div>
-                                <input type="file" name="course_registration_screenshot" accept="image/*" required>
-                                <div class="file-upload-hint">Upload screenshot of current semester registration</div>
-                                <div class="file-preview-container" id="course_registration_preview">
-                                    <div class="file-preview" id="course_registration_preview_content"></div>
+                                <div class="file-upload-header">
+                                    <div class="file-upload-icon">📷</div>
+                                    <div class="file-upload-info">
+                                        <label class="file-upload-label">Course Registration <span class="required">*</span></label>
+                                        <div class="file-upload-hint">Screenshot required</div>
+                                    </div>
                                 </div>
+                                <div class="file-upload-body" id="course_registration_body">
+                                    <div class="file-preview-container" id="course_registration_preview" style="display: none;">
+                                        <div class="file-preview" id="course_registration_preview_content"></div>
+                                        <div class="file-actions" id="course_registration_actions"></div>
+                                    </div>
+                                </div>
+                                <input type="file" name="course_registration_screenshot" accept="image/*" required>
                             </div>
                         </div>
                         
                         <div class="form-group" id="good-conduct-group" style="display: none;">
                             <div class="file-upload" id="good_conduct_upload">
-                                <label class="file-upload-label">Certificate of Good Conduct (PDF) <span class="required">*</span></label>
-                                <div class="file-upload-icon">📋</div>
-                                <input type="file" name="good_conduct_certificate" accept=".pdf">
-                                <div class="file-upload-hint">Upload PDF of good conduct certificate</div>
-                                <div class="file-preview-container" id="good_conduct_preview">
-                                    <div class="file-preview" id="good_conduct_preview_content"></div>
+                                <div class="file-upload-header">
+                                    <div class="file-upload-icon">📋</div>
+                                    <div class="file-upload-info">
+                                        <label class="file-upload-label">Good Conduct Certificate <span class="required">*</span></label>
+                                        <div class="file-upload-hint">PDF format required</div>
+                                    </div>
                                 </div>
+                                <div class="file-upload-body" id="good_conduct_body">
+                                    <div class="file-preview-container" id="good_conduct_preview" style="display: none;">
+                                        <div class="file-preview" id="good_conduct_preview_content"></div>
+                                        <div class="file-actions" id="good_conduct_actions"></div>
+                                    </div>
+                                </div>
+                                <input type="file" name="good_conduct_certificate" accept=".pdf">
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <div class="file-upload" id="school_id_upload">
-                                <label class="file-upload-label">School ID Image <span class="required">*</span></label>
-                                <div class="file-upload-icon">🆔</div>
-                                <input type="file" name="school_id_image" accept="image/*" required>
-                                <div class="file-upload-hint">Upload image of your KCAU student ID</div>
-                                <div class="file-preview-container" id="school_id_preview">
-                                    <div class="file-preview" id="school_id_preview_content"></div>
+                                <div class="file-upload-header">
+                                    <div class="file-upload-icon">🆔</div>
+                                    <div class="file-upload-info">
+                                        <label class="file-upload-label">School ID Image <span class="required">*</span></label>
+                                        <div class="file-upload-hint">KCAU Student ID</div>
+                                    </div>
                                 </div>
+                                <div class="file-upload-body" id="school_id_body">
+                                    <div class="file-preview-container" id="school_id_preview" style="display: none;">
+                                        <div class="file-preview" id="school_id_preview_content"></div>
+                                        <div class="file-actions" id="school_id_actions"></div>
+                                    </div>
+                                </div>
+                                <input type="file" name="school_id_image" accept="image/*" required>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <div class="file-upload" id="last_transcript_upload">
-                                <label class="file-upload-label">Last Semester Transcript (PDF) <span class="required">*</span></label>
-                                <div class="file-upload-icon">📊</div>
-                                <input type="file" name="last_semester_transcript" accept=".pdf" required>
-                                <div class="file-upload-hint">Upload PDF of last semester transcript</div>
-                                <div class="file-preview-container" id="last_transcript_preview">
-                                    <div class="file-preview" id="last_transcript_preview_content"></div>
+                                <div class="file-upload-header">
+                                    <div class="file-upload-icon">📊</div>
+                                    <div class="file-upload-info">
+                                        <label class="file-upload-label">Last Semester Transcript <span class="required">*</span></label>
+                                        <div class="file-upload-hint">PDF format required</div>
+                                    </div>
                                 </div>
+                                <div class="file-upload-body" id="last_transcript_body">
+                                    <div class="file-preview-container" id="last_transcript_preview" style="display: none;">
+                                        <div class="file-preview" id="last_transcript_preview_content"></div>
+                                        <div class="file-actions" id="last_transcript_actions"></div>
+                                    </div>
+                                </div>
+                                <input type="file" name="last_semester_transcript" accept=".pdf" required>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <div class="file-upload" id="second_last_transcript_upload">
-                                <label class="file-upload-label">Second Last Semester Transcript (PDF) <span class="required">*</span></label>
-                                <div class="file-upload-icon">📊</div>
-                                <input type="file" name="second_last_semester_transcript" accept=".pdf" required>
-                                <div class="file-upload-hint">Upload PDF of second last semester transcript</div>
-                                <div class="file-preview-container" id="second_last_transcript_preview">
-                                    <div class="file-preview" id="second_last_transcript_preview_content"></div>
+                                <div class="file-upload-header">
+                                    <div class="file-upload-icon">📊</div>
+                                    <div class="file-upload-info">
+                                        <label class="file-upload-label">Second Last Transcript <span class="required">*</span></label>
+                                        <div class="file-upload-hint">PDF format required</div>
+                                    </div>
                                 </div>
+                                <div class="file-upload-body" id="second_last_transcript_body">
+                                    <div class="file-preview-container" id="second_last_transcript_preview" style="display: none;">
+                                        <div class="file-preview" id="second_last_transcript_preview_content"></div>
+                                        <div class="file-actions" id="second_last_transcript_actions"></div>
+                                    </div>
+                                </div>
+                                <input type="file" name="second_last_semester_transcript" accept=".pdf" required>
                             </div>
                         </div>
                     </div>
@@ -593,6 +737,14 @@
                     🚀 Submit Election Registration
                 </button>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal for viewing files -->
+    <div id="fileModal" class="file-modal">
+        <div class="file-modal-content">
+            <span class="file-modal-close" onclick="closeFileModal()">×</span>
+            <div id="fileModalContent"></div>
         </div>
     </div>
 
@@ -722,107 +874,109 @@
             }
         });
         
-        // File upload preview functionality
+        // File upload functionality
+        let currentFileData = {}; // Store file data for each input
+        
         function setupFileUploads() {
             const fileInputs = document.querySelectorAll('.file-upload input[type="file"]');
             
             fileInputs.forEach(input => {
                 const uploadContainer = input.closest('.file-upload');
-                const previewContainer = uploadContainer.querySelector('.file-preview-container');
-                const previewContent = uploadContainer.querySelector('.file-preview');
-                const uploadIcon = uploadContainer.querySelector('.file-upload-icon');
+                const uploadBody = uploadContainer.querySelector('.file-upload-body');
+                const actionsContainerId = uploadContainer.querySelector('.file-actions').id;
+                const fieldName = input.name;
+                
+                // Create Upload button if no file is uploaded
+                if (!uploadBody.querySelector('.file-preview-container').style.display || 
+                    uploadBody.querySelector('.file-preview-container').style.display === 'none') {
+                    setupUploadButton(uploadContainer, input, actionsContainerId);
+                }
                 
                 // Handle file selection
                 input.addEventListener('change', function(e) {
                     const file = e.target.files[0];
                     if (file) {
-                        displayFilePreview(file, previewContainer, previewContent, uploadContainer);
-                    }
-                });
-                
-                // Drag and drop functionality
-                uploadContainer.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                    uploadContainer.classList.add('dragover');
-                });
-                
-                uploadContainer.addEventListener('dragleave', function(e) {
-                    e.preventDefault();
-                    uploadContainer.classList.remove('dragover');
-                });
-                
-                uploadContainer.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    uploadContainer.classList.remove('dragover');
-                    
-                    const file = e.dataTransfer.files[0];
-                    if (file && isValidFileType(file, input.accept)) {
-                        input.files = e.dataTransfer.files;
-                        displayFilePreview(file, previewContainer, previewContent, uploadContainer);
-                    } else {
-                        alert('Invalid file type. Please select a valid file.');
+                        displayFilePreview(file, uploadContainer, actionsContainerId);
+                        currentFileData[fieldName] = file;
                     }
                 });
             });
         }
         
-        function isValidFileType(file, acceptPattern) {
-            if (!acceptPattern) return true;
-            
-            const acceptTypes = acceptPattern.split(',');
-            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
-            const fileType = file.type;
-            
-            return acceptTypes.some(accept => {
-                accept = accept.trim();
-                if (accept.startsWith('.')) {
-                    return accept === fileExtension;
-                } else {
-                    return fileType.match(accept.replace('*', '.*'));
-                }
-            });
+        function setupUploadButton(uploadContainer, input, actionsId) {
+            const actionsContainer = uploadContainer.querySelector('#' + actionsId);
+            actionsContainer.innerHTML = `
+                <button type="button" class="file-action-btn upload" onclick="triggerFileInput('${input.name}')">
+                    📤 Upload
+                </button>
+            `;
         }
         
-        function displayFilePreview(file, previewContainer, previewContent, uploadContainer) {
+        function triggerFileInput(fieldName) {
+            const input = document.querySelector(`input[name="${fieldName}"]`);
+            if (input) {
+                input.click();
+            }
+        }
+        
+        function displayFilePreview(file, uploadContainer, actionsId) {
+            const uploadBody = uploadContainer.querySelector('.file-upload-body');
+            const previewContainer = uploadContainer.querySelector('.file-preview-container');
+            const previewContent = uploadContainer.querySelector('.file-preview');
+            const actionsContainer = uploadContainer.querySelector('#' + actionsId);
+            
             const isImage = file.type.startsWith('image/');
             const fileSize = formatFileSize(file.size);
+            const fieldName = uploadContainer.querySelector('input[type="file"]').name;
             
-            let previewHTML = '';
+            uploadBody.classList.add('has-file');
             
             if (isImage) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    previewHTML = `
-                        <img src="${e.target.result}" alt="${file.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e7eb;">
+                    const fileUrl = e.target.result;
+                    previewContent.innerHTML = `
+                        <img src="${fileUrl}" alt="${file.name}" class="file-preview-img">
                         <div class="file-info">
                             <div class="file-info-name">${file.name}</div>
                             <div class="file-info-size">${fileSize}</div>
                         </div>
-                        <div class="file-actions">
-                            <button type="button" class="file-action-btn preview" onclick="previewFile('${e.target.result}')">👁️ View</button>
-                            <button type="button" class="file-action-btn remove" onclick="removeFile(this)">🗑️ Remove</button>
-                        </div>
                     `;
-                    previewContent.innerHTML = previewHTML;
-                    previewContainer.classList.add('has-file');
-                    uploadContainer.querySelector('.file-upload-icon').style.display = 'none';
+                    
+                    actionsContainer.innerHTML = `
+                        <button type="button" class="file-action-btn view" onclick="viewFileInModal('${fileUrl}', true)">
+                            👁️ View
+                        </button>
+                        <button type="button" class="file-action-btn delete" onclick="deleteFile('${fieldName}')">
+                            🗑️ Delete
+                        </button>
+                    `;
+                    
+                    currentFileData[fieldName] = { fileUrl, isImage: true, fileName: file.name };
                 };
                 reader.readAsDataURL(file);
             } else {
-                previewHTML = `
+                previewContent.innerHTML = `
                     <div class="file-preview-icon">📄</div>
                     <div class="file-info">
                         <div class="file-info-name">${file.name}</div>
                         <div class="file-info-size">${fileSize}</div>
                     </div>
-                    <div class="file-actions">
-                        <button type="button" class="file-action-btn remove" onclick="removeFile(this)">🗑️ Remove</button>
-                    </div>
                 `;
-                previewContent.innerHTML = previewHTML;
-                previewContainer.classList.add('has-file');
-                uploadContainer.querySelector('.file-upload-icon').style.display = 'none';
+                
+                actionsContainer.innerHTML = `
+                    <button type="button" class="file-action-btn view" onclick="viewFileInModal('${file.name}', false)">
+                        📄 View
+                    </button>
+                    <button type="button" class="file-action-btn delete" onclick="deleteFile('${fieldName}')">
+                        🗑️ Delete
+                    </button>
+                `;
+                
+                currentFileData[fieldName] = { fileName: file.name, isImage: false };
             }
+            
+            previewContainer.style.display = 'block';
         }
         
         function formatFileSize(bytes) {
@@ -833,19 +987,50 @@
             return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
         }
         
-        function previewFile(fileUrl) {
-            window.open(fileUrl, '_blank');
+        function viewFileInModal(fileUrl, isImage) {
+            const modal = document.getElementById('fileModal');
+            const modalContent = document.getElementById('fileModalContent');
+            
+            if (isImage) {
+                modalContent.innerHTML = `<img src="${fileUrl}" class="file-modal-img">`;
+            } else {
+                modalContent.innerHTML = `
+                    <div class="file-modal-pdf">
+                        <div style="font-size: 4em; margin-bottom: 20px;">📄</div>
+                        <div style="font-size: 1.2em; color: white; font-weight: 600;">${fileUrl}</div>
+                    </div>
+                `;
+            }
+            
+            modal.style.display = 'block';
         }
         
-        function removeFile(button) {
-            const previewContainer = button.closest('.file-preview-container');
-            const uploadContainer = previewContainer.closest('.file-upload');
-            const input = uploadContainer.querySelector('input[type="file"]');
-            const icon = uploadContainer.querySelector('.file-upload-icon');
+        function closeFileModal() {
+            document.getElementById('fileModal').style.display = 'none';
+        }
+        
+        function deleteFile(fieldName) {
+            const input = document.querySelector(`input[name="${fieldName}"]`);
+            const uploadContainer = input.closest('.file-upload');
+            const uploadBody = uploadContainer.querySelector('.file-upload-body');
+            const previewContainer = uploadContainer.querySelector('.file-preview-container');
+            const actionsContainer = uploadContainer.querySelector('.file-actions');
             
             input.value = '';
-            previewContainer.classList.remove('has-file');
-            icon.style.display = 'block';
+            uploadBody.classList.remove('has-file');
+            previewContainer.style.display = 'none';
+            
+            delete currentFileData[fieldName];
+            
+            setupUploadButton(uploadContainer, input, actionsContainer.id);
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('fileModal');
+            if (event.target === modal) {
+                closeFileModal();
+            }
         }
         
         // Logout function

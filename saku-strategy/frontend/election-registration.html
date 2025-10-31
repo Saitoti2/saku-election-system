@@ -769,6 +769,14 @@
             window.location.href = 'login-fixed.html';
         }
         
+        // Check if user has already registered - if yes, redirect to personal portal
+        const userType = userProfile.user_type;
+        if (userType && userType !== 'STUDENT') {
+            console.log('User has already registered as:', userType);
+            alert('You have already registered for elections. Redirecting to your portal...');
+            window.location.href = 'personal-portal.html';
+        }
+        
         // Get user data from localStorage (using correct keys)
         let userData = JSON.parse(localStorage.getItem('saku_user_data') || '{}');
         

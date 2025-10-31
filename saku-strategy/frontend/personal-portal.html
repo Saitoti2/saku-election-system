@@ -118,6 +118,50 @@
             gap: 10px;
         }
         
+        .document-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .document-checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .document-checklist-item.submitted {
+            background: #f0fdf4;
+            border-color: #86efac;
+        }
+        
+        .document-checklist-item.missing {
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+        
+        .checklist-status {
+            font-size: 1.5em;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .checklist-icon {
+            font-size: 1.3em;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .checklist-label {
+            flex: 1;
+            font-weight: 500;
+            color: #1f2937;
+        }
+        
         .uploaded-documents-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -541,6 +585,14 @@
                 </div>
             </div>
             
+            <!-- Document Checklist Section -->
+            <div class="uploaded-documents-section" id="checklistSection" style="display: none;">
+                <h3>Required Documents Checklist</h3>
+                <div class="document-checklist" id="documentChecklist">
+                    <!-- Checklist will be populated here -->
+                </div>
+            </div>
+            
             <!-- Documents Section -->
             <div id="documentsSection" class="documents-section" style="display: none;">
                 <h2 class="section-title">Your Documents</h2>
@@ -876,16 +928,61 @@
             const hasRegistered = userData.user_type && userData.user_type !== 'STUDENT';
             
             if (hasRegistered) {
-                // User has registered - show documents section
+                // User has registered - show checklist and documents section
+                document.getElementById('checklistSection').style.display = 'block';
                 document.getElementById('documentsSection').style.display = 'block';
                 document.getElementById('noRegistration').style.display = 'none';
+                displayDocumentChecklist();
                 displayDocuments();
             } else {
                 // User hasn't registered yet - show registration option
-                console.log('❌ User has not registered for elections yet. Showing registration option...');
+                console.log('User has not registered for elections yet. Showing registration option...');
+                document.getElementById('checklistSection').style.display = 'none';
                 document.getElementById('documentsSection').style.display = 'none';
                 document.getElementById('noRegistration').style.display = 'block';
             }
+        }
+        
+        function displayDocumentChecklist() {
+            const checklist = document.getElementById('documentChecklist');
+            checklist.innerHTML = '';
+            
+            // Get required documents based on user_type
+            const requiredDocs = getRequiredDocuments(userData.user_type);
+            
+            // Map document fields to icons
+            const docIcons = {
+                'school_fees_screenshot': '💰',
+                'last_semester_results': '📊',
+                'second_last_semester_results': '📈',
+                'course_registration_screenshot': '📋',
+                'good_conduct_certificate': '📜',
+                'school_id_image': '🆔',
+                'last_semester_transcript': '📄',
+                'second_last_semester_transcript': '📑'
+            };
+            
+            requiredDocs.forEach(docType => {
+                if (documentTypes[docType]) {
+                    const docInfo = documentTypes[docType];
+                    const docValue = userData[docType];
+                    const hasFile = docValue && docValue !== null && docValue !== '';
+                    
+                    const item = document.createElement('div');
+                    item.className = `document-checklist-item ${hasFile ? 'submitted' : 'missing'}`;
+                    
+                    const statusEmoji = hasFile ? '✅' : '❌';
+                    const iconEmoji = docIcons[docType] || '📄';
+                    
+                    item.innerHTML = `
+                        <div class="checklist-status">${statusEmoji}</div>
+                        <div class="checklist-icon">${iconEmoji}</div>
+                        <div class="checklist-label">${docInfo.title}</div>
+                    `;
+                    
+                    checklist.appendChild(item);
+                }
+            });
         }
         
         function displayDocuments() {

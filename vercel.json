@@ -13,11 +13,13 @@
     },
     {
       "src": "/login",
-      "dest": "/frontend/login-fixed.html"
+      "dest": "/frontend/login-fixed.html",
+      "status": 200
     },
     {
       "src": "/login/",
-      "dest": "/frontend/login-fixed.html"
+      "dest": "/frontend/login-fixed.html",
+      "status": 200
     },
     {
       "src": "/register",

@@ -27,13 +27,32 @@ const htmlFiles = [
 ];
 
 // Determine frontend directory
-// If running from project root, use frontend/ subdirectory
-// If running from frontend directory, use current directory
-const frontendDir = fs.existsSync(path.join(__dirname, 'frontend', 'index.html'))
-  ? path.join(__dirname, 'frontend')
-  : __dirname;
+// Try multiple possible locations
+let frontendDir;
+const possiblePaths = [
+  path.join(__dirname, 'frontend'),
+  path.join(process.cwd(), 'frontend'),
+  __dirname,
+  process.cwd()
+];
+
+for (const possiblePath of possiblePaths) {
+  const indexPath = path.join(possiblePath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    frontendDir = possiblePath;
+    break;
+  }
+}
+
+if (!frontendDir) {
+  console.error('❌ Could not find frontend directory!');
+  console.error('Tried paths:', possiblePaths);
+  process.exit(1);
+}
 
 console.log(`📁 Frontend directory: ${frontendDir}`);
+console.log(`📁 Current working directory: ${process.cwd()}`);
+console.log(`📁 __dirname: ${__dirname}`);
 
 htmlFiles.forEach(file => {
   const filePath = path.join(frontendDir, file);

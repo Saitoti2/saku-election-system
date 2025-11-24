@@ -1,0 +1,12 @@
+{
+  "name": "saku-election-system",
+  "version": "1.0.0",
+  "description": "SAKU Election System - Frontend deployment",
+  "scripts": {
+    "build": "node inject-api-url.js"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
+

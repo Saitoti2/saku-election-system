@@ -1,77 +1,78 @@
 {
   "version": 2,
+  "outputDirectory": "frontend",
   "rewrites": [
     {
       "source": "/",
-      "destination": "/frontend/index.html"
+      "destination": "/index.html"
     },
     {
       "source": "/login",
-      "destination": "/frontend/login-fixed.html"
+      "destination": "/login-fixed.html"
     },
     {
       "source": "/login/",
-      "destination": "/frontend/login-fixed.html"
+      "destination": "/login-fixed.html"
     },
     {
       "source": "/register",
-      "destination": "/frontend/election-registration.html"
+      "destination": "/election-registration.html"
     },
     {
       "source": "/register/",
-      "destination": "/frontend/election-registration.html"
+      "destination": "/election-registration.html"
     },
     {
       "source": "/admin-dashboard",
-      "destination": "/frontend/admin-dashboard-enhanced.html"
+      "destination": "/admin-dashboard-enhanced.html"
     },
     {
       "source": "/admin-dashboard/",
-      "destination": "/frontend/admin-dashboard-enhanced.html"
+      "destination": "/admin-dashboard-enhanced.html"
     },
     {
       "source": "/portal",
-      "destination": "/frontend/personal-portal.html"
+      "destination": "/personal-portal.html"
     },
     {
       "source": "/portal/",
-      "destination": "/frontend/personal-portal.html"
+      "destination": "/personal-portal.html"
     },
     {
       "source": "/verify",
-      "destination": "/frontend/student-verification.html"
+      "destination": "/student-verification.html"
     },
     {
       "source": "/verify/",
-      "destination": "/frontend/student-verification.html"
+      "destination": "/student-verification.html"
     },
     {
       "source": "/signup-complete",
-      "destination": "/frontend/signup-complete.html"
+      "destination": "/signup-complete.html"
     },
     {
       "source": "/signup-complete/",
-      "destination": "/frontend/signup-complete.html"
+      "destination": "/signup-complete.html"
     },
     {
       "source": "/home",
-      "destination": "/frontend/index.html"
+      "destination": "/index.html"
     },
     {
       "source": "/home/",
-      "destination": "/frontend/index.html"
+      "destination": "/index.html"
     },
     {
       "source": "/index",
-      "destination": "/frontend/index.html"
+      "destination": "/index.html"
     },
     {
       "source": "/index/",
-      "destination": "/frontend/index.html"
+      "destination": "/index.html"
     },
     {
       "source": "/config.js",
-      "destination": "/frontend/config.js"
+      "destination": "/config.js"
     }
   ],
   "headers": [

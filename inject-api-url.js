@@ -24,7 +24,11 @@ const htmlFiles = [
   'portal.html',
   'register.html',
   'verify.html',
-];
+].filter(file => {
+  // Check if file exists before adding to list
+  const filePath = path.join(frontendDir, file);
+  return fs.existsSync(filePath);
+});
 
 // Determine frontend directory
 // Try multiple possible locations

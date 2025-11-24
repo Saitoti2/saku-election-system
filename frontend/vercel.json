@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "installCommand": "echo 'Frontend only - skipping Python dependencies'",
-  "buildCommand": "cd .. && node inject-api-url.js || node inject-api-url.js",
+  "installCommand": "echo 'Frontend only - no dependencies needed'",
+  "buildCommand": "cd .. && node inject-api-url.js",
   "builds": [
     {
       "src": "frontend/**",
@@ -11,79 +11,79 @@
   "routes": [
     {
       "src": "/",
-      "dest": "/frontend/index.html"
+      "dest": "/index.html"
     },
     {
       "src": "/login",
-      "dest": "/frontend/login-fixed.html"
+      "dest": "/login-fixed.html"
     },
     {
       "src": "/login/",
-      "dest": "/frontend/login-fixed.html"
+      "dest": "/login-fixed.html"
     },
     {
       "src": "/register",
-      "dest": "/frontend/election-registration.html"
+      "dest": "/election-registration.html"
     },
     {
       "src": "/register/",
-      "dest": "/frontend/election-registration.html"
+      "dest": "/election-registration.html"
     },
     {
       "src": "/admin-dashboard",
-      "dest": "/frontend/admin-dashboard-enhanced.html"
+      "dest": "/admin-dashboard-enhanced.html"
     },
     {
       "src": "/admin-dashboard/",
-      "dest": "/frontend/admin-dashboard-enhanced.html"
+      "dest": "/admin-dashboard-enhanced.html"
     },
     {
       "src": "/portal",
-      "dest": "/frontend/personal-portal.html"
+      "dest": "/personal-portal.html"
     },
     {
       "src": "/portal/",
-      "dest": "/frontend/personal-portal.html"
+      "dest": "/personal-portal.html"
     },
     {
       "src": "/verify",
-      "dest": "/frontend/student-verification.html"
+      "dest": "/student-verification.html"
     },
     {
       "src": "/verify/",
-      "dest": "/frontend/student-verification.html"
+      "dest": "/student-verification.html"
     },
     {
       "src": "/signup-complete",
-      "dest": "/frontend/signup-complete.html"
+      "dest": "/signup-complete.html"
     },
     {
       "src": "/signup-complete/",
-      "dest": "/frontend/signup-complete.html"
+      "dest": "/signup-complete.html"
     },
     {
       "src": "/home",
-      "dest": "/frontend/index.html"
+      "dest": "/index.html"
     },
     {
       "src": "/home/",
-      "dest": "/frontend/index.html"
+      "dest": "/index.html"
     },
     {
       "src": "/index",
-      "dest": "/frontend/index.html"
+      "dest": "/index.html"
     },
     {
       "src": "/index/",
-      "dest": "/frontend/index.html"
+      "dest": "/index.html"
     },
     {
       "src": "/config.js",
-      "dest": "/frontend/config.js"
+      "dest": "/config.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/frontend/$1"
+      "dest": "/$1"
     }
   ],
   "headers": [

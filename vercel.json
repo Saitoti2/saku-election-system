@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "installCommand": "echo 'Skipping Python - frontend only deployment' && exit 0",
-  "buildCommand": "if [ -f inject-api-url.js ]; then node inject-api-url.js; else echo 'Build script not found, skipping'; fi",
+  "installCommand": "echo 'Skipping Python - frontend only deployment'",
+  "buildCommand": "if [ -f inject-api-url.js ]; then node inject-api-url.js; elif [ -f ../inject-api-url.js ]; then node ../inject-api-url.js; else echo 'Build script not found, skipping'; fi",
   "builds": [
     {
       "src": "frontend/**",

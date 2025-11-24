@@ -131,8 +131,16 @@ REST_FRAMEWORK = {
 }
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+# Allow all origins in development, but restrict in production
+CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'True').lower() == 'true'
 CORS_ALLOW_CREDENTIALS = True
+
+# If not allowing all origins, specify allowed origins
+if not CORS_ALLOW_ALL_ORIGINS:
+    CORS_ALLOWED_ORIGINS = os.getenv(
+        'CORS_ALLOWED_ORIGINS', 
+        'https://your-frontend.vercel.app'
+    ).split(',')
 
 # JWT settings
 from datetime import timedelta

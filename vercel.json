@@ -1,0 +1,108 @@
+{
+  "version": 2,
+  "buildCommand": "node inject-api-url.js",
+  "builds": [
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/frontend/index.html"
+    },
+    {
+      "src": "/login",
+      "dest": "/frontend/login-fixed.html"
+    },
+    {
+      "src": "/login/",
+      "dest": "/frontend/login-fixed.html"
+    },
+    {
+      "src": "/register",
+      "dest": "/frontend/election-registration.html"
+    },
+    {
+      "src": "/register/",
+      "dest": "/frontend/election-registration.html"
+    },
+    {
+      "src": "/admin-dashboard",
+      "dest": "/frontend/admin-dashboard-enhanced.html"
+    },
+    {
+      "src": "/admin-dashboard/",
+      "dest": "/frontend/admin-dashboard-enhanced.html"
+    },
+    {
+      "src": "/portal",
+      "dest": "/frontend/personal-portal.html"
+    },
+    {
+      "src": "/portal/",
+      "dest": "/frontend/personal-portal.html"
+    },
+    {
+      "src": "/verify",
+      "dest": "/frontend/student-verification.html"
+    },
+    {
+      "src": "/verify/",
+      "dest": "/frontend/student-verification.html"
+    },
+    {
+      "src": "/signup-complete",
+      "dest": "/frontend/signup-complete.html"
+    },
+    {
+      "src": "/signup-complete/",
+      "dest": "/frontend/signup-complete.html"
+    },
+    {
+      "src": "/home",
+      "dest": "/frontend/index.html"
+    },
+    {
+      "src": "/home/",
+      "dest": "/frontend/index.html"
+    },
+    {
+      "src": "/index",
+      "dest": "/frontend/index.html"
+    },
+    {
+      "src": "/index/",
+      "dest": "/frontend/index.html"
+    },
+    {
+      "src": "/config.js",
+      "dest": "/frontend/config.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ]
+}
+

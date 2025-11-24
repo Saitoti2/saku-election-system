@@ -725,7 +725,9 @@
                     </div>
                 </div>
                 
-    <script>
+        <!-- API Configuration -->
+    <script src="config.js"></script>
+<script>
         // Registration page is accessible to everyone - no login required
         // Users can create accounts without being logged in
         
@@ -1281,7 +1283,7 @@
             });
             
             // Submit to backend API
-            fetch('http://127.0.0.1:8000/api/auth/register/', {
+            fetch(apiUrl('/api/auth/register/'), {
                 method: 'POST',
                 body: formData
             })

@@ -431,7 +431,9 @@
         </div>
     </div>
 
-    <script>
+        <!-- API Configuration -->
+    <script src="config.js"></script>
+<script>
         let accessToken = null;
         let allProfiles = [];
         
@@ -547,7 +549,7 @@
         
         async function loadStatistics() {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/dashboard/stats/', {
+                const response = await fetch(apiUrl('/api/dashboard/stats/'), {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },
@@ -577,7 +579,7 @@
         
         async function loadAllProfiles() {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/profiles/admin_all_profiles/', {
+                const response = await fetch(apiUrl('/api/profiles/admin_all_profiles/'), {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },
@@ -777,7 +779,7 @@
             }
             
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/profiles/${profileId}/verify/`, {
+                const response = await fetch(apiUrl(`/api/profiles/${profileId}/verify/`), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -807,7 +809,7 @@
             if (!reason) return;
             
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/profiles/${profileId}/verify/`, {
+                const response = await fetch(apiUrl(`/api/profiles/${profileId}/verify/`), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -838,7 +840,7 @@
             
             try {
                 const tokenData = JSON.parse(tokens);
-                const response = await fetch('http://127.0.0.1:8000/api/auth/refresh/', {
+                const response = await fetch(apiUrl('/api/auth/refresh/'), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -867,7 +869,7 @@
                 const tokens = localStorage.getItem('saku_tokens');
                 if (tokens) {
                     const tokenData = JSON.parse(tokens);
-                    await fetch('http://127.0.0.1:8000/api/auth/logout/', {
+                    await fetch(apiUrl('/api/auth/logout/'), {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

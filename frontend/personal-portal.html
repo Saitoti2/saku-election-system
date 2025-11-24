@@ -583,7 +583,9 @@
         </div>
     </div>
 
-    <script>
+        <!-- API Configuration -->
+    <script src="config.js"></script>
+<script>
         // Check if user is logged in (using correct localStorage keys)
         const tokens = JSON.parse(localStorage.getItem('saku_tokens') || '{}');
         const userProfile = JSON.parse(localStorage.getItem('saku_user_profile') || '{}');
@@ -691,7 +693,7 @@
                 }
                 
                 // Try to fetch user profile from backend
-                let response = await fetch(`http://127.0.0.1:8000/api/profiles/${userProfile.id}/`, {
+                let response = await fetch(apiUrl(`/api/profiles/${userProfile.id}/`), {
                     headers: {
                         'Authorization': `Bearer ${tokens.access}`,
                         'Content-Type': 'application/json'
@@ -703,7 +705,7 @@
                     console.log('🔄 Token expired, attempting to refresh...');
                     
                     try {
-                        const refreshResponse = await fetch('http://127.0.0.1:8000/api/auth/token/refresh/', {
+                        const refreshResponse = await fetch(apiUrl('/api/auth/token/refresh/'), {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -725,7 +727,7 @@
                             localStorage.setItem('saku_tokens', JSON.stringify(updatedTokens));
                             
                             // Retry the original request with new token
-                            response = await fetch(`http://127.0.0.1:8000/api/profiles/${userProfile.id}/`, {
+                            response = await fetch(apiUrl(`/api/profiles/${userProfile.id}/`), {
                                 headers: {
                                     'Authorization': `Bearer ${newTokens.access}`,
                                     'Content-Type': 'application/json'
@@ -1096,7 +1098,7 @@
                         formData.append(fieldName, file);
                         
                         // Upload to backend
-                        const response = await fetch(`http://127.0.0.1:8000/api/profiles/${userProfile.id}/`, {
+                        const response = await fetch(apiUrl(`/api/profiles/${userProfile.id}/`), {
                             method: 'PATCH',
                             headers: {
                                 'Authorization': `Bearer ${tokens.access}`

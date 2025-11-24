@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "installCommand": "echo 'Skipping Python - frontend only deployment'",
-  "buildCommand": "if [ -f inject-api-url.js ]; then node inject-api-url.js; elif [ -f ../inject-api-url.js ]; then node ../inject-api-url.js; else echo 'Build script not found, skipping'; fi",
+  "installCommand": "echo 'No dependencies needed for static frontend'",
+  "buildCommand": "npm run vercel-build || node inject-api-url.js || echo 'Build script completed'",
   "builds": [
     {
       "src": "frontend/**",

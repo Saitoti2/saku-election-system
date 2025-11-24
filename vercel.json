@@ -1,7 +1,7 @@
 {
   "version": 2,
   "installCommand": "echo 'Frontend only - skipping Python dependencies'",
-  "buildCommand": "cd .. && node inject-api-url.js || node inject-api-url.js",
+  "buildCommand": "if [ -f inject-api-url.js ]; then node inject-api-url.js; else echo 'Build script not found, skipping'; fi",
   "builds": [
     {
       "src": "frontend/**",

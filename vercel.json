@@ -1,89 +1,96 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "frontend/**",
-      "use": "@vercel/static"
+      "source": "/",
+      "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/frontend/login-fixed.html"
+    },
+    {
+      "source": "/login/",
+      "destination": "/frontend/login-fixed.html"
+    },
+    {
+      "source": "/register",
+      "destination": "/frontend/election-registration.html"
+    },
+    {
+      "source": "/register/",
+      "destination": "/frontend/election-registration.html"
+    },
+    {
+      "source": "/admin-dashboard",
+      "destination": "/frontend/admin-dashboard-enhanced.html"
+    },
+    {
+      "source": "/admin-dashboard/",
+      "destination": "/frontend/admin-dashboard-enhanced.html"
+    },
+    {
+      "source": "/portal",
+      "destination": "/frontend/personal-portal.html"
+    },
+    {
+      "source": "/portal/",
+      "destination": "/frontend/personal-portal.html"
+    },
+    {
+      "source": "/verify",
+      "destination": "/frontend/student-verification.html"
+    },
+    {
+      "source": "/verify/",
+      "destination": "/frontend/student-verification.html"
+    },
+    {
+      "source": "/signup-complete",
+      "destination": "/frontend/signup-complete.html"
+    },
+    {
+      "source": "/signup-complete/",
+      "destination": "/frontend/signup-complete.html"
+    },
+    {
+      "source": "/home",
+      "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/home/",
+      "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/index",
+      "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/index/",
+      "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/config.js",
+      "destination": "/frontend/config.js"
     }
   ],
-  "routes": [
+  "headers": [
     {
-      "src": "/",
-      "dest": "/frontend/index.html"
-    },
-    {
-      "src": "/login",
-      "dest": "/frontend/login-fixed.html",
-      "status": 200
-    },
-    {
-      "src": "/login/",
-      "dest": "/frontend/login-fixed.html",
-      "status": 200
-    },
-    {
-      "src": "/register",
-      "dest": "/frontend/election-registration.html"
-    },
-    {
-      "src": "/register/",
-      "dest": "/frontend/election-registration.html"
-    },
-    {
-      "src": "/admin-dashboard",
-      "dest": "/frontend/admin-dashboard-enhanced.html"
-    },
-    {
-      "src": "/admin-dashboard/",
-      "dest": "/frontend/admin-dashboard-enhanced.html"
-    },
-    {
-      "src": "/portal",
-      "dest": "/frontend/personal-portal.html"
-    },
-    {
-      "src": "/portal/",
-      "dest": "/frontend/personal-portal.html"
-    },
-    {
-      "src": "/verify",
-      "dest": "/frontend/student-verification.html"
-    },
-    {
-      "src": "/verify/",
-      "dest": "/frontend/student-verification.html"
-    },
-    {
-      "src": "/signup-complete",
-      "dest": "/frontend/signup-complete.html"
-    },
-    {
-      "src": "/signup-complete/",
-      "dest": "/frontend/signup-complete.html"
-    },
-    {
-      "src": "/home",
-      "dest": "/frontend/index.html"
-    },
-    {
-      "src": "/home/",
-      "dest": "/frontend/index.html"
-    },
-    {
-      "src": "/index",
-      "dest": "/frontend/index.html"
-    },
-    {
-      "src": "/index/",
-      "dest": "/frontend/index.html"
-    },
-    {
-      "src": "/config.js",
-      "dest": "/frontend/config.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/$1"
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
     }
   ]
 }

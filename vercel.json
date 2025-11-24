@@ -1,7 +1,7 @@
 {
   "version": 2,
   "installCommand": "echo 'Frontend only - no install needed'",
-  "buildCommand": "echo 'Build step - static files ready'",
+  "buildCommand": "",
   "builds": [
     {
       "src": "frontend/**",

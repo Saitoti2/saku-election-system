@@ -1,7 +1,7 @@
 {
   "version": 2,
   "installCommand": "echo 'Frontend only - no install needed'",
-  "buildCommand": "bash vercel-build.sh || node inject-api-url.js || echo 'Build completed'",
+  "buildCommand": "echo 'Build step - static files ready'",
   "builds": [
     {
       "src": "frontend/**",

@@ -17,7 +17,7 @@
         body {
             margin: 0;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f0fdf4;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -34,10 +34,26 @@
         }
         
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
             color: white;
             padding: 30px;
             text-align: center;
+        }
+        
+        .logo-section {
+            margin-bottom: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .logo-text {
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            opacity: 0.95;
         }
         
         .header h1 {
@@ -82,12 +98,12 @@
         
         input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         }
         
         .submit-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
             color: white;
             border: none;
             padding: 15px 40px;
@@ -129,7 +145,7 @@
         
         .spinner {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            border-top: 4px solid #10b981;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -169,7 +185,7 @@
         }
         
         .footer a {
-            color: #667eea;
+            color: #059669;
             text-decoration: none;
         }
         
@@ -195,8 +211,8 @@
         }
         
         .test-credentials {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
+            background: #d1fae5;
+            border: 1px solid #10b981;
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 20px;
@@ -205,12 +221,83 @@
         
         .test-credentials h4 {
             margin: 0 0 10px 0;
-            color: #856404;
+            color: #047857;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .test-credentials p {
             margin: 5px 0;
-            color: #856404;
+            color: #065f46;
+        }
+        
+        .user-type-selection {
+            background: #d1fae5;
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .user-type-selection label {
+            font-weight: 600;
+            color: #047857;
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        .user-type-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .user-type-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #a7f3d0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .user-type-option:hover {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+        
+        .user-type-option.selected {
+            border-color: #059669;
+            background: #d1fae5;
+        }
+        
+        .user-type-option input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .user-type-option label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+            color: #065f46;
+            flex: 1;
+        }
+        
+        .user-type-instructions {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #a7f3d0;
+            font-size: 0.85em;
+            color: #065f46;
+        }
+        
+        .user-type-instructions p {
+            margin: 5px 0;
         }
         
         /* Mobile Responsive */
@@ -273,21 +360,42 @@
 <body>
     <div class="container">
         <div class="header">
+            <div class="logo-section">
+                <div class="logo-icon">☀️</div>
+                <div class="logo-text">KCA UNIVERSITY</div>
+            </div>
             <h1>SAKU Login</h1>
             <p>Access Your Portal</p>
         </div>
         
         <div class="form-container">
             <div class="test-credentials">
-                <h4>🧪 Test Credentials</h4>
+                <h4>✅ Test Credentials</h4>
                 <p><strong>Student:</strong> test_student / test123</p>
                 <p><strong>Admin:</strong> Saitoti / Saitoti2004</p>
                 <p><strong>New User (20/03623):</strong> 20/03623 / test123</p>
             </div>
             
-            <div class="info-box">
-                <h4>Secure Authentication</h4>
-                <p>Your session will automatically expire after 5 minutes of inactivity for security.</p>
+            <div class="user-type-selection">
+                <label>I am a: <span class="required">*</span></label>
+                <div class="user-type-options">
+                    <div class="user-type-option" id="option-student">
+                        <input type="radio" id="userTypeStudent" name="userType" value="STUDENT">
+                        <label for="userTypeStudent">Student/Voter</label>
+                    </div>
+                    <div class="user-type-option" id="option-aspirant">
+                        <input type="radio" id="userTypeAspirant" name="userType" value="ASPIRANT">
+                        <label for="userTypeAspirant">Aspirant</label>
+                    </div>
+                    <div class="user-type-option selected" id="option-admin">
+                        <input type="radio" id="userTypeAdmin" name="userType" value="ADMIN" checked>
+                        <label for="userTypeAdmin">Admin</label>
+                    </div>
+                </div>
+                <div class="user-type-instructions">
+                    <p>Student/Voter: Use your registration number and password from email.</p>
+                    <p>Aspirant/Admin: Use your registered credentials.</p>
+                </div>
             </div>
             
             <form id="loginForm">
@@ -332,6 +440,27 @@
                     this.value = value;
                 }
             });
+            
+            // Handle user type selection highlighting
+            const userTypeRadios = document.querySelectorAll('input[name="userType"]');
+            userTypeRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Remove selected class from all options
+                    document.querySelectorAll('.user-type-option').forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    // Add selected class to the parent of the checked radio
+                    if (this.checked) {
+                        this.closest('.user-type-option').classList.add('selected');
+                    }
+                });
+            });
+            
+            // Initialize selection state for the checked radio
+            const checkedRadio = document.querySelector('input[name="userType"]:checked');
+            if (checkedRadio) {
+                checkedRadio.closest('.user-type-option').classList.add('selected');
+            }
         });
         
         function loadSavedCredentials() {

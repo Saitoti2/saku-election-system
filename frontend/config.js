@@ -18,8 +18,18 @@ const getApiUrl = () => {
     }
   }
   
-  // Default to localhost for development
-  return 'http://127.0.0.1:8000';
+  // Check if we're in production (not localhost)
+  const isLocal = typeof window !== 'undefined' && 
+                 (window.location.hostname === 'localhost' || 
+                  window.location.hostname === '127.0.0.1');
+  
+  if (isLocal) {
+    // Default to localhost for development
+    return 'http://127.0.0.1:8001';
+  } else {
+    // Production: use Render backend URL
+    return 'https://saku-election-system-2.onrender.com';
+  }
 };
 
 // Export API base URL

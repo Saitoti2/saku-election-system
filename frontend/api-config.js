@@ -35,8 +35,7 @@
                 return 'http://127.0.0.1:8001';
             } else {
                 // Production: use Render backend URL
-                // Update this with your actual Render backend URL after deployment
-                return 'https://saku-backend.onrender.com';
+                return 'https://saku-election-system-2.onrender.com';
             }
         }
         

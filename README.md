@@ -1,7 +1,8 @@
 # 🗳️ SAKU Election System
 
-<<<<<<< HEAD
 Student's Association of KCA University - Election Management Platform
+
+A comprehensive Django-based election management system for KCA University's Student Association (SAKU) Council elections.
 
 ## 🚀 Quick Start (2 minutes)
 
@@ -29,50 +30,15 @@ Student's Association of KCA University - Election Management Platform
 
 ## 📱 Features
 
+### 👥 User Management
 - ✅ **Student Registration** - Easy signup and profile management
 - ✅ **Election Registration** - Council position registration
+- ✅ **Council Aspirant Registration** - Position-specific applications with document uploads
+- ✅ **Delegate Management** - Department representative registration
 - ✅ **Document Verification** - Upload and verify required documents
 - ✅ **Admin Dashboard** - Complete election management
 - ✅ **WhatsApp Notifications** - Automated status updates
 - ✅ **Mobile Responsive** - Works on all devices
-
-## 🎯 For Your Presentation
-
-1. **Start the system**: `./start.sh`
-2. **Open browser**: http://localhost:5173
-3. **Demo features**: Student portal, admin dashboard, mobile responsiveness
-4. **Show auto-updates**: Push to GitHub = live updates
-
-## 🔧 System Requirements
-
-- Python 3.9+
-- pip
-- Modern web browser
-
-## 🧱 Project Structure
-
-- `saku-strategy/backend/` – **active Django backend** (`core` project). All API endpoints, admin dashboard, and deployment entrypoints live here.
-- `saku-strategy/frontend/` – static student/admin portal served by `serve.py` during local demos.
-- `docs/` – developer guides (see `docs/backend-overview.md` for backend workflows).
-- `start.sh` – orchestrates the virtualenv, backend API, and static frontend for local demos (recommended).
-
-> Tip: Always run backend commands (migrations, tests, shell) inside `saku-strategy/backend/` while the virtualenv from `./start.sh` is active.
-
-## 📞 Support
-
-For technical support or questions, contact the development team.
----
-**Your SAKU Election System is ready for the KCA University student community!** 🎉
-=======
-A comprehensive Django-based election management system for KCA University's Student Association (SAKU) Council elections.
-
-## 🚀 Features
-
-### 👥 User Management
-- **Student Registration** - Complete profile creation with academic details
-- **Council Aspirant Registration** - Position-specific applications with document uploads
-- **Delegate Management** - Department representative registration
-- **Admin Dashboard** - Complete election management interface
 
 ### 📋 Document Management
 - **Required Documents**:
@@ -101,10 +67,32 @@ A comprehensive Django-based election management system for KCA University's Stu
 - **Real-time Validation** - Instant form feedback
 - **Progress Tracking** - Application status monitoring
 
+## 🎯 For Your Presentation
+
+1. **Start the system**: `./start.sh`
+2. **Open browser**: http://localhost:5173
+3. **Demo features**: Student portal, admin dashboard, mobile responsiveness
+4. **Show auto-updates**: Push to GitHub = live updates
+
+## 🔧 System Requirements
+
+- Python 3.9+
+- pip
+- Modern web browser
+
+## 🧱 Project Structure
+
+- `saku-strategy/backend/` – **active Django backend** (`core` project). All API endpoints, admin dashboard, and deployment entrypoints live here.
+- `saku-strategy/frontend/` – static student/admin portal served by `serve.py` during local demos.
+- `docs/` – developer guides (see `docs/backend-overview.md` for backend workflows).
+- `start.sh` – orchestrates the virtualenv, backend API, and static frontend for local demos (recommended).
+
+> Tip: Always run backend commands (migrations, tests, shell) inside `saku-strategy/backend/` while the virtualenv from `./start.sh` is active.
+
 ## 🏗️ Technical Stack
 
 - **Backend**: Django 4.2 + Django REST Framework
-- **Database**: PostgreSQL (Render's free tier)
+- **Database**: PostgreSQL (Render's free tier) / SQLite (local development)
 - **Authentication**: JWT (djangorestframework-simplejwt)
 - **File Storage**: Local + Render static files
 - **Deployment**: Render.com
@@ -259,5 +247,4 @@ For technical support or questions:
 
 ---
 
-**Built with ❤️ for KCA University Students**# Force deployment Wed Sep 17 01:37:34 EAT 2025
->>>>>>> 33ad9e5e2edb60aa24020e0c6b1ba9800aa868d5
+**Built with ❤️ for KCA University Students**

@@ -390,11 +390,7 @@
                 console.log('Attempting login with:', { username, password: '***' });
                 
                 // Make API call to login endpoint
-<<<<<<< HEAD:saku-strategy/frontend/login-fixed.html
-                const response = await fetch(window.API_CONFIG.url('api/auth/login/'), {
-=======
                 const response = await fetch(apiUrl('/api/auth/login/'), {
->>>>>>> 33ad9e5e2edb60aa24020e0c6b1ba9800aa868d5:frontend/login.html
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

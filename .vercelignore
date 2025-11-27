@@ -1,0 +1,15 @@
+requirements.txt
+venv/
+*.py
+*.pyc
+__pycache__/
+db.sqlite3
+manage.py
+core/
+elections/
+scripts/
+check_system.py
+test_pages.py
+Procfile
+*.md
+!README.md

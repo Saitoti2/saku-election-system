@@ -1,13 +1,57 @@
 {
   "version": 2,
-  "routes": [
+  "rewrites": [
     {
-      "src": "/",
-      "dest": "/index.html"
+      "source": "/",
+      "destination": "/index.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/login",
+      "destination": "/login.html"
+    },
+    {
+      "source": "/login/",
+      "destination": "/login.html"
+    },
+    {
+      "source": "/register",
+      "destination": "/election-registration.html"
+    },
+    {
+      "source": "/register/",
+      "destination": "/election-registration.html"
+    },
+    {
+      "source": "/admin-dashboard",
+      "destination": "/admin-dashboard-enhanced.html"
+    },
+    {
+      "source": "/admin-dashboard/",
+      "destination": "/admin-dashboard-enhanced.html"
+    },
+    {
+      "source": "/portal",
+      "destination": "/personal-portal.html"
+    },
+    {
+      "source": "/portal/",
+      "destination": "/personal-portal.html"
+    },
+    {
+      "source": "/verify",
+      "destination": "/student-verification.html"
+    },
+    {
+      "source": "/verify/",
+      "destination": "/student-verification.html"
+    },
+    {
+      "source": "/signup-complete",
+      "destination": "/signup-complete.html"
+    },
+    {
+      "source": "/signup-complete/",
+      "destination": "/signup-complete.html"
     }
   ],
   "headers": [

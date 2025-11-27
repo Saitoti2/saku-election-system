@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Verification - SAKU Admin</title>
+    <script src="api-config.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -524,7 +525,7 @@
         
         async function loadStudentProfile() {
             try {
-                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${studentId}/`, {
+                const response = await fetch(window.API_CONFIG.url(`api/profiles/${studentId}/`), {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },
@@ -646,7 +647,7 @@
             const notes = document.getElementById('verificationNotes').value;
             
             try {
-                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${studentId}/verify/`, {
+                const response = await fetch(window.API_CONFIG.url(`api/profiles/${studentId}/verify/`), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -686,7 +687,7 @@
             }
             
             try {
-                const response = await fetch(`http://127.0.0.1:8001/api/profiles/${studentId}/verify/`, {
+                const response = await fetch(window.API_CONFIG.url(`api/profiles/${studentId}/verify/`), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -736,7 +737,7 @@
             
             try {
                 const tokenData = JSON.parse(tokens);
-                const response = await fetch('http://127.0.0.1:8001/api/auth/refresh/', {
+                const response = await fetch(window.API_CONFIG.url('api/auth/refresh/'), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -765,7 +766,7 @@
                 const tokens = localStorage.getItem('saku_tokens');
                 if (tokens) {
                     const tokenData = JSON.parse(tokens);
-                    await fetch('http://127.0.0.1:8001/api/auth/logout/', {
+                    await fetch(window.API_CONFIG.url('api/auth/logout/'), {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

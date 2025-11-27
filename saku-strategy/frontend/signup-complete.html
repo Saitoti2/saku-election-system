@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAKU Student Signup</title>
+    <script src="api-config.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -478,7 +479,7 @@
                 };
                 
                 // Submit to backend API
-                const response = await fetch('http://127.0.0.1:8001/api/auth/register/', {
+                const response = await fetch(window.API_CONFIG.url('api/auth/register/'), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAKU Election Registration</title>
+    <script src="api-config.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -1624,7 +1625,7 @@
             
             // Submit to backend API using PUT for profile update
             async function submitRegistration() {
-                let response = await fetch('http://127.0.0.1:8001/api/auth/profile/update/', {
+                let response = await fetch(window.API_CONFIG.url('api/auth/profile/update/'), {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${tokens.access}`
@@ -1637,7 +1638,7 @@
                     console.log('Token expired, attempting to refresh...');
                     
                     try {
-                        const refreshResponse = await fetch('http://127.0.0.1:8001/api/auth/refresh/', {
+                        const refreshResponse = await fetch(window.API_CONFIG.url('api/auth/refresh/'), {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -1659,7 +1660,7 @@
                             localStorage.setItem('saku_tokens', JSON.stringify(updatedTokens));
                             
                             // Retry the original request with new token
-                            response = await fetch('http://127.0.0.1:8001/api/auth/profile/update/', {
+                            response = await fetch(window.API_CONFIG.url('api/auth/profile/update/'), {
                                 method: 'PUT',
                                 headers: {
                                     'Authorization': `Bearer ${newTokens.access}`

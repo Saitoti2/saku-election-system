@@ -60,6 +60,5 @@ Student's Association of KCA University - Election Management Platform
 ## 📞 Support
 
 For technical support or questions, contact the development team.
-
 ---
 **Your SAKU Election System is ready for the KCA University student community!** 🎉

@@ -28,9 +28,20 @@ load_dotenv()
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-secret-dl(r77u%@%$!e&7+&q^ipsk+t#i3ld7h*@x^k=a=$^at(0ych*')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG','True')=='True'
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS','*').split(',')
+# Get allowed hosts from environment or use default
+ALLOWED_HOSTS_STR = os.getenv('DJANGO_ALLOWED_HOSTS', '')
+if ALLOWED_HOSTS_STR:
+    ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',') if host.strip()]
+else:
+    # Default: allow all in development, specific hosts in production
+    if DEBUG:
+        ALLOWED_HOSTS = ['*']
+    else:
+        # In production, you should set DJANGO_ALLOWED_HOSTS environment variable
+        # This is a fallback that should be overridden
+        ALLOWED_HOSTS = ['saku-backend.onrender.com', '*.onrender.com']
 
 
 
@@ -157,8 +168,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Add whitenoise for static files serving
-MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+# Add whitenoise for static files serving in production
+try:
+    import whitenoise
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+    # Configure WhiteNoise
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+except ImportError:
+    pass  # WhiteNoise not installed, skip
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -167,16 +184,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings (only if CORS is available)
 # For deployment platforms, allow frontend domains
+VERCEL_FRONTEND_URL = os.getenv('VERCEL_FRONTEND_URL', '')
 RENDER_STATIC_URL = os.getenv('RENDER_EXTERNAL_URL', '')
 ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    "https://saku-voting.vercel.app",
+    "https://saku-voting-*.vercel.app",  # Vercel preview deployments
 ]
+
+# Add Vercel frontend URL if provided
+if VERCEL_FRONTEND_URL:
+    ALLOWED_ORIGINS.append(VERCEL_FRONTEND_URL)
+
+# Add Render backend URL if provided (for any internal services)
 if RENDER_STATIC_URL:
     ALLOWED_ORIGINS.append(RENDER_STATIC_URL)
 
 if CORS_AVAILABLE:
-    CORS_ALLOWED_ORIGINS = ALLOWED_ORIGINS
+    # Use specific origins in production, all origins in development
+    if DEBUG:
+        CORS_ALLOW_ALL_ORIGINS = True
+    else:
+        CORS_ALLOWED_ORIGINS = ALLOWED_ORIGINS
     CORS_ALLOW_CREDENTIALS = True
 else:
     # Fallback: Allow all origins for development (not recommended for production)

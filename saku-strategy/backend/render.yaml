@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: saku-backend
+    env: python
+    region: oregon
+    plan: starter
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn core.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: DJANGO_SETTINGS_MODULE
+        value: core.settings
+      - key: DJANGO_DEBUG
+        value: False
+      - key: DJANGO_ALLOWED_HOSTS
+        fromService:
+          type: web
+          name: saku-backend
+          property: host
+    healthCheckPath: /api/
+
+databases:
+  - name: saku-db
+    plan: starter
+    databaseName: saku_election
+    user: saku_user
+

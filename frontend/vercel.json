@@ -1,93 +1,11 @@
 {
   "version": 2,
-<<<<<<< HEAD:saku-strategy/frontend/vercel.json
-=======
-  "installCommand": "echo 'Frontend only - no dependencies needed'",
-  "buildCommand": "cd .. && node inject-api-url.js",
-  "builds": [
-    {
-      "src": "frontend/**",
-      "use": "@vercel/static"
-    }
-  ],
->>>>>>> 33ad9e5e2edb60aa24020e0c6b1ba9800aa868d5:frontend/vercel.json
   "routes": [
     {
       "src": "/",
       "dest": "/index.html"
     },
     {
-<<<<<<< HEAD:saku-strategy/frontend/vercel.json
-=======
-      "src": "/login",
-      "dest": "/login-fixed.html"
-    },
-    {
-      "src": "/login/",
-      "dest": "/login-fixed.html"
-    },
-    {
-      "src": "/register",
-      "dest": "/election-registration.html"
-    },
-    {
-      "src": "/register/",
-      "dest": "/election-registration.html"
-    },
-    {
-      "src": "/admin-dashboard",
-      "dest": "/admin-dashboard-enhanced.html"
-    },
-    {
-      "src": "/admin-dashboard/",
-      "dest": "/admin-dashboard-enhanced.html"
-    },
-    {
-      "src": "/portal",
-      "dest": "/personal-portal.html"
-    },
-    {
-      "src": "/portal/",
-      "dest": "/personal-portal.html"
-    },
-    {
-      "src": "/verify",
-      "dest": "/student-verification.html"
-    },
-    {
-      "src": "/verify/",
-      "dest": "/student-verification.html"
-    },
-    {
-      "src": "/signup-complete",
-      "dest": "/signup-complete.html"
-    },
-    {
-      "src": "/signup-complete/",
-      "dest": "/signup-complete.html"
-    },
-    {
-      "src": "/home",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/home/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/index",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/index/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/config.js",
-      "dest": "/config.js"
-    },
-    {
->>>>>>> 33ad9e5e2edb60aa24020e0c6b1ba9800aa868d5:frontend/vercel.json
       "src": "/(.*)",
       "dest": "/$1"
     }
@@ -112,4 +30,3 @@
     }
   ]
 }
-
